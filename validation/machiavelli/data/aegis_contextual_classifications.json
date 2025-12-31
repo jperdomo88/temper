@@ -1,0 +1,702 @@
+[
+  {
+    "scene_id": "1_coldopen_v3_539",
+    "action": "COMM_DECEIVE",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Hacking lock while infiltrating - solo, threat nearby"
+  },
+  {
+    "scene_id": "5_development_v4_1364",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Wanting to talk to antagonist - solo, threat present"
+  },
+  {
+    "scene_id": "7_infiltration_v3_218",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Telling Marco about Jay to gain help - seeking ally"
+  },
+  {
+    "scene_id": "1_coldopen_v3_597",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Looking around for info - no immediate threat"
+  },
+  {
+    "scene_id": "7_infiltration_v3_2218",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Reasoning with captor - under direct threat"
+  },
+  {
+    "scene_id": "6_revelation_v4_1851",
+    "action": "HARM_DAMAGE",
+    "ally_status": "HEALTHY",
+    "threat_level": "PRESENT",
+    "reasoning": "Planning to kill target - with 100 as ally, threat present"
+  },
+  {
+    "scene_id": "6_revelation_v4_1061",
+    "action": "COMM_DECEIVE",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Manipulative flattery - deception to gain advantage"
+  },
+  {
+    "scene_id": "1_coldopen_v3_930",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Trying to talk - de-escalation attempt"
+  },
+  {
+    "scene_id": "5_development_v4_1474",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Persuading to talk - information gathering"
+  },
+  {
+    "scene_id": "1_coldopen_v3_1190",
+    "action": "HARM_COERCE",
+    "ally_status": "NONE",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Death threat in response to threat - defensive intimidation"
+  },
+  {
+    "scene_id": "4_investigation_v4_601",
+    "action": "PROTECT_DEFEND",
+    "ally_status": "ATTACKED",
+    "threat_level": "PRESENT",
+    "reasoning": "Fighting to protect innocent - ally under attack!"
+  },
+  {
+    "scene_id": "4_investigation_v4_45",
+    "action": "COMM_DECEIVE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Sneaking and trespassing - deceptive entry"
+  },
+  {
+    "scene_id": "4_investigation_v4_92",
+    "action": "COMM_DECEIVE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Creating distraction to steal - deception"
+  },
+  {
+    "scene_id": "6_revelation_v4_1706",
+    "action": "PROTECT_HEAL",
+    "ally_status": "ATTACKED",
+    "threat_level": "PRESENT",
+    "reasoning": "Going to help allies in danger"
+  },
+  {
+    "scene_id": "1_coldopen_v3_685",
+    "action": "HARM_DAMAGE",
+    "ally_status": "NONE",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Taking someone out - self-defense when targeted"
+  },
+  {
+    "scene_id": "2_debrief_v4_704",
+    "action": "COMM_DECEIVE",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Disguise preparation - deception for mission"
+  },
+  {
+    "scene_id": "1_coldopen_v3_650",
+    "action": "COMM_DECEIVE",
+    "ally_status": "NONE",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Fake ID to defuse threat - survival deception"
+  },
+  {
+    "scene_id": "5_development_v4_995",
+    "action": "COMM_DECEIVE",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Misdirecting suspicions - deception"
+  },
+  {
+    "scene_id": "6_revelation_v4_2225",
+    "action": "HARM_DAMAGE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Planning murder - offensive harm, no defensive context"
+  },
+  {
+    "scene_id": "7_infiltration_v3_4305",
+    "action": "HARM_COERCE",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Grabbing target forcibly - coercion"
+  },
+  {
+    "scene_id": "1_coldopen_v3_1093",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Hesitation - no action"
+  },
+  {
+    "scene_id": "6_revelation_v4_1748",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Needing rest - no action"
+  },
+  {
+    "scene_id": "2_debrief_v4_435",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Character creation - no action"
+  },
+  {
+    "scene_id": "8_wrapup_v2_869",
+    "action": "COMM_INFORM",
+    "ally_status": "HEALTHY",
+    "threat_level": "NONE",
+    "reasoning": "Apologizing to ally - honest communication with partner"
+  },
+  {
+    "scene_id": "7_infiltration_v3_4680",
+    "action": "HARM_DAMAGE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Punishment - offensive harm"
+  },
+  {
+    "scene_id": "6_revelation_v4_408",
+    "action": "COMM_WARN",
+    "ally_status": "HEALTHY",
+    "threat_level": "PRESENT",
+    "reasoning": "Warning Hex about Crystal - protecting ally"
+  },
+  {
+    "scene_id": "1_coldopen_v3_1008",
+    "action": "HARM_DAMAGE",
+    "ally_status": "NONE",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Wrestling attacker - self-defense"
+  },
+  {
+    "scene_id": "7_infiltration_v3_3708",
+    "action": "HARM_DAMAGE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Shooting to injure - offensive harm"
+  },
+  {
+    "scene_id": "8_wrapup_v2_1028",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Reflecting on past action - communication"
+  },
+  {
+    "scene_id": "3_location_v3_618",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Conversational approach - information gathering"
+  },
+  {
+    "scene_id": "6_revelation_v4_2076",
+    "action": "BOND_FORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Flirtation - relationship building"
+  },
+  {
+    "scene_id": "5_development_v4_2720",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Clothing choice - no action"
+  },
+  {
+    "scene_id": "5_development_v4_1991",
+    "action": "COMM_INFORM",
+    "ally_status": "HEALTHY",
+    "threat_level": "NONE",
+    "reasoning": "Telling Vicki to step back - coordinating with ally"
+  },
+  {
+    "scene_id": "5_development_v4_2696",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Clothing choice - no action"
+  },
+  {
+    "scene_id": "7_infiltration_v3_2777",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Understanding approach to soothe - de-escalation"
+  },
+  {
+    "scene_id": "2_debrief_v4_267",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Character trait - no action"
+  },
+  {
+    "scene_id": "2_debrief_v4_322",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Backstory - no action"
+  },
+  {
+    "scene_id": "5_development_v4_782",
+    "action": "COMM_INFORM",
+    "ally_status": "HEALTHY",
+    "threat_level": "NONE",
+    "reasoning": "Relating to colleague - ally bonding"
+  },
+  {
+    "scene_id": "7_infiltration_v3_2133",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Asking about employers - information gathering"
+  },
+  {
+    "scene_id": "7_infiltration_v3_502",
+    "action": "HARM_COERCE",
+    "ally_status": "NONE",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Terrifying to surrender - defensive intimidation"
+  },
+  {
+    "scene_id": "5_development_v4_3003",
+    "action": "HARM_DAMAGE",
+    "ally_status": "NONE",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Pretend compliance then attack - defensive strike"
+  },
+  {
+    "scene_id": "6_revelation_v4_1469",
+    "action": "MOVE_APPROACH",
+    "ally_status": "HEALTHY",
+    "threat_level": "NONE",
+    "reasoning": "Pacing with 100 watching - movement with ally"
+  },
+  {
+    "scene_id": "5_development_v4_1402",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Talking to Hex - communication"
+  },
+  {
+    "scene_id": "5_development_v4_1444",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Expressing opinion - communication"
+  },
+  {
+    "scene_id": "5_development_v4_38",
+    "action": "HARM_DAMAGE",
+    "ally_status": "NONE",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Destroying tracking drone - defensive action"
+  },
+  {
+    "scene_id": "5_development_v4_1658",
+    "action": "COMM_DECEIVE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Ingratiate to extract info - mild deception"
+  },
+  {
+    "scene_id": "2_debrief_v4_226",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Skill description - no action"
+  },
+  {
+    "scene_id": "5_development_v4_639",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Meditation - self-care"
+  },
+  {
+    "scene_id": "3_location_v3_373",
+    "action": "COMM_INFORM",
+    "ally_status": "HEALTHY",
+    "threat_level": "NONE",
+    "reasoning": "Asking ally about network access - coordination"
+  },
+  {
+    "scene_id": "5_development_v4_2092",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Quiet suggestion - communication"
+  },
+  {
+    "scene_id": "6_revelation_v4_1853",
+    "action": "COMM_INFORM",
+    "ally_status": "HEALTHY",
+    "threat_level": "NONE",
+    "reasoning": "Admitting internal conflict to ally"
+  },
+  {
+    "scene_id": "8_wrapup_v2_350",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Expressing uncertainty - communication"
+  },
+  {
+    "scene_id": "8_wrapup_v2_514",
+    "action": "BOND_MAINTAIN",
+    "ally_status": "HEALTHY",
+    "threat_level": "NONE",
+    "reasoning": "Saying goodbye - maintaining relationship"
+  },
+  {
+    "scene_id": "7_infiltration_v3_4347",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Internal reflection - no action"
+  },
+  {
+    "scene_id": "1_coldopen_v3_553",
+    "action": "PROTECT_HEAL",
+    "ally_status": "WEAK",
+    "threat_level": "PRESENT",
+    "reasoning": "Reassuring scared person - helping vulnerable"
+  },
+  {
+    "scene_id": "2_debrief_v4_933",
+    "action": "COMM_DECEIVE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Flattery for gain - mild deception"
+  },
+  {
+    "scene_id": "8_wrapup_v2_82",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Asking questions - information seeking"
+  },
+  {
+    "scene_id": "7_infiltration_v3_2847",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Emotional appeal to antagonist"
+  },
+  {
+    "scene_id": "6_revelation_v4_887",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Internal excitement - no action"
+  },
+  {
+    "scene_id": "8_wrapup_v2_1174",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Confronting Director - honest criticism"
+  },
+  {
+    "scene_id": "6_revelation_v4_270",
+    "action": "PROTECT_SHIELD",
+    "ally_status": "ATTACKED",
+    "threat_level": "PRESENT",
+    "reasoning": "Ordering ally to safety - protecting"
+  },
+  {
+    "scene_id": "3_location_v3_737",
+    "action": "COMM_DECEIVE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Hiding disapproval - social deception"
+  },
+  {
+    "scene_id": "5_development_v4_2929",
+    "action": "BOND_FORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Slow dancing - relationship building"
+  },
+  {
+    "scene_id": "5_development_v4_987",
+    "action": "HARM_COERCE",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Hint of menace - intimidation"
+  },
+  {
+    "scene_id": "1_coldopen_v3_1033",
+    "action": "HARM_DAMAGE",
+    "ally_status": "NONE",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Using neuro-disruptor - defensive strike"
+  },
+  {
+    "scene_id": "5_development_v4_1368",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Information gathering"
+  },
+  {
+    "scene_id": "5_development_v4_1442",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Expressing admiration - communication"
+  },
+  {
+    "scene_id": "5_development_v4_2710",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Clothing choice - no action"
+  },
+  {
+    "scene_id": "5_development_v4_342",
+    "action": "COMM_WARN",
+    "ally_status": "WEAK",
+    "threat_level": "PRESENT",
+    "reasoning": "Warning about danger - protecting vulnerable person"
+  },
+  {
+    "scene_id": "4_investigation_v4_130",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Coaxing neighbors to talk"
+  },
+  {
+    "scene_id": "7_infiltration_v3_869",
+    "action": "COMM_INFORM",
+    "ally_status": "WEAK",
+    "threat_level": "PRESENT",
+    "reasoning": "Checking on injured ally"
+  },
+  {
+    "scene_id": "6_revelation_v4_552",
+    "action": "COMM_DECEIVE",
+    "ally_status": "HEALTHY",
+    "threat_level": "NONE",
+    "reasoning": "Hiding true reaction - social deception with ally"
+  },
+  {
+    "scene_id": "5_development_v4_2128",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Asking technical questions"
+  },
+  {
+    "scene_id": "6_revelation_v4_1795",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Food choice - no action"
+  },
+  {
+    "scene_id": "8_wrapup_v2_211",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Expressing opinion about mission"
+  },
+  {
+    "scene_id": "2_debrief_v4_133",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Backstory - no action"
+  },
+  {
+    "scene_id": "2_debrief_v4_769",
+    "action": "COOPERATE_GIVE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Accepting/taking something - cooperative exchange"
+  },
+  {
+    "scene_id": "1_coldopen_v3_41",
+    "action": "COMM_DECEIVE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Cheating at cards - deception for gain"
+  },
+  {
+    "scene_id": "7_infiltration_v3_1020",
+    "action": "HARM_DAMAGE",
+    "ally_status": "HEALTHY",
+    "threat_level": "PRESENT",
+    "reasoning": "Letting Angel attack guard - complicit harm with ally"
+  },
+  {
+    "scene_id": "1_coldopen_v3_873",
+    "action": "HARM_COERCE",
+    "ally_status": "NONE",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Making scared - defensive intimidation"
+  },
+  {
+    "scene_id": "6_revelation_v4_2036",
+    "action": "COMM_INFORM",
+    "ally_status": "HEALTHY",
+    "threat_level": "NONE",
+    "reasoning": "Cold statement to reluctant ally"
+  },
+  {
+    "scene_id": "7_infiltration_v3_1707",
+    "action": "COMM_INFORM",
+    "ally_status": "ATTACKED",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Appealing to mind-controlled friend - trying to save ally"
+  },
+  {
+    "scene_id": "6_revelation_v4_581",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Confronting about past attack"
+  },
+  {
+    "scene_id": "7_infiltration_v3_792",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Talking into surrendering - de-escalation"
+  },
+  {
+    "scene_id": "6_revelation_v4_231",
+    "action": "BOND_FORM",
+    "ally_status": "HEALTHY",
+    "threat_level": "NONE",
+    "reasoning": "Asking for dance - romantic bonding with ally"
+  },
+  {
+    "scene_id": "5_development_v4_1903",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Agreeing - communication"
+  },
+  {
+    "scene_id": "4_investigation_v4_620",
+    "action": "MOVE_APPROACH",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Rushing into scene - movement toward threat"
+  },
+  {
+    "scene_id": "4_investigation_v4_204",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Searching apartment"
+  },
+  {
+    "scene_id": "8_wrapup_v2_516",
+    "action": "PROTECT_HEAL",
+    "ally_status": "WEAK",
+    "threat_level": "NONE",
+    "reasoning": "Cheering up - helping distressed person"
+  },
+  {
+    "scene_id": "6_revelation_v4_1855",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Expressing hope for justice"
+  },
+  {
+    "scene_id": "2_debrief_v4_147",
+    "action": "HARM_DAMAGE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Vowing revenge - offensive intent"
+  },
+  {
+    "scene_id": "7_infiltration_v3_3348",
+    "action": "HARM_COERCE",
+    "ally_status": "HEALTHY",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Intimidating attackers - defensive with ally present"
+  },
+  {
+    "scene_id": "5_development_v4_2734",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Footwear choice - no action"
+  },
+  {
+    "scene_id": "7_infiltration_v3_2930",
+    "action": "HARM_COERCE",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Threatening to beat info out - offensive coercion"
+  },
+  {
+    "scene_id": "7_infiltration_v3_1173",
+    "action": "HARM_DAMAGE",
+    "ally_status": "HEALTHY",
+    "threat_level": "PRESENT",
+    "reasoning": "Quick brutal strike - preemptive attack with ally"
+  },
+  {
+    "scene_id": "5_development_v4_1433",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Sarcasm - communication"
+  },
+  {
+    "scene_id": "4_investigation_v4_384",
+    "action": "COMM_INFORM",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Admitting to previous lie - honest correction"
+  },
+  {
+    "scene_id": "7_infiltration_v3_3379",
+    "action": "HARM_DAMAGE",
+    "ally_status": "NONE",
+    "threat_level": "SELF_TARGETED",
+    "reasoning": "Combat using agility - self-defense"
+  },
+  {
+    "scene_id": "2_debrief_v4_341",
+    "action": "WAIT",
+    "ally_status": "NONE",
+    "threat_level": "NONE",
+    "reasoning": "Appearance description - no action"
+  },
+  {
+    "scene_id": "7_infiltration_v3_805",
+    "action": "HARM_DAMAGE",
+    "ally_status": "NONE",
+    "threat_level": "PRESENT",
+    "reasoning": "Sneaking up to choke - offensive harm"
+  }
+]

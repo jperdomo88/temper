@@ -1,0 +1,14 @@
+# Tempered RLHF Experiment Requirements
+# Install with: pip install -r requirements.txt
+
+# Core dependencies
+torch>=2.0.0
+numpy>=1.21.0
+scipy>=1.7.0
+
+# Visualization (optional but recommended)
+matplotlib>=3.5.0
+rich>=12.0.0
+
+# Note: rich is used for the live dashboard
+# If not installed, experiment will use simple text progress

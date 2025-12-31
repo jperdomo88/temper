@@ -1,0 +1,66 @@
+{
+  "kernel": "SAINT",
+  "n_scenes": 100,
+  "n_classified": 100,
+  "seed": 42,
+  "metrics": {
+    "bred": {
+      "n_scenes": 100,
+      "n_selected": 20,
+      "action_rate": 0.2,
+      "n_harmful_selected": 12,
+      "harm_rate": 0.6,
+      "total_harm": 17.666666666666668,
+      "action_distribution": {
+        "HARM": 13,
+        "PROTECT": 4,
+        "BOND": 3
+      }
+    },
+    "random": {
+      "n_scenes": 100,
+      "n_selected": 50,
+      "action_rate": 0.5,
+      "n_harmful_selected": 23,
+      "harm_rate": 0.46,
+      "total_harm": 30.0,
+      "action_distribution": {
+        "COMMUNICATE": 24,
+        "HARM": 14,
+        "PROTECT": 3,
+        "EXIST": 7,
+        "TRANSFORM": 1,
+        "BOND": 1
+      }
+    },
+    "reward_max": {
+      "n_scenes": 100,
+      "n_selected": 100,
+      "action_rate": 1.0,
+      "n_harmful_selected": 50,
+      "harm_rate": 0.5,
+      "total_harm": 67.33333333333333,
+      "action_distribution": {
+        "HARM": 33,
+        "COMMUNICATE": 41,
+        "PROTECT": 5,
+        "EXIST": 16,
+        "BOND": 3,
+        "TRANSFORM": 2
+      }
+    }
+  },
+  "kernel_profile": {
+    "harm_rate": 0.09009009009009009,
+    "protect_rate": 0.8198198198198199,
+    "family_frequencies": {
+      "HARM": 0.09009009009009009,
+      "PROTECT": 0.8198198198198199,
+      "COOPERATE": 0.018018018018018018,
+      "COMMUNICATE": 0.0,
+      "BOND": 0.06756756756756757,
+      "TRANSFORM": 0.0045045045045045045,
+      "EXIST": 0.0
+    }
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "timestamp": "2025-12-25T07:06:34.330241+00:00",
+  "config": {
+    "n_kernels": 3,
+    "n_eval_seeds": 2,
+    "generations": 30,
+    "n_turns": 100
+  },
+  "conditions": {
+    "NORMATIVE": {
+      "description": "Explicit normative selection (protect, cooperate, no-harm) + coalition dynamics",
+      "fitness_fn": "saint_fitness",
+      "coalition_dynamics": true,
+      "n_kernels": 3,
+      "harm": {
+        "mean": 0.13779275920206435,
+        "std": 0.15285149295641923,
+        "min": 0.03800087232992436,
+        "max": 0.3137631385277301,
+        "values": [
+          0.3137631385277301,
+          0.03800087232992436,
+          0.06161426674853861
+        ]
+      },
+      "protect": {
+        "mean": 0.5231934084803046
+      },
+      "cooperate": {
+        "mean": 0.08233671234907167
+      }
+    },
+    "SURVIVAL_ONLY": {
+      "description": "Pure survival selection (no explicit normative terms) + coalition dynamics",
+      "fitness_fn": "survival_only_fitness",
+      "coalition_dynamics": true,
+      "n_kernels": 3,
+      "harm": {
+        "mean": 0.05886720437851072,
+        "std": 0.07673939527848757,
+        "min": 0.01,
+        "max": 0.14731589884981788,
+        "values": [
+          0.019285714285714285,
+          0.14731589884981788,
+          0.01
+        ]
+      },
+      "protect": {
+        "mean": 0.17815644593173327
+      },
+      "cooperate": {
+        "mean": 0.058817794188081966
+      },
+      "cohens_d_vs_normative": 0.652605975096938
+    },
+    "WELFARE_ONLY": {
+      "description": "Welfare-based selection (no explicit harm penalty) + coalition dynamics",
+      "fitness_fn": "welfare_only_fitness",
+      "coalition_dynamics": true,
+      "n_kernels": 3,
+      "harm": {
+        "mean": 0.06346090317797942,
+        "std": 0.0401862268640631,
+        "min": 0.030046050301098123,
+        "max": 0.10805234896410791,
+        "values": [
+          0.05228431026873223,
+          0.10805234896410791,
+          0.030046050301098123
+        ]
+      },
+      "protect": {
+        "mean": 0.21409201169658032
+      },
+      "cooperate": {
+        "mean": 0.20069207244637158
+      },
+      "cohens_d_vs_normative": 0.6651302432889563
+    },
+    "BRUTE": {
+      "description": "Explicit harm selection (control for comparison)",
+      "fitness_fn": "brute_fitness",
+      "coalition_dynamics": true,
+      "n_kernels": 3,
+      "harm": {
+        "mean": 0.6762060534893884,
+        "std": 0.21519367343209114,
+        "min": 0.4736851475076297,
+        "max": 0.9021552351827581,
+        "values": [
+          0.6527777777777777,
+          0.9021552351827581,
+          0.4736851475076297
+        ]
+      },
+      "protect": {
+        "mean": 0.016927401095854243
+      },
+      "cooperate": {
+        "mean": 0.020846792663571978
+      },
+      "cohens_d_vs_normative": -2.884708658100757
+    },
+    "NORMATIVE_NO_COALITION": {
+      "description": "Normative selection WITHOUT coalition dynamics",
+      "fitness_fn": "saint_fitness",
+      "coalition_dynamics": false,
+      "n_kernels": 3,
+      "harm": {
+        "mean": 0.04332455182474859,
+        "std": 0.02649518486040071,
+        "min": 0.013909774436090224,
+        "max": 0.06531706057083818,
+        "values": [
+          0.05074682046731736,
+          0.06531706057083818,
+          0.013909774436090224
+        ]
+      },
+      "protect": {
+        "mean": 0.7072627915400538
+      },
+      "cooperate": {
+        "mean": 0.11860046184943086
+      },
+      "cohens_d_vs_normative": 0.8611971071121143
+    },
+    "SURVIVAL_NO_COALITION": {
+      "description": "Survival selection WITHOUT coalition dynamics",
+      "fitness_fn": "survival_only_fitness",
+      "coalition_dynamics": false,
+      "n_kernels": 3,
+      "harm": {
+        "mean": 0.1612318784818898,
+        "std": 0.25475225014914804,
+        "min": 0.005980403499247999,
+        "max": 0.4552402483466055,
+        "values": [
+          0.4552402483466055,
+          0.022474983599815927,
+          0.005980403499247999
+        ]
+      },
+      "protect": {
+        "mean": 0.20307633898272157
+      },
+      "cooperate": {
+        "mean": 0.3638001088665632
+      },
+      "cohens_d_vs_normative": -0.11157546272888934
+    }
+  },
+  "total_time_seconds": 84.52901697158813
+}

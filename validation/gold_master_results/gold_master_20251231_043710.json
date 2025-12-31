@@ -1,0 +1,177 @@
+{
+  "manifest": {
+    "timestamp": "2025-12-31T04:36:12.270894+00:00",
+    "git_commit": "NO_GIT",
+    "python_version": "3.12.3",
+    "platform_info": "Linux 4.4.0",
+    "seed_list": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "config_hash": "a70a7839c091fdd9",
+    "thresholds": {
+      "min_cliffs_delta": -0.8,
+      "max_noise_for_no_crossover": 0.5,
+      "min_ccd_detection": 0.95,
+      "min_zeno_detection": 0.95,
+      "min_linkage_detection": 0.95,
+      "max_kernel_drift": 0.0
+    },
+    "saint_breeding_seed": 42,
+    "brute_breeding_seed": 43
+  },
+  "experiments": {
+    "separation": {
+      "n_seeds": 10,
+      "saint_mean_harm": 0.009381100916847148,
+      "brute_mean_harm": 0.7301003649875525,
+      "cliffs_delta": -1.0,
+      "cohens_d": -62.290962748005164,
+      "per_seed": [
+        {
+          "seed": 0,
+          "saint_harm_rate": 0.00804289544235925,
+          "brute_harm_rate": 0.7503136762860728,
+          "saint_kernels_verified": true,
+          "brute_kernels_verified": true
+        },
+        {
+          "seed": 1,
+          "saint_harm_rate": 0.008962868117797696,
+          "brute_harm_rate": 0.736540664375716,
+          "saint_kernels_verified": true,
+          "brute_kernels_verified": true
+        },
+        {
+          "seed": 2,
+          "saint_harm_rate": 0.007134363852556481,
+          "brute_harm_rate": 0.6902286902286903,
+          "saint_kernels_verified": true,
+          "brute_kernels_verified": true
+        },
+        {
+          "seed": 3,
+          "saint_harm_rate": 0.008353221957040573,
+          "brute_harm_rate": 0.7341490545050056,
+          "saint_kernels_verified": true,
+          "brute_kernels_verified": true
+        },
+        {
+          "seed": 4,
+          "saint_harm_rate": 0.005917159763313609,
+          "brute_harm_rate": 0.7306397306397306,
+          "saint_kernels_verified": true,
+          "brute_kernels_verified": true
+        },
+        {
+          "seed": 5,
+          "saint_harm_rate": 0.005931198102016607,
+          "brute_harm_rate": 0.7439724454649828,
+          "saint_kernels_verified": true,
+          "brute_kernels_verified": true
+        },
+        {
+          "seed": 6,
+          "saint_harm_rate": 0.009501187648456057,
+          "brute_harm_rate": 0.7340764331210191,
+          "saint_kernels_verified": true,
+          "brute_kernels_verified": true
+        },
+        {
+          "seed": 7,
+          "saint_harm_rate": 0.010309278350515464,
+          "brute_harm_rate": 0.726044226044226,
+          "saint_kernels_verified": true,
+          "brute_kernels_verified": true
+        },
+        {
+          "seed": 8,
+          "saint_harm_rate": 0.015006821282401092,
+          "brute_harm_rate": 0.7309007981755986,
+          "saint_kernels_verified": true,
+          "brute_kernels_verified": true
+        },
+        {
+          "seed": 9,
+          "saint_harm_rate": 0.014652014652014652,
+          "brute_harm_rate": 0.7241379310344828,
+          "saint_kernels_verified": true,
+          "brute_kernels_verified": true
+        }
+      ]
+    },
+    "noise": [
+      {
+        "noise_level": 0.0,
+        "n_seeds": 5,
+        "crossovers": 0,
+        "crossover_rate": 0.0
+      },
+      {
+        "noise_level": 0.1,
+        "n_seeds": 5,
+        "crossovers": 0,
+        "crossover_rate": 0.0
+      },
+      {
+        "noise_level": 0.2,
+        "n_seeds": 5,
+        "crossovers": 0,
+        "crossover_rate": 0.0
+      },
+      {
+        "noise_level": 0.3,
+        "n_seeds": 5,
+        "crossovers": 0,
+        "crossover_rate": 0.0
+      },
+      {
+        "noise_level": 0.4,
+        "n_seeds": 5,
+        "crossovers": 0,
+        "crossover_rate": 0.0
+      },
+      {
+        "noise_level": 0.5,
+        "n_seeds": 5,
+        "crossovers": 0,
+        "crossover_rate": 0.0
+      }
+    ],
+    "ccd": {
+      "n_cases": 100,
+      "attack_detection_rate": 1.0,
+      "false_positive_rate": 0.0
+    },
+    "zeno": {
+      "n_cases": 50,
+      "detection_rate": 1.0
+    },
+    "linkage": {
+      "n_cases": 100,
+      "detection_rate": 1.0
+    }
+  },
+  "threshold_checks": {
+    "separation": "PASS",
+    "noise": "PASS",
+    "ccd": "PASS",
+    "zeno": "PASS",
+    "linkage": "PASS"
+  },
+  "passed": true,
+  "failure_reason": null,
+  "timing": {
+    "breeding_seconds": 57.3053560256958,
+    "total_seconds": 57.7907829284668
+  },
+  "output_hash": "7d37fc4398222a07"
+}

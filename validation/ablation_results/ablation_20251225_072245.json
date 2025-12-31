@@ -1,0 +1,239 @@
+{
+  "timestamp": "2025-12-25T07:18:53.260702+00:00",
+  "config": {
+    "n_kernels": 8,
+    "n_eval_seeds": 3,
+    "generations": 35,
+    "n_turns": 100
+  },
+  "conditions": {
+    "NORMATIVE": {
+      "description": "Explicit normative selection (protect, cooperate, no-harm) + coalition dynamics",
+      "fitness_fn": "saint_fitness",
+      "coalition_dynamics": true,
+      "n_kernels": 8,
+      "harm": {
+        "mean": 0.1452378801142958,
+        "std": 0.11272997053525156,
+        "min": 0.00815463981602337,
+        "max": 0.35198508937433254,
+        "values": [
+          0.18114746778925883,
+          0.15447994210033586,
+          0.1029796854185418,
+          0.35198508937433254,
+          0.00815463981602337,
+          0.037219976606539903,
+          0.08562847615477463,
+          0.24030776365455964
+        ]
+      },
+      "protect": {
+        "mean": 0.650472913375586
+      },
+      "cooperate": {
+        "mean": 0.09342783341701195
+      },
+      "engagement": {
+        "mean": 0.9441596960835343
+      },
+      "intervention": {
+        "mean": 0.4462673747427176
+      },
+      "actions": {
+        "mean": 35.575
+      }
+    },
+    "SURVIVAL_ONLY": {
+      "description": "Pure survival selection (no explicit normative terms) + coalition dynamics",
+      "fitness_fn": "survival_only_fitness",
+      "coalition_dynamics": true,
+      "n_kernels": 8,
+      "harm": {
+        "mean": 0.0646103263362282,
+        "std": 0.08269062662051957,
+        "min": 0.011602871253581774,
+        "max": 0.2566914453199509,
+        "values": [
+          0.2566914453199509,
+          0.04223196082027163,
+          0.017896713615023475,
+          0.011602871253581774,
+          0.05623709895713163,
+          0.015027777777777779,
+          0.02068017626702677,
+          0.09651456667906162
+        ]
+      },
+      "protect": {
+        "mean": 0.13652407398838956
+      },
+      "cooperate": {
+        "mean": 0.12333312354156652
+      },
+      "engagement": {
+        "mean": 0.7006072680234436
+      },
+      "intervention": {
+        "mean": 0.31193459815592484
+      },
+      "actions": {
+        "mean": 76.24583333333334
+      },
+      "cohens_d_vs_normative": 0.8155900367744747
+    },
+    "WELFARE_ONLY": {
+      "description": "Welfare-based selection (no explicit harm penalty) + coalition dynamics",
+      "fitness_fn": "welfare_only_fitness",
+      "coalition_dynamics": true,
+      "n_kernels": 8,
+      "harm": {
+        "mean": 0.0759237943298667,
+        "std": 0.05955649089399438,
+        "min": 0.008605128150582696,
+        "max": 0.19048656053538568,
+        "values": [
+          0.11071622166188848,
+          0.09987330088504393,
+          0.041852742165242166,
+          0.19048656053538568,
+          0.0111884403903664,
+          0.07468249054007568,
+          0.06998547031034859,
+          0.008605128150582696
+        ]
+      },
+      "protect": {
+        "mean": 0.08984555418612095
+      },
+      "cooperate": {
+        "mean": 0.10181173705766074
+      },
+      "engagement": {
+        "mean": 0.5457606888908318
+      },
+      "intervention": {
+        "mean": 0.18584593261197996
+      },
+      "actions": {
+        "mean": 78.22083333333333
+      },
+      "cohens_d_vs_normative": 0.7688519467304419
+    },
+    "BRUTE": {
+      "description": "Explicit harm selection (control for comparison)",
+      "fitness_fn": "brute_fitness",
+      "coalition_dynamics": true,
+      "n_kernels": 8,
+      "harm": {
+        "mean": 0.6823540352519065,
+        "std": 0.1599388785903838,
+        "min": 0.3229769045156843,
+        "max": 0.8478927121743615,
+        "values": [
+          0.7197654240545486,
+          0.8478927121743615,
+          0.6381350911248543,
+          0.7544866762483343,
+          0.7286706987397197,
+          0.6585420218188127,
+          0.7883627533389371,
+          0.3229769045156843
+        ]
+      },
+      "protect": {
+        "mean": 0.0912409680714449
+      },
+      "cooperate": {
+        "mean": 0.060493311348981615
+      },
+      "engagement": {
+        "mean": 0.9173545149358735
+      },
+      "intervention": {
+        "mean": 0.0215191188419617
+      },
+      "actions": {
+        "mean": 44.075
+      },
+      "cohens_d_vs_normative": -3.88194239788696
+    },
+    "NORMATIVE_NO_COALITION": {
+      "description": "Normative selection WITHOUT coalition dynamics",
+      "fitness_fn": "saint_fitness",
+      "coalition_dynamics": false,
+      "n_kernels": 8,
+      "harm": {
+        "mean": 0.1278346519964017,
+        "std": 0.08012184184187959,
+        "min": 0.022284619302607955,
+        "max": 0.2565655240282106,
+        "values": [
+          0.022284619302607955,
+          0.09020913059551391,
+          0.05670461348912642,
+          0.17804603241955488,
+          0.2565655240282106,
+          0.06816975881073212,
+          0.18408641589927685,
+          0.16661112142619092
+        ]
+      },
+      "protect": {
+        "mean": 0.6040576732220799
+      },
+      "cooperate": {
+        "mean": 0.08658167647818943
+      },
+      "engagement": {
+        "mean": 0.9086317686511078
+      },
+      "intervention": {
+        "mean": 0.4166522984385176
+      },
+      "actions": {
+        "mean": 40.083333333333336
+      },
+      "cohens_d_vs_normative": 0.17795699841822135
+    },
+    "SURVIVAL_NO_COALITION": {
+      "description": "Survival selection WITHOUT coalition dynamics",
+      "fitness_fn": "survival_only_fitness",
+      "coalition_dynamics": false,
+      "n_kernels": 8,
+      "harm": {
+        "mean": 0.06819153972413688,
+        "std": 0.09049775558684375,
+        "min": 0.007930116256413587,
+        "max": 0.25337324437468395,
+        "values": [
+          0.007930116256413587,
+          0.009968016077328615,
+          0.007943722943722944,
+          0.11754095736079583,
+          0.010624438131440943,
+          0.12667159216233753,
+          0.011480230486371736,
+          0.25337324437468395
+        ]
+      },
+      "protect": {
+        "mean": 0.06586397187727142
+      },
+      "cooperate": {
+        "mean": 0.045931818390119124
+      },
+      "engagement": {
+        "mean": 0.4167738850773051
+      },
+      "intervention": {
+        "mean": 0.2906925492534513
+      },
+      "actions": {
+        "mean": 90.40416666666667
+      },
+      "cohens_d_vs_normative": 0.753729985781729
+    }
+  },
+  "total_time_seconds": 232.55019807815552
+}
