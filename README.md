@@ -35,15 +35,37 @@ tao check-suite spec/test_vectors.json
 
 Expected output: **21 / 21 vectors passed.** That's the canonical evidence that an implementation conforms to v0.11.
 
-Validate a single tuple:
+### Emit TAO tuples from your agent in one line
+
+The `tao_emit` decorator turns any function into a TAO emission point:
+
+```python
+from tao.adapters import tao_emit, configure_emitter, JsonlSink
+
+configure_emitter(
+    actor={"entity_id": "support_agent_v3", "entity_type": "AUTONOMOUS_SYSTEM"},
+    sink=JsonlSink("audit.jsonl"),
+)
+
+@tao_emit("EXCHANGE.TRANSFER.PAY",
+          target="$customer_id",
+          context={"environment": {"domain": "RETAIL"}})
+def refund(customer_id, amount):
+    # ... real payment logic
+    return {"refunded": amount}
+
+refund(customer_id="cust_88241", amount="29.99")
+# A TAO tuple lands in audit.jsonl with verb, target, effects, context,
+# outcome, timestamp. If the function raises, the tuple is emitted with
+# outcome=FAILED and the exception re-raised.
+```
+
+The decorator emits valid tuples by default. Override effects, target, justification, or context as needed (see `tests/test_adapter.py` for a full set of patterns).
+
+### Validate or compare tuples from the CLI
 
 ```bash
 tao validate spec/examples/my_tuple.json
-```
-
-Run the Claim-Check Delta on a claim/check pair:
-
-```bash
 tao ccd claim.json check.json --observer-level PRIVILEGE_ISOLATED
 ```
 

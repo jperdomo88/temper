@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project versioning is consistent across the spec and the reference
 implementation: the validator version tracks the spec version it implements.
 
+## [0.11.1] — 2026-05-16
+
+Adds the first end-to-end integration adapter so a developer can wire TAO into
+an agent in one line.
+
+- **`tao.adapters.tao_emit` decorator** — wraps any function with a TAO verb;
+  every call emits a conformant tuple to a configurable sink. Default sink is
+  stdout; production sinks (`ListSink`, `JsonlSink`, `CallableSink`) ship with
+  the package. Failures produce `outcome=FAILED` tuples with empty effects and
+  re-raise.
+- **Effect derivation** — when no explicit effects are supplied, the decorator
+  emits a minimal effect drawn from the verb's REQUIRED set in the reference
+  mapping. Custom effects can be passed as a list (with `$argname` placeholder
+  substitution) or as a callable receiving `(args, kwargs, result)`.
+- **Module-level config via `configure_emitter`** — set the actor identity and
+  sink once at startup; per-decorator overrides remain available.
+- **Pytest suite** — `tests/test_adapter.py` validates every emitted tuple
+  against the full pipeline. CI now runs pytest in addition to the conformance
+  suite.
+
+No spec changes. Tuple format, vocabulary, mapping rules, and CCD pipeline are
+unchanged from 0.11.0.
+
 ## [0.11.0] — 2026-05-16
 
 First public release of TAO.
