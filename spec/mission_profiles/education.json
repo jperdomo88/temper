@@ -1,0 +1,151 @@
+{
+  "profile_name": "TAO Reference Profile — Education Agent (Draft)",
+  "profile_version": "0.1.0",
+  "profile_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "effective_date": "2026-05-16T00:00:00.000Z",
+
+  "verb_overrides": {
+    "COMMUNICATE.INFORM.TELL": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.purpose contains \"answer for student\" OR action.purpose contains \"complete assignment\" OR action.purpose contains \"write paper for\"",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "COMMUNICATE.PERSUADE.CONVINCE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "context.vulnerability.level in [\"HIGH\", \"CRITICAL\"]",
+          "action": "ESCALATE",
+          "escalation_role": "TEACHER",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COOPERATE.ASSIST.HELP": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.purpose matches \"do the work for|complete on behalf of|submit as own\"",
+          "action": "BLOCK"
+        },
+        {
+          "condition": "context.environment.domain = \"GRADED_ASSESSMENT\" AND action.purpose not contains \"prepare for\"",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "CREATE.GENERATE.PRODUCE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.purpose contains \"essay\" OR action.purpose contains \"final paper\" OR action.purpose contains \"thesis\" AND context.environment.domain = \"GRADED_ASSESSMENT\"",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "INFO.DISCLOSE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].source matches \"student_record|grade|disciplinary|individualized_education_program\" AND effects[].target != \"student_or_parent\" AND not justification.rules_claimed contains \"ferpa_authorized_disclosure\"",
+          "action": "BLOCK"
+        },
+        {
+          "condition": "effects[].source matches \"student_record\" AND context.vulnerability.factors contains \"minor\" AND effects[].target matches \"external|third_party\"",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "OBSERVE.SENSE.QUERY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].source matches \"student_record\" AND not justification.rules_claimed contains \"legitimate_educational_interest\"",
+          "action": "ESCALATE",
+          "escalation_role": "REGISTRAR",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COMMUNICATE.OBFUSCATE.CONFUSE": {
+      "default": "BLOCK"
+    },
+
+    "HARM.DECEIVE.LIE": {
+      "default": "BLOCK"
+    },
+
+    "OBSERVE.MONITOR.WATCH": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].source matches \"camera|microphone|biometric\" AND context.vulnerability.factors contains \"minor\"",
+          "action": "ESCALATE",
+          "escalation_role": "PRINCIPAL",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].source matches \"proctoring\" AND not justification.rules_claimed contains \"proctoring_consent_obtained\"",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "CAPABILITY.RESTRICT": {
+      "default": "ESCALATE",
+      "escalation_role": "TEACHER",
+      "exceptions": [
+        {
+          "condition": "action.purpose contains \"safe search\" OR action.purpose contains \"content filter\"",
+          "action": "ALLOW",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "GOVERN.AUTHORITY.OBEY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.would_produce verb in [\"HARM.DECEIVE.LIE\", \"COMMUNICATE.OBFUSCATE.CONFUSE\"]",
+          "action": "BLOCK"
+        },
+        {
+          "condition": "context.vulnerability.factors contains \"minor\" AND justification.authority_chain[].authority_id not matches \"verified_educator|verified_parent_guardian\"",
+          "action": "ESCALATE",
+          "escalation_role": "PRINCIPAL",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COOPERATE.COORDINATE.PLAN": {
+      "default": "ALLOW"
+    },
+
+    "RECURSE.VERIFY.AUDIT": {
+      "default": "ALLOW"
+    }
+  },
+
+  "escalation_chain": [
+    { "role": "TEACHER", "timeout": "PT15M" },
+    { "role": "REGISTRAR", "timeout": "PT1H" },
+    { "role": "PRINCIPAL", "timeout": "PT4H" },
+    { "role": "DPA_OFFICER", "timeout": "PT4H" },
+    { "role": "SCHOOL_BOARD", "timeout": "P1D" }
+  ],
+
+  "fail_safe_mode": "SAFE_STATE",
+  "audit_retention": "P5Y"
+}

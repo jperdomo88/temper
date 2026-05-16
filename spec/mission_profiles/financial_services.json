@@ -1,0 +1,168 @@
+{
+  "profile_name": "TAO Reference Profile — Financial Services Agent (Draft)",
+  "profile_version": "0.1.0",
+  "profile_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "effective_date": "2026-05-16T00:00:00.000Z",
+
+  "verb_overrides": {
+    "COMMUNICATE.INFORM.TELL": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target = client AND action.purpose contains \"investment recommendation\" AND not justification.rules_claimed contains \"suitability_review_complete\"",
+          "action": "ESCALATE",
+          "escalation_role": "REGISTERED_ADVISOR",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].target = client AND action.purpose contains \"performance\" AND not justification.rules_claimed contains \"required_disclosures_attached\"",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "COMMUNICATE.PERSUADE.CONVINCE": {
+      "default": "ESCALATE",
+      "escalation_role": "REGISTERED_ADVISOR",
+      "exceptions": [
+        {
+          "condition": "context.vulnerability.level in [\"HIGH\", \"CRITICAL\"]",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "HARM.DECEIVE.LIE": {
+      "default": "BLOCK"
+    },
+
+    "COMMUNICATE.OBFUSCATE.CONFUSE": {
+      "default": "BLOCK"
+    },
+
+    "EXCHANGE.TRANSFER.PAY": {
+      "default": "ESCALATE",
+      "escalation_role": "REGISTERED_ADVISOR",
+      "exceptions": [
+        {
+          "condition": "effects[].amount as_decimal < routine_transfer_limit_usd AND effects[].target in client_pre_authorized_accounts",
+          "action": "ALLOW",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].amount as_decimal > escalation_threshold_high_usd",
+          "action": "ESCALATE",
+          "escalation_role": "COMPLIANCE_OFFICER",
+          "justification_required": true
+        },
+        {
+          "condition": "action.purpose contains \"international transfer\" OR effects[].target country_code != client.tax_country",
+          "action": "ESCALATE",
+          "escalation_role": "AML_OFFICER",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "EXCHANGE.TRADE.BARTER": {
+      "default": "ESCALATE",
+      "escalation_role": "REGISTERED_ADVISOR",
+      "exceptions": [
+        {
+          "condition": "effects[].amount as_decimal < routine_trade_limit_usd AND action.target_ref in client_pre_approved_instruments AND justification.rules_claimed contains \"suitability_review_complete\"",
+          "action": "ALLOW",
+          "justification_required": true
+        },
+        {
+          "condition": "action.target_ref matches \"options|futures|swaps|derivatives|leveraged\" AND not client.derivatives_certified",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "EXCHANGE.CORRUPTION.BRIBE": {
+      "default": "BLOCK"
+    },
+
+    "GOVERN.REGULATE.ENFORCE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].type = \"CAPABILITY.RESTRICT\" AND effects[].target = client AND not justification.rules_claimed contains \"regulatory_action_authority\"",
+          "action": "ESCALATE",
+          "escalation_role": "COMPLIANCE_OFFICER",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "CAPABILITY.RESTRICT": {
+      "default": "ESCALATE",
+      "escalation_role": "COMPLIANCE_OFFICER",
+      "exceptions": [
+        {
+          "condition": "action.purpose contains \"AML hold\" OR action.purpose contains \"fraud alert\" OR action.purpose contains \"sanctions screening\"",
+          "action": "ALLOW",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "INFO.DISCLOSE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target != client AND effects[].source contains client_personal_data",
+          "action": "BLOCK"
+        },
+        {
+          "condition": "effects[].target matches \"regulator|examiner|auditor\" AND not justification.authority_chain[].authority_id matches \"compliance_authorized_disclosure\"",
+          "action": "ESCALATE",
+          "escalation_role": "COMPLIANCE_OFFICER",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "OBSERVE.MONITOR.WATCH": {
+      "default": "ALLOW"
+    },
+
+    "COOPERATE.ASSIST.HELP": {
+      "default": "ALLOW"
+    },
+
+    "COOPERATE.COORDINATE.PLAN": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.purpose contains \"tax planning\" OR action.purpose contains \"estate planning\"",
+          "action": "ESCALATE",
+          "escalation_role": "CERTIFIED_PROFESSIONAL",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "GOVERN.AUTHORITY.OBEY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.would_produce verb in [\"HARM.DECEIVE.LIE\", \"COMMUNICATE.OBFUSCATE.CONFUSE\", \"EXCHANGE.CORRUPTION.BRIBE\"]",
+          "action": "BLOCK"
+        }
+      ]
+    }
+  },
+
+  "escalation_chain": [
+    { "role": "REGISTERED_ADVISOR", "timeout": "PT5M" },
+    { "role": "CERTIFIED_PROFESSIONAL", "timeout": "PT15M" },
+    { "role": "COMPLIANCE_OFFICER", "timeout": "PT30M" },
+    { "role": "AML_OFFICER", "timeout": "PT1H" },
+    { "role": "GENERAL_COUNSEL", "timeout": "PT4H" }
+  ],
+
+  "fail_safe_mode": "FAIL_CLOSED",
+  "audit_retention": "P7Y"
+}

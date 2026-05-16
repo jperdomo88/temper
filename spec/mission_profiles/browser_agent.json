@@ -1,0 +1,182 @@
+{
+  "profile_name": "TAO Reference Profile — Browser / Computer-Use Agent (Draft)",
+  "profile_version": "0.1.0",
+  "profile_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "effective_date": "2026-05-16T00:00:00.000Z",
+
+  "verb_overrides": {
+    "OBSERVE.SENSE.QUERY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].source matches \"^chrome://(settings|extensions|passwords|net-internals)\" OR effects[].source matches \"^edge://(settings|extensions)\" OR effects[].source contains \"chrome.storage\" OR effects[].source contains \"cookies\"",
+          "action": "ESCALATE",
+          "escalation_role": "DEPLOYMENT_OPERATOR",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].source matches \"https?://[^/]*(login|signin|account|password|2fa|otp|mfa)\" AND action.purpose not contains \"user authentication on user's behalf\"",
+          "action": "ESCALATE",
+          "escalation_role": "DEPLOYMENT_OPERATOR",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "OBSERVE.MONITOR.WATCH": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].source matches \"https?://.*(banking|investment|brokerage|wallet|exchange)\" AND action.purpose not contains \"explicitly authorized financial monitoring\"",
+          "action": "ESCALATE",
+          "escalation_role": "DEPLOYMENT_OPERATOR",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "TRANSFORM.ALTER.MODIFY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target matches \"^chrome://(settings|extensions)\" OR effects[].target matches \"^edge://(settings|extensions)\"",
+          "action": "BLOCK"
+        },
+        {
+          "condition": "effects[].target ends_with \"/admin\" OR effects[].target ends_with \"/settings\" OR effects[].target contains \"/account/security\"",
+          "action": "ESCALATE",
+          "escalation_role": "DEPLOYMENT_OPERATOR",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "CREATE.GENERATE.PRODUCE": {
+      "default": "ALLOW"
+    },
+
+    "COMMUNICATE.INFORM.TELL": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target matches \"^https?://\" AND effects[].target not_matches_allowlist external_endpoints",
+          "action": "ESCALATE",
+          "escalation_role": "DEPLOYMENT_OPERATOR",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COMMUNICATE.PERSUADE.CONVINCE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "context.vulnerability.level in [\"HIGH\", \"CRITICAL\"]",
+          "action": "ESCALATE",
+          "escalation_role": "DEPLOYMENT_OPERATOR",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COMMUNICATE.OBFUSCATE.CONFUSE": {
+      "default": "BLOCK"
+    },
+
+    "HARM.DECEIVE.LIE": {
+      "default": "BLOCK"
+    },
+
+    "HARM.COERCE.THREATEN": {
+      "default": "BLOCK"
+    },
+
+    "HARM.DAMAGE.STRIKE": {
+      "default": "BLOCK"
+    },
+
+    "EXCHANGE.CORRUPTION.BRIBE": {
+      "default": "BLOCK"
+    },
+
+    "EXCHANGE.TRANSFER.PAY": {
+      "default": "ESCALATE",
+      "exceptions": [
+        {
+          "condition": "effects[].amount as_decimal < 50.00 AND effects[].unit = \"USD\" AND action.target_ref in user_approved_merchants",
+          "action": "ALLOW",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].amount as_decimal >= 500.00",
+          "action": "ESCALATE",
+          "escalation_role": "BILLING_AUTHORITY",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].target contains \"subscription\" OR effects[].target contains \"recurring\"",
+          "action": "ESCALATE",
+          "escalation_role": "BILLING_AUTHORITY",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "EXCHANGE.TRADE.BARTER": {
+      "default": "BLOCK"
+    },
+
+    "BOND.ATTACH.COMMIT": {
+      "default": "ESCALATE",
+      "escalation_role": "DEPLOYMENT_OPERATOR",
+      "exceptions": [
+        {
+          "condition": "effects[].target in pre_authorized_commitment_contexts",
+          "action": "ALLOW",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "GOVERN.AUTHORITY.OBEY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.would_produce verb in [\"HARM.DAMAGE.STRIKE\", \"HARM.DECEIVE.LIE\", \"EXCHANGE.CORRUPTION.BRIBE\"]",
+          "action": "BLOCK"
+        },
+        {
+          "condition": "justification.authority_chain[].authority_id not in attested_authorities",
+          "action": "ESCALATE",
+          "escalation_role": "DEPLOYMENT_OPERATOR",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "GOVERN.AUTHORITY.DISOBEY": {
+      "default": "LOG"
+    },
+
+    "COOPERATE.ASSIST.HELP": {
+      "default": "ALLOW"
+    },
+
+    "COOPERATE.COORDINATE.PLAN": {
+      "default": "ALLOW"
+    },
+
+    "RECURSE.VERIFY.AUDIT": {
+      "default": "ALLOW"
+    }
+  },
+
+  "escalation_chain": [
+    { "role": "DEPLOYMENT_OPERATOR", "timeout": "PT2M" },
+    { "role": "BILLING_AUTHORITY", "timeout": "PT15M" },
+    { "role": "SECURITY_TEAM", "timeout": "PT1H" }
+  ],
+
+  "fail_safe_mode": "FAIL_CLOSED",
+  "audit_retention": "P1Y"
+}

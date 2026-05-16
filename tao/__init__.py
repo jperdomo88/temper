@@ -18,7 +18,7 @@ Conformance with the spec is tested by running the bundled test vector suite:
     $ tao check-suite spec/test_vectors.json
 """
 
-__version__ = "0.11.2"
+__version__ = "0.11.3"
 
 from .schema import validate_tuple_schema, validate_profile_schema
 from .mapping import (

@@ -1,0 +1,185 @@
+{
+  "profile_name": "TAO Reference Profile — Enterprise Tool Agent (Draft)",
+  "profile_version": "0.1.0",
+  "profile_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "effective_date": "2026-05-16T00:00:00.000Z",
+
+  "verb_overrides": {
+    "OBSERVE.SENSE.QUERY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].source matches \"hr_records|payroll|salary|performance_review|disciplinary\"",
+          "action": "ESCALATE",
+          "escalation_role": "HR_LEAD",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].source matches \"legal_hold|attorney_client_privileged|litigation_workspace\"",
+          "action": "BLOCK"
+        },
+        {
+          "condition": "effects[].source matches \"board_materials|executive_session|merger_workspace\"",
+          "action": "ESCALATE",
+          "escalation_role": "GENERAL_COUNSEL",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COMMUNICATE.INFORM.TELL": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target matches \"external_domain|customer_facing|public_channel\" AND context.environment.domain != \"PUBLIC_RELATIONS\"",
+          "action": "ESCALATE",
+          "escalation_role": "DEPLOYMENT_OPERATOR",
+          "justification_required": true
+        },
+        {
+          "condition": "context.target_specificity = \"CLASS\" AND effects[].target matches \"#general|all-staff|company-wide\"",
+          "action": "ESCALATE",
+          "escalation_role": "COMMUNICATIONS_LEAD",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "TRANSFORM.ALTER.MODIFY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target matches \"opportunity|deal|forecast\" AND effects[].amount as_decimal > forecast_modification_threshold_usd",
+          "action": "ESCALATE",
+          "escalation_role": "REVENUE_OPERATIONS",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].target matches \"customer_record\" AND action.purpose contains \"merge|delete|anonymize\"",
+          "action": "ESCALATE",
+          "escalation_role": "DATA_STEWARD",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "BOND.ATTACH.COMMIT": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.purpose contains \"meeting invite\" AND effects[].target matches \"executive|director|vp_or_higher\"",
+          "action": "ESCALATE",
+          "escalation_role": "EXECUTIVE_ASSISTANT",
+          "justification_required": true
+        },
+        {
+          "condition": "action.purpose contains \"vendor commitment\" OR action.purpose contains \"contract\" OR action.purpose contains \"sla\"",
+          "action": "ESCALATE",
+          "escalation_role": "PROCUREMENT",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "INFO.DISCLOSE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target matches \"external\" AND effects[].source matches \"internal|confidential|restricted\"",
+          "action": "ESCALATE",
+          "escalation_role": "INFORMATION_SECURITY",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].source matches \"customer_pii|employee_pii\" AND effects[].target != effects[].source.owner",
+          "action": "ESCALATE",
+          "escalation_role": "DATA_PROTECTION_OFFICER",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "EXCHANGE.TRANSFER.PAY": {
+      "default": "BLOCK",
+      "exceptions": [
+        {
+          "condition": "actor.principal_chain contains \"finance_authorized_spending\" AND effects[].amount as_decimal < discretionary_spend_limit_usd",
+          "action": "ESCALATE",
+          "escalation_role": "FINANCE_APPROVER",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COOPERATE.COORDINATE.PLAN": {
+      "default": "ALLOW"
+    },
+
+    "COOPERATE.ASSIST.HELP": {
+      "default": "ALLOW"
+    },
+
+    "COMMUNICATE.PERSUADE.CONVINCE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target matches \"investor|board_member|regulator|press|analyst\"",
+          "action": "ESCALATE",
+          "escalation_role": "COMMUNICATIONS_LEAD",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COMMUNICATE.OBFUSCATE.CONFUSE": {
+      "default": "BLOCK"
+    },
+
+    "HARM.DECEIVE.LIE": {
+      "default": "BLOCK"
+    },
+
+    "CAPABILITY.RESTRICT": {
+      "default": "ESCALATE",
+      "escalation_role": "IT_ADMINISTRATOR",
+      "exceptions": [
+        {
+          "condition": "action.purpose contains \"automatic security response\" AND justification.authority_chain[].authority_id matches \"security_orchestration_runbook\"",
+          "action": "ALLOW",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "RECURSE.VERIFY.AUDIT": {
+      "default": "ALLOW"
+    },
+
+    "GOVERN.AUTHORITY.OBEY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.would_produce verb in [\"HARM.DECEIVE.LIE\", \"COMMUNICATE.OBFUSCATE.CONFUSE\", \"EXCHANGE.CORRUPTION.BRIBE\"]",
+          "action": "BLOCK"
+        }
+      ]
+    }
+  },
+
+  "escalation_chain": [
+    { "role": "DEPLOYMENT_OPERATOR", "timeout": "PT5M" },
+    { "role": "EXECUTIVE_ASSISTANT", "timeout": "PT10M" },
+    { "role": "DATA_STEWARD", "timeout": "PT30M" },
+    { "role": "HR_LEAD", "timeout": "PT30M" },
+    { "role": "INFORMATION_SECURITY", "timeout": "PT1H" },
+    { "role": "DATA_PROTECTION_OFFICER", "timeout": "PT1H" },
+    { "role": "PROCUREMENT", "timeout": "PT2H" },
+    { "role": "COMMUNICATIONS_LEAD", "timeout": "PT2H" },
+    { "role": "REVENUE_OPERATIONS", "timeout": "PT2H" },
+    { "role": "FINANCE_APPROVER", "timeout": "PT4H" },
+    { "role": "GENERAL_COUNSEL", "timeout": "PT8H" }
+  ],
+
+  "fail_safe_mode": "SAFE_STATE",
+  "audit_retention": "P5Y"
+}

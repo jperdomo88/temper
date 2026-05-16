@@ -1,0 +1,177 @@
+{
+  "profile_name": "TAO Reference Profile — Healthcare Provider Agent (Draft)",
+  "profile_version": "0.1.0",
+  "profile_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "effective_date": "2026-05-16T00:00:00.000Z",
+
+  "verb_overrides": {
+    "PROTECT.HEAL.TREAT": {
+      "default": "ESCALATE",
+      "escalation_role": "ATTENDING_CLINICIAN",
+      "exceptions": [
+        {
+          "condition": "justification.authority_chain[].authority_id matches \"clinical_decision_support_role\" AND action.purpose matches \"information surfacing|reminder|protocol cue\" AND not action.purpose matches \"prescribe|order|diagnose\"",
+          "action": "ALLOW",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COMMUNICATE.INFORM.TELL": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target = patient AND action.purpose contains \"diagnosis\"",
+          "action": "ESCALATE",
+          "escalation_role": "ATTENDING_CLINICIAN",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].target = patient AND action.purpose contains \"prognosis\"",
+          "action": "ESCALATE",
+          "escalation_role": "ATTENDING_CLINICIAN",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].target = patient AND action.purpose contains \"medication\" AND not justification.rules_claimed contains \"prescribing_authority_verified\"",
+          "action": "ESCALATE",
+          "escalation_role": "ATTENDING_CLINICIAN",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COMMUNICATE.PERSUADE.CONVINCE": {
+      "default": "ESCALATE",
+      "escalation_role": "ATTENDING_CLINICIAN",
+      "exceptions": [
+        {
+          "condition": "action.purpose contains \"informed consent\" AND justification.rules_claimed contains \"informed_consent_protocol\"",
+          "action": "ALLOW",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "INFO.DISCLOSE": {
+      "default": "ESCALATE",
+      "escalation_role": "PRIVACY_OFFICER",
+      "exceptions": [
+        {
+          "condition": "effects[].target = patient AND effects[].source contains patient_own_record",
+          "action": "ALLOW",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].target matches \"treating_clinician|care_team_member\" AND justification.rules_claimed contains \"care_team_authorization\"",
+          "action": "ALLOW",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].target matches \"insurance|payer\" AND justification.rules_claimed contains \"hipaa_tpo_authorization\"",
+          "action": "ALLOW",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].target matches \"research|registry|analytics\" AND not justification.rules_claimed contains \"deidentified_per_hipaa_safe_harbor\"",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "HARM.DAMAGE.STRIKE": {
+      "default": "BLOCK",
+      "exceptions": [
+        {
+          "condition": "verb_in_clinical_context = \"PROTECT.HEAL.TREAT\" AND effects[].type = \"RESOURCE.DAMAGE\" AND justification.harm_acknowledged present AND justification.authority_chain[].authority_id matches \"informed_consent|emergency_doctrine\"",
+          "action": "ALLOW",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "HARM.DECEIVE.LIE": {
+      "default": "BLOCK"
+    },
+
+    "COMMUNICATE.OBFUSCATE.CONFUSE": {
+      "default": "BLOCK"
+    },
+
+    "CAPABILITY.RESTRICT": {
+      "default": "ESCALATE",
+      "escalation_role": "ATTENDING_CLINICIAN",
+      "exceptions": [
+        {
+          "condition": "action.purpose contains \"safety hold\" AND justification.authority_chain[].authority_id matches \"clinician|emergency_protocol\"",
+          "action": "ALLOW",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "EXCHANGE.TRANSFER.PAY": {
+      "default": "BLOCK"
+    },
+
+    "COOPERATE.COORDINATE.PLAN": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.purpose contains \"treatment plan\" AND not justification.authority_chain[].authority_id matches \"licensed_provider\"",
+          "action": "ESCALATE",
+          "escalation_role": "ATTENDING_CLINICIAN",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "OBSERVE.SENSE.QUERY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].source contains \"patient_record\" AND not justification.rules_claimed contains \"treatment_relationship_established\"",
+          "action": "ESCALATE",
+          "escalation_role": "PRIVACY_OFFICER",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "GOVERN.AUTHORITY.OBEY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.would_produce verb in [\"PROTECT.HEAL.TREAT\"] AND not justification.authority_chain[].authority_id matches \"licensed_provider|signed_order\"",
+          "action": "BLOCK"
+        },
+        {
+          "condition": "action.would_produce verb in [\"HARM.DAMAGE.STRIKE\", \"HARM.DECEIVE.LIE\"]",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "GOVERN.AUTHORITY.DISOBEY": {
+      "default": "LOG"
+    },
+
+    "COOPERATE.ASSIST.HELP": {
+      "default": "ALLOW"
+    },
+
+    "RECURSE.VERIFY.AUDIT": {
+      "default": "ALLOW"
+    }
+  },
+
+  "escalation_chain": [
+    { "role": "ATTENDING_CLINICIAN", "timeout": "PT2M" },
+    { "role": "PRIVACY_OFFICER", "timeout": "PT15M" },
+    { "role": "MEDICAL_DIRECTOR", "timeout": "PT1H" },
+    { "role": "ETHICS_COMMITTEE", "timeout": "PT24H" }
+  ],
+
+  "fail_safe_mode": "SAFE_STATE",
+  "audit_retention": "P10Y"
+}

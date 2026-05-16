@@ -6,11 +6,19 @@ Each profile is two files: a `.json` deployable template and a `.md` companion t
 
 ## What's here
 
-| Profile | Status | First reviewer |
+| Profile | Status | Audience for first review |
 |---|---|---|
 | `code_agent.json` · `code_agent.md` | Draft 0.1 | Frontier-lab platform engineers and security teams |
+| `browser_agent.json` · `browser_agent.md` | Draft 0.1 | Computer-use deployers and the operators of agentic browsers |
+| `customer_service.json` · `customer_service.md` | Draft 0.1 | Contact-center ops, consumer-protection regulators |
+| `financial_services.json` · `financial_services.md` | Draft 0.1 | Registered advisors, compliance, AML officers |
+| `healthcare_provider.json` · `healthcare_provider.md` | Draft 0.1 | Clinicians, privacy officers, hospital compliance |
+| `enterprise_tool_agent.json` · `enterprise_tool_agent.md` | Draft 0.1 | Enterprise IT, info security, data protection |
+| `education.json` · `education.md` | Draft 0.1 | Teachers, district IT, FERPA / COPPA compliance |
 
-More are planned (healthcare, financial services, customer service, browser/computer-use agent, education, retail, defense). They are deliberately not all published at once. Publishing one well-considered draft and inviting feedback is more useful than publishing eight thin ones.
+Each profile is a working draft inviting domain-practitioner pushback. The profiles deliberately differ in `fail_safe_mode`, `audit_retention`, and escalation-chain structure to match the operational realities of their domains. They are not interchangeable — picking the wrong profile for your context produces wrong outcomes by design.
+
+Defense, government, retail, and research-assistant profiles are not in this initial batch and will be added when domain practitioners engage.
 
 ## What a Mission Profile does
 

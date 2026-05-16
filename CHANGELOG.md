@@ -6,6 +6,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project versioning is consistent across the spec and the reference
 implementation: the validator version tracks the spec version it implements.
 
+## [0.11.3] — 2026-05-16
+
+Expands the Mission Profile collection from one to seven domain templates.
+
+- `browser_agent` — for computer-use and browser-controlling agents (Claude
+  computer-use, Operator, Browser Use, etc.). 19 verbs, 13 exceptions.
+  3-tier escalation. Hard caps on purchases above thresholds; subscription
+  enrollment always escalates.
+- `customer_service` — for contact-center and support automation. 14 verbs,
+  12 exceptions. 5-tier delegation. SAFE_STATE fail-safe so customers
+  aren't left hanging. Vulnerability-context escalation routes to a real
+  human, not another AI tier.
+- `financial_services` — for AI advisors, robo-advisors, trading agents
+  under FINRA / SEC / MiFID II / FCA regimes. 14 verbs, 14 exceptions.
+  Performance representation BLOCKS without required disclosures.
+  Cross-border transfers escalate to AML officer. P7Y retention.
+- `healthcare_provider` — for clinical decision support and patient-facing
+  agents under HIPAA-equivalent regimes. 15 verbs, 15 exceptions.
+  Treatment defaults to ESCALATE; HARM.DAMAGE permitted only with
+  acknowledged harm and explicit consent / emergency-doctrine authority.
+  P10Y retention.
+- `enterprise_tool_agent` — for agents with scoped access to internal
+  workplace tools (Slack, Notion, Salesforce, etc.). 14 verbs, 15
+  exceptions. 11-role escalation chain reflecting enterprise governance
+  breadth. Cross-classification reads (board materials, legal hold) hard
+  blocked.
+- `education` — for AI tutors, TAs, study tools, and assessment systems
+  under FERPA / COPPA. 13 verbs, 13 exceptions. Academic-integrity guard
+  on COMMUNICATE.INFORM.TELL and COOPERATE.ASSIST.HELP. Biometric
+  monitoring of minors escalates to principal. Proctoring requires
+  explicit consent in justification.
+
+All seven profiles validate against `tao_mission_profile.schema.json`.
+
+`spec/mission_profiles/README.md` updated with the catalog table.
+
+No spec or validator changes.
+
 ## [0.11.2] — 2026-05-16
 
 Adds the first Mission Profile template — a deployable code-agent profile —

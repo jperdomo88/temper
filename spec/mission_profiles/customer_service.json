@@ -1,0 +1,161 @@
+{
+  "profile_name": "TAO Reference Profile — Customer Service Agent (Draft)",
+  "profile_version": "0.1.0",
+  "profile_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "effective_date": "2026-05-16T00:00:00.000Z",
+
+  "verb_overrides": {
+    "COMMUNICATE.INFORM.TELL": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target = customer AND justification.purpose.stated_goal matches \"deny|reject|decline\" AND not justification.authority_chain[].authority_id matches \"policy_section\"",
+          "action": "ESCALATE",
+          "escalation_role": "TIER2_SPECIALIST",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COMMUNICATE.PERSUADE.CONVINCE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "context.vulnerability.level in [\"HIGH\", \"CRITICAL\"]",
+          "action": "ESCALATE",
+          "escalation_role": "HUMAN_AGENT",
+          "justification_required": true
+        },
+        {
+          "condition": "action.purpose contains \"retention\" OR action.purpose contains \"prevent cancellation\" OR action.purpose contains \"upsell\"",
+          "action": "LOG"
+        }
+      ]
+    },
+
+    "COMMUNICATE.OBFUSCATE.CONFUSE": {
+      "default": "BLOCK"
+    },
+
+    "HARM.DECEIVE.LIE": {
+      "default": "BLOCK"
+    },
+
+    "EXCHANGE.TRANSFER.PAY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].amount as_decimal > tier1_refund_limit_usd",
+          "action": "ESCALATE",
+          "escalation_role": "TIER2_SPECIALIST",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].amount as_decimal > tier2_refund_limit_usd",
+          "action": "ESCALATE",
+          "escalation_role": "SUPERVISOR",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].amount as_decimal > supervisor_refund_limit_usd",
+          "action": "ESCALATE",
+          "escalation_role": "OPERATIONS_DIRECTOR",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "CAPABILITY.RESTRICT": {
+      "default": "ESCALATE",
+      "escalation_role": "TIER2_SPECIALIST",
+      "exceptions": [
+        {
+          "condition": "effects[].target = customer AND action.purpose contains \"account hold\" AND justification.authority_chain[].authority_id matches \"fraud_alert|customer_request\"",
+          "action": "ALLOW",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "CAPABILITY.ENABLE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.purpose contains \"restore access after suspension\" OR action.purpose contains \"unblock\"",
+          "action": "ESCALATE",
+          "escalation_role": "TIER2_SPECIALIST",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "INFO.DISCLOSE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target != customer AND effects[].source contains customer_personal_data",
+          "action": "ESCALATE",
+          "escalation_role": "PRIVACY_OFFICER",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COOPERATE.ASSIST.HELP": {
+      "default": "ALLOW"
+    },
+
+    "COOPERATE.SHARE.GIVE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target = customer AND action.purpose contains \"goodwill\" AND effects[].amount as_decimal > goodwill_credit_limit_usd",
+          "action": "ESCALATE",
+          "escalation_role": "TIER2_SPECIALIST",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "GOVERN.AUTHORITY.OBEY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "action.would_produce verb in [\"HARM.DECEIVE.LIE\", \"COMMUNICATE.OBFUSCATE.CONFUSE\"]",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "SEPARATE.REJECT.DECLINE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "justification.purpose.beneficiary != customer AND context.consent.status != \"EXPLICIT\"",
+          "action": "ESCALATE",
+          "escalation_role": "TIER2_SPECIALIST",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "HARM.DAMAGE.STRIKE": {
+      "default": "BLOCK"
+    },
+
+    "HARM.COERCE.THREATEN": {
+      "default": "BLOCK"
+    }
+  },
+
+  "escalation_chain": [
+    { "role": "TIER2_SPECIALIST", "timeout": "PT3M" },
+    { "role": "HUMAN_AGENT", "timeout": "PT5M" },
+    { "role": "PRIVACY_OFFICER", "timeout": "PT15M" },
+    { "role": "SUPERVISOR", "timeout": "PT15M" },
+    { "role": "OPERATIONS_DIRECTOR", "timeout": "PT2H" }
+  ],
+
+  "fail_safe_mode": "SAFE_STATE",
+  "audit_retention": "P3Y"
+}
