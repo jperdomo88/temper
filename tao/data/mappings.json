@@ -1,0 +1,161 @@
+{
+  "_comment": "Machine-readable encoding of TAO v0.11 Appendix B. REQUIRED: at least one of these effects MUST be present. FORBIDDEN: none of these effects may be present. PERMITTED: these effects MAY be present; a RESOURCE.DAMAGE in PERMITTED requires harm_acknowledged in justification.",
+  "spec_version": "0.11.0",
+  "verbs": {
+    "HARM.DAMAGE.STRIKE": {
+      "required_any_of": ["RESOURCE.DAMAGE", "CAPABILITY.RESTRICT"],
+      "forbidden": ["RESOURCE.TRANSFER"],
+      "permitted": ["INFO.DISCLOSE"],
+      "flagged": true
+    },
+    "HARM.DECEIVE.LIE": {
+      "required_any_of": ["INFO.FABRICATE"],
+      "forbidden": ["INFO.DISCLOSE"],
+      "permitted": ["INFO.WITHHOLD"],
+      "flagged": true
+    },
+    "HARM.COERCE.THREATEN": {
+      "required_any_of": ["CAPABILITY.RESTRICT"],
+      "forbidden": ["RESOURCE.TRANSFER"],
+      "permitted": ["INFO.DISCLOSE"],
+      "flagged": true
+    },
+    "PROTECT.HEAL.TREAT": {
+      "required_any_of": ["RESOURCE.TRANSFER", "CAPABILITY.ENABLE"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": ["RESOURCE.DAMAGE"],
+      "permitted_requires_acknowledged_harm": ["RESOURCE.DAMAGE"]
+    },
+    "PROTECT.DEFEND.SELF": {
+      "required_any_of": ["CAPABILITY.RESTRICT"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": ["RESOURCE.DAMAGE"],
+      "permitted_requires_acknowledged_harm": ["RESOURCE.DAMAGE"]
+    },
+    "PROTECT.DEFEND.OTHER": {
+      "required_any_of": ["CAPABILITY.RESTRICT", "RESOURCE.TRANSFER"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": ["RESOURCE.DAMAGE"],
+      "permitted_requires_acknowledged_harm": ["RESOURCE.DAMAGE"]
+    },
+    "PROTECT.SHIELD.COVER": {
+      "required_any_of": ["CAPABILITY.RESTRICT"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "COOPERATE.ASSIST.HELP": {
+      "required_any_of": ["RESOURCE.TRANSFER", "CAPABILITY.ENABLE"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": ["INFO.DISCLOSE"]
+    },
+    "COOPERATE.COORDINATE.PLAN": {
+      "required_any_of": ["COMMITMENT.MAKE"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": ["INFO.DISCLOSE"]
+    },
+    "COOPERATE.SHARE.GIVE": {
+      "required_any_of": ["RESOURCE.TRANSFER"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": ["INFO.DISCLOSE"]
+    },
+    "GOVERN.AUTHORITY.OBEY": {
+      "required_any_of": ["CAPABILITY.RESTRICT", "RESOURCE.TRANSFER"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "GOVERN.AUTHORITY.DISOBEY": {
+      "required_any_of": [],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": ["INFO.DISCLOSE"]
+    },
+    "GOVERN.REGULATE.ENFORCE": {
+      "required_any_of": ["CAPABILITY.RESTRICT"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": ["RESOURCE.DAMAGE"],
+      "permitted_requires_acknowledged_harm": ["RESOURCE.DAMAGE"]
+    },
+    "EXCHANGE.TRANSFER.PAY": {
+      "required_any_of": ["RESOURCE.TRANSFER"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": ["INFO.DISCLOSE"]
+    },
+    "EXCHANGE.TRADE.BARTER": {
+      "required_any_of": ["RESOURCE.TRANSFER"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": ["INFO.DISCLOSE"]
+    },
+    "EXCHANGE.CORRUPTION.BRIBE": {
+      "required_any_of": ["RESOURCE.TRANSFER"],
+      "forbidden": [],
+      "permitted": ["INFO.WITHHOLD"],
+      "flagged": true
+    },
+    "CREATE.GENERATE.PRODUCE": {
+      "required_any_of": ["RESOURCE.TRANSFER"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "TRANSFORM.MOVE.RELOCATE": {
+      "required_any_of": ["RESOURCE.TRANSFER"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "TRANSFORM.ALTER.MODIFY": {
+      "required_any_of": ["CAPABILITY.ENABLE", "CAPABILITY.RESTRICT", "RESOURCE.TRANSFER"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "COMMUNICATE.INFORM.TELL": {
+      "required_any_of": ["INFO.DISCLOSE"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "COMMUNICATE.PERSUADE.CONVINCE": {
+      "required_any_of": ["INFO.DISCLOSE"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "COMMUNICATE.OBFUSCATE.CONFUSE": {
+      "required_any_of": ["INFO.WITHHOLD", "INFO.FABRICATE"],
+      "forbidden": ["INFO.DISCLOSE"],
+      "permitted": [],
+      "flagged": true
+    },
+    "OBSERVE.SENSE.QUERY": {
+      "required_any_of": ["INFO.DISCLOSE"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "OBSERVE.MONITOR.WATCH": {
+      "required_any_of": ["INFO.DISCLOSE"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "BOND.ATTACH.COMMIT": {
+      "required_any_of": ["COMMITMENT.MAKE"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "BOND.TRUST.RELY": {
+      "required_any_of": ["COMMITMENT.MAKE"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "SEPARATE.DETACH.LEAVE": {
+      "required_any_of": ["COMMITMENT.BREAK"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "SEPARATE.REJECT.DECLINE": {
+      "required_any_of": ["INFO.DISCLOSE"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": []
+    },
+    "RECURSE.VERIFY.AUDIT": {
+      "required_any_of": ["INFO.DISCLOSE"],
+      "forbidden": ["INFO.FABRICATE"],
+      "permitted": [],
+      "flagged": true
+    }
+  }
+}

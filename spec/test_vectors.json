@@ -1,0 +1,736 @@
+{
+  "$schema_version": "0.11.0",
+  "_comment": "Test vectors for TAO v0.11. Conformant validators MUST accept every entry in 'positive', reject every entry in 'negative' for the stated reason, and produce the listed ccd_result for every entry in 'ccd'. Added in v0.11: teleological mismatch class vectors, observer independence vector, mission profile override vectors.",
+
+  "positive": [
+    {
+      "id": "POS-001",
+      "description": "Minimal valid tuple: customer refund.",
+      "tuple": {
+        "tuple_id": "7f3a9c2e-8d4b-4f6a-9c1e-2b3d4e5f6a7b",
+        "schema_version": "0.11.0",
+        "timestamp": "2026-05-16T15:30:00.000Z",
+        "actor": {
+          "entity_id": "support_agent_v3",
+          "entity_type": "AUTONOMOUS_SYSTEM"
+        },
+        "action": {
+          "verb": "EXCHANGE.TRANSFER.PAY",
+          "outcome": "SUCCEEDED",
+          "target_specificity": "INDIVIDUAL",
+          "target_ref": "customer_88241"
+        },
+        "effects": [
+          {
+            "type": "RESOURCE.TRANSFER",
+            "target": "customer_88241",
+            "source": "merchant_account",
+            "amount": "29.99",
+            "unit": "USD",
+            "measurement": {
+              "mode": "OBSERVED",
+              "confidence": "1.0",
+              "sensor_refs": ["payment_processor_log"]
+            }
+          }
+        ],
+        "context": {
+          "environment": {"reality": "DEPLOYMENT", "domain": "RETAIL", "substrate": "DIGITAL"},
+          "consent": {"status": "EXPLICIT", "evidence_ref": "refund_request_551"},
+          "vulnerability": {"level": "NONE"},
+          "projected_impact_scope": "LOCAL",
+          "reversibility": {"level": "REVERSIBLE"},
+          "institutional_role": {"actor_role": "SUPPORT_AGENT", "legitimacy": "VERIFIED"},
+          "temporal": {"urgency": "ROUTINE"}
+        },
+        "provenance": {
+          "adapter_id": "retail_support_adapter",
+          "adapter_version": "1.2.0",
+          "adapter_hash": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+        }
+      }
+    },
+    {
+      "id": "POS-002",
+      "description": "Surgical incision: PROTECT.HEAL.TREAT with permitted RESOURCE.DAMAGE and acknowledged harm.",
+      "tuple": {
+        "tuple_id": "aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee",
+        "schema_version": "0.11.0",
+        "timestamp": "2026-05-16T09:00:00.000Z",
+        "actor": {"entity_id": "surgical_robot_07", "entity_type": "AUTONOMOUS_SYSTEM"},
+        "action": {
+          "verb": "PROTECT.HEAL.TREAT",
+          "outcome": "SUCCEEDED",
+          "target_specificity": "INDIVIDUAL",
+          "target_ref": "patient_4521"
+        },
+        "effects": [
+          {
+            "type": "RESOURCE.TRANSFER",
+            "target": "patient_4521",
+            "source": "surgical_robot_07",
+            "amount": "1.0",
+            "unit": "procedure",
+            "measurement": {"mode": "OBSERVED", "confidence": "0.99", "sensor_refs": ["procedure_log"]}
+          },
+          {
+            "type": "RESOURCE.DAMAGE",
+            "target": "patient_4521",
+            "amount": "0.5",
+            "unit": "cm_incision",
+            "measurement": {"mode": "OBSERVED", "confidence": "0.99", "sensor_refs": ["surgical_camera"]}
+          }
+        ],
+        "context": {
+          "environment": {"reality": "DEPLOYMENT", "domain": "MEDICAL", "substrate": "PHYSICAL"},
+          "consent": {"status": "EXPLICIT", "evidence_ref": "consent_form_4521"},
+          "vulnerability": {"level": "HIGH", "factors": ["anesthesia"]},
+          "projected_impact_scope": "LOCAL",
+          "reversibility": {"level": "COSTLY"},
+          "institutional_role": {"actor_role": "SURGICAL_SYSTEM", "legitimacy": "VERIFIED"},
+          "temporal": {"urgency": "ROUTINE"}
+        },
+        "justification": {
+          "purpose": {"stated_goal": "Remove benign cyst", "beneficiary": "patient_4521"},
+          "authority_chain": [
+            {
+              "authority_id": "dr_lee",
+              "authorization_ref": "approval_2026_0512",
+              "timestamp": "2026-05-12T10:00:00.000Z"
+            }
+          ],
+          "harm_acknowledged": "0.5 cm incision required for cyst access"
+        },
+        "provenance": {
+          "adapter_id": "surgical_adapter",
+          "adapter_version": "3.1.0",
+          "adapter_hash": "sha256:abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789"
+        }
+      }
+    },
+    {
+      "id": "POS-003",
+      "description": "Failed action with empty effects array.",
+      "tuple": {
+        "tuple_id": "bbbbbbbb-cccc-4ddd-9eee-ffffffffffff",
+        "schema_version": "0.11.0",
+        "timestamp": "2026-05-16T12:00:00.000Z",
+        "actor": {"entity_id": "robot_arm_03", "entity_type": "AUTONOMOUS_SYSTEM"},
+        "action": {
+          "verb": "TRANSFORM.MOVE.RELOCATE",
+          "outcome": "FAILED",
+          "target_specificity": "INDIVIDUAL",
+          "target_ref": "component_551"
+        },
+        "effects": [],
+        "context": {
+          "environment": {"reality": "DEPLOYMENT", "domain": "MANUFACTURING", "substrate": "PHYSICAL"},
+          "consent": {"status": "IMPLICIT"},
+          "vulnerability": {"level": "NONE"},
+          "projected_impact_scope": "LOCAL",
+          "reversibility": {"level": "TRIVIAL"},
+          "institutional_role": {"actor_role": "ASSEMBLY_ROBOT", "legitimacy": "VERIFIED"},
+          "temporal": {"urgency": "ROUTINE"}
+        },
+        "provenance": {
+          "adapter_id": "ros2_adapter",
+          "adapter_version": "2.0.0",
+          "adapter_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        }
+      }
+    }
+  ],
+
+  "negative": [
+    {
+      "id": "NEG-001",
+      "description": "Empty effects array with outcome = SUCCEEDED.",
+      "rule_violated": "Tuple-level constraint: SUCCEEDED requires at least one effect.",
+      "tuple": {
+        "tuple_id": "cccccccc-dddd-4eee-9fff-aaaaaaaaaaaa",
+        "schema_version": "0.11.0",
+        "timestamp": "2026-05-16T15:30:00.000Z",
+        "actor": {"entity_id": "agent_x", "entity_type": "AUTONOMOUS_SYSTEM"},
+        "action": {
+          "verb": "EXCHANGE.TRANSFER.PAY",
+          "outcome": "SUCCEEDED",
+          "target_specificity": "INDIVIDUAL",
+          "target_ref": "customer_1"
+        },
+        "effects": [],
+        "context": {
+          "environment": {"reality": "DEPLOYMENT", "domain": "RETAIL", "substrate": "DIGITAL"},
+          "consent": {"status": "EXPLICIT"},
+          "vulnerability": {"level": "NONE"},
+          "projected_impact_scope": "LOCAL",
+          "reversibility": {"level": "REVERSIBLE"},
+          "institutional_role": {"actor_role": "AGENT", "legitimacy": "VERIFIED"},
+          "temporal": {"urgency": "ROUTINE"}
+        },
+        "provenance": {
+          "adapter_id": "x",
+          "adapter_version": "1.0.0",
+          "adapter_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      }
+    },
+    {
+      "id": "NEG-002",
+      "description": "Placeholder target_ref in action.",
+      "rule_violated": "§3.2 target field rejects placeholder values.",
+      "tuple": {
+        "tuple_id": "dddddddd-eeee-4fff-9aaa-bbbbbbbbbbbb",
+        "schema_version": "0.11.0",
+        "timestamp": "2026-05-16T15:30:00.000Z",
+        "actor": {"entity_id": "agent_y", "entity_type": "AUTONOMOUS_SYSTEM"},
+        "action": {
+          "verb": "TRANSFORM.MOVE.RELOCATE",
+          "outcome": "SUCCEEDED",
+          "target_specificity": "INDIVIDUAL",
+          "target_ref": "unknown"
+        },
+        "effects": [
+          {
+            "type": "RESOURCE.TRANSFER",
+            "target": "loc_b",
+            "measurement": {"mode": "OBSERVED", "confidence": "0.95", "sensor_refs": ["s1"]}
+          }
+        ],
+        "context": {
+          "environment": {"reality": "DEPLOYMENT", "domain": "MANUFACTURING", "substrate": "PHYSICAL"},
+          "consent": {"status": "IMPLICIT"},
+          "vulnerability": {"level": "NONE"},
+          "projected_impact_scope": "LOCAL",
+          "reversibility": {"level": "TRIVIAL"},
+          "institutional_role": {"actor_role": "ROBOT", "legitimacy": "VERIFIED"},
+          "temporal": {"urgency": "ROUTINE"}
+        },
+        "provenance": {
+          "adapter_id": "x",
+          "adapter_version": "1.0.0",
+          "adapter_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        }
+      }
+    },
+    {
+      "id": "NEG-003",
+      "description": "Verb PROTECT.HEAL.TREAT with no REQUIRED effect present.",
+      "rule_violated": "§4.6 anti-laundering: REQUIRED effect (RESOURCE.TRANSFER or CAPABILITY.ENABLE) absent.",
+      "tuple": {
+        "tuple_id": "eeeeeeee-ffff-4aaa-9bbb-cccccccccccc",
+        "schema_version": "0.11.0",
+        "timestamp": "2026-05-16T09:00:00.000Z",
+        "actor": {"entity_id": "agent_z", "entity_type": "AUTONOMOUS_SYSTEM"},
+        "action": {
+          "verb": "PROTECT.HEAL.TREAT",
+          "outcome": "SUCCEEDED",
+          "target_specificity": "INDIVIDUAL",
+          "target_ref": "patient_1"
+        },
+        "effects": [
+          {
+            "type": "RESOURCE.DAMAGE",
+            "target": "patient_1",
+            "measurement": {"mode": "OBSERVED", "confidence": "0.95", "sensor_refs": ["s1"]}
+          }
+        ],
+        "context": {
+          "environment": {"reality": "DEPLOYMENT", "domain": "MEDICAL", "substrate": "PHYSICAL"},
+          "consent": {"status": "EXPLICIT"},
+          "vulnerability": {"level": "HIGH"},
+          "projected_impact_scope": "LOCAL",
+          "reversibility": {"level": "COSTLY"},
+          "institutional_role": {"actor_role": "SURGEON", "legitimacy": "VERIFIED"},
+          "temporal": {"urgency": "ROUTINE"}
+        },
+        "justification": {
+          "purpose": {"stated_goal": "Treat patient"},
+          "authority_chain": [
+            {
+              "authority_id": "dr_lee",
+              "authorization_ref": "approval_x",
+              "timestamp": "2026-05-12T10:00:00.000Z"
+            }
+          ],
+          "harm_acknowledged": "incision"
+        },
+        "provenance": {
+          "adapter_id": "x",
+          "adapter_version": "1.0.0",
+          "adapter_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      }
+    },
+    {
+      "id": "NEG-004",
+      "description": "Verb HARM.DAMAGE.STRIKE claimed with a FORBIDDEN benefit-transfer effect to the target.",
+      "rule_violated": "§4.6 anti-laundering: FORBIDDEN effect (RESOURCE.TRANSFER to target) present.",
+      "tuple": {
+        "tuple_id": "ffffffff-aaaa-4bbb-9ccc-dddddddddddd",
+        "schema_version": "0.11.0",
+        "timestamp": "2026-05-16T11:00:00.000Z",
+        "actor": {"entity_id": "agent_w", "entity_type": "AUTONOMOUS_SYSTEM"},
+        "action": {
+          "verb": "HARM.DAMAGE.STRIKE",
+          "outcome": "SUCCEEDED",
+          "target_specificity": "INDIVIDUAL",
+          "target_ref": "target_1"
+        },
+        "effects": [
+          {
+            "type": "RESOURCE.DAMAGE",
+            "target": "target_1",
+            "measurement": {"mode": "OBSERVED", "confidence": "0.95", "sensor_refs": ["s1"]}
+          },
+          {
+            "type": "RESOURCE.TRANSFER",
+            "target": "target_1",
+            "source": "agent_w",
+            "amount": "10",
+            "unit": "USD",
+            "measurement": {"mode": "OBSERVED", "confidence": "1.0", "sensor_refs": ["s2"]}
+          }
+        ],
+        "context": {
+          "environment": {"reality": "DEPLOYMENT", "domain": "TEST", "substrate": "DIGITAL"},
+          "consent": {"status": "ABSENT"},
+          "vulnerability": {"level": "MODERATE"},
+          "projected_impact_scope": "LOCAL",
+          "reversibility": {"level": "REVERSIBLE"},
+          "institutional_role": {"actor_role": "TEST", "legitimacy": "CLAIMED"},
+          "temporal": {"urgency": "ROUTINE"}
+        },
+        "provenance": {
+          "adapter_id": "x",
+          "adapter_version": "1.0.0",
+          "adapter_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        }
+      }
+    },
+    {
+      "id": "NEG-005",
+      "description": "Numeric literal used for amount instead of string decimal.",
+      "rule_violated": "§3.4 numeric encoding: numeric literals not permitted.",
+      "tuple": {
+        "tuple_id": "11111111-2222-4333-9444-555555555555",
+        "schema_version": "0.11.0",
+        "timestamp": "2026-05-16T11:00:00.000Z",
+        "actor": {"entity_id": "agent_v", "entity_type": "AUTONOMOUS_SYSTEM"},
+        "action": {
+          "verb": "EXCHANGE.TRANSFER.PAY",
+          "outcome": "SUCCEEDED",
+          "target_specificity": "INDIVIDUAL",
+          "target_ref": "customer_1"
+        },
+        "effects": [
+          {
+            "type": "RESOURCE.TRANSFER",
+            "target": "customer_1",
+            "source": "merchant",
+            "amount": 29.99,
+            "unit": "USD",
+            "measurement": {"mode": "OBSERVED", "confidence": "1.0", "sensor_refs": ["s1"]}
+          }
+        ],
+        "context": {
+          "environment": {"reality": "DEPLOYMENT", "domain": "RETAIL", "substrate": "DIGITAL"},
+          "consent": {"status": "EXPLICIT"},
+          "vulnerability": {"level": "NONE"},
+          "projected_impact_scope": "LOCAL",
+          "reversibility": {"level": "REVERSIBLE"},
+          "institutional_role": {"actor_role": "AGENT", "legitimacy": "VERIFIED"},
+          "temporal": {"urgency": "ROUTINE"}
+        },
+        "provenance": {
+          "adapter_id": "x",
+          "adapter_version": "1.0.0",
+          "adapter_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+        }
+      }
+    },
+    {
+      "id": "NEG-006",
+      "description": "Timestamp missing Z suffix.",
+      "rule_violated": "§5.4 timestamps: Z suffix required.",
+      "tuple": {
+        "tuple_id": "22222222-3333-4444-9555-666666666666",
+        "schema_version": "0.11.0",
+        "timestamp": "2026-05-16T11:00:00.000+00:00",
+        "actor": {"entity_id": "agent_u", "entity_type": "AUTONOMOUS_SYSTEM"},
+        "action": {
+          "verb": "OBSERVE.SENSE.QUERY",
+          "outcome": "SUCCEEDED",
+          "target_specificity": "INDIVIDUAL",
+          "target_ref": "sensor_array_1"
+        },
+        "effects": [
+          {
+            "type": "INFO.DISCLOSE",
+            "target": "agent_u",
+            "source": "sensor_array_1",
+            "measurement": {"mode": "OBSERVED", "confidence": "0.9", "sensor_refs": ["s1"]}
+          }
+        ],
+        "context": {
+          "environment": {"reality": "DEPLOYMENT", "domain": "GENERAL", "substrate": "DIGITAL"},
+          "consent": {"status": "IMPLICIT"},
+          "vulnerability": {"level": "NONE"},
+          "projected_impact_scope": "LOCAL",
+          "reversibility": {"level": "TRIVIAL"},
+          "institutional_role": {"actor_role": "OBSERVER", "legitimacy": "VERIFIED"},
+          "temporal": {"urgency": "ROUTINE"}
+        },
+        "provenance": {
+          "adapter_id": "x",
+          "adapter_version": "1.0.0",
+          "adapter_hash": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+        }
+      }
+    },
+    {
+      "id": "NEG-007",
+      "description": "OBSERVED effect with no sensor references.",
+      "rule_violated": "§3.3 measurement: OBSERVED requires sensor_refs.",
+      "tuple": {
+        "tuple_id": "33333333-4444-4555-9666-777777777777",
+        "schema_version": "0.11.0",
+        "timestamp": "2026-05-16T11:00:00.000Z",
+        "actor": {"entity_id": "agent_t", "entity_type": "AUTONOMOUS_SYSTEM"},
+        "action": {
+          "verb": "EXCHANGE.TRANSFER.PAY",
+          "outcome": "SUCCEEDED",
+          "target_specificity": "INDIVIDUAL",
+          "target_ref": "customer_1"
+        },
+        "effects": [
+          {
+            "type": "RESOURCE.TRANSFER",
+            "target": "customer_1",
+            "measurement": {"mode": "OBSERVED", "confidence": "0.9"}
+          }
+        ],
+        "context": {
+          "environment": {"reality": "DEPLOYMENT", "domain": "RETAIL", "substrate": "DIGITAL"},
+          "consent": {"status": "EXPLICIT"},
+          "vulnerability": {"level": "NONE"},
+          "projected_impact_scope": "LOCAL",
+          "reversibility": {"level": "REVERSIBLE"},
+          "institutional_role": {"actor_role": "AGENT", "legitimacy": "VERIFIED"},
+          "temporal": {"urgency": "ROUTINE"}
+        },
+        "provenance": {
+          "adapter_id": "x",
+          "adapter_version": "1.0.0",
+          "adapter_hash": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+        }
+      }
+    }
+  ],
+
+  "ccd": [
+    {
+      "id": "CCD-001",
+      "description": "Claim and check agree on a refund. CONSISTENT.",
+      "expected_ccd_result": "CONSISTENT",
+      "claim": {
+        "tuple_id": "claim-1",
+        "action": {"verb": "EXCHANGE.TRANSFER.PAY", "outcome": "SUCCEEDED"},
+        "effects": [
+          {"type": "RESOURCE.TRANSFER", "target": "customer_88241", "amount": "29.99", "unit": "USD"}
+        ],
+        "justification": {
+          "purpose": {"stated_goal": "Refund overcharge", "beneficiary": "customer_88241"}
+        }
+      },
+      "check": {
+        "tuple_id": "check-1",
+        "action": {"verb": "EXCHANGE.TRANSFER.PAY", "outcome": "SUCCEEDED"},
+        "effects": [
+          {"type": "RESOURCE.TRANSFER", "target": "customer_88241", "amount": "29.99", "unit": "USD"}
+        ]
+      }
+    },
+    {
+      "id": "CCD-002",
+      "description": "Claim says PROTECT, check records INFO.DISCLOSE to an external endpoint. INCONSISTENT.",
+      "expected_ccd_result": "INCONSISTENT",
+      "expected_failing_checks": ["SEMANTIC_MECHANICAL", "TELEOLOGICAL"],
+      "claim": {
+        "tuple_id": "claim-2",
+        "action": {"verb": "PROTECT.DEFEND.OTHER", "outcome": "SUCCEEDED"},
+        "effects": [],
+        "justification": {
+          "purpose": {"stated_goal": "Back up critical research data", "beneficiary": "organization"}
+        }
+      },
+      "check": {
+        "tuple_id": "check-2",
+        "action": {"verb": "OBSERVE.MONITOR.WATCH", "outcome": "SUCCEEDED"},
+        "effects": [
+          {
+            "type": "INFO.DISCLOSE",
+            "target": "external_endpoint_unverified",
+            "source": "research_corpus",
+            "measurement": {"mode": "OBSERVED", "confidence": "0.99", "sensor_refs": ["egress_monitor"]}
+          }
+        ]
+      }
+    },
+    {
+      "id": "CCD-003",
+      "description": "Claim references an authority that has no attested record. INCONSISTENT on factual check.",
+      "expected_ccd_result": "INCONSISTENT",
+      "expected_failing_checks": ["FACTUAL"],
+      "claim": {
+        "tuple_id": "claim-3",
+        "action": {"verb": "GOVERN.REGULATE.ENFORCE", "outcome": "SUCCEEDED"},
+        "effects": [
+          {"type": "CAPABILITY.RESTRICT", "target": "user_991"}
+        ],
+        "justification": {
+          "purpose": {"stated_goal": "Enforce policy"},
+          "authority_chain": [
+            {
+              "authority_id": "policy_engine_phantom",
+              "authorization_ref": "nonexistent_ref",
+              "timestamp": "2026-05-15T10:00:00.000Z"
+            }
+          ]
+        }
+      },
+      "check": {
+        "tuple_id": "check-3",
+        "action": {"verb": "GOVERN.REGULATE.ENFORCE", "outcome": "SUCCEEDED"},
+        "effects": [
+          {"type": "CAPABILITY.RESTRICT", "target": "user_991"}
+        ],
+        "_attested_authorities": []
+      }
+    },
+    {
+      "id": "CCD-004",
+      "description": "Check tuple is missing. INDETERMINATE (insufficient information for any check beyond the claim's own validity).",
+      "expected_ccd_result": "INDETERMINATE",
+      "claim": {
+        "tuple_id": "claim-4",
+        "action": {"verb": "OBSERVE.SENSE.QUERY", "outcome": "SUCCEEDED"},
+        "effects": [
+          {"type": "INFO.DISCLOSE", "target": "agent_q", "source": "sensor_1"}
+        ]
+      },
+      "check": null
+    },
+    {
+      "id": "CCD-005",
+      "description": "Teleological mismatch class: MISSING_BENEFICIARY. Claim asserts a beneficiary; observed effects never benefit that party.",
+      "expected_ccd_result": "INCONSISTENT",
+      "expected_teleological_class": "MISSING_BENEFICIARY",
+      "claim": {
+        "tuple_id": "claim-5",
+        "action": {"verb": "COOPERATE.ASSIST.HELP", "outcome": "SUCCEEDED"},
+        "effects": [],
+        "justification": {
+          "purpose": {"stated_goal": "Resolve user's billing issue", "beneficiary": "user_551"}
+        }
+      },
+      "check": {
+        "tuple_id": "check-5",
+        "action": {"verb": "TRANSFORM.ALTER.MODIFY", "outcome": "SUCCEEDED"},
+        "effects": [
+          {
+            "type": "INFO.DISCLOSE",
+            "target": "internal_dashboard",
+            "source": "user_551_account",
+            "measurement": {"mode": "OBSERVED", "confidence": "0.95", "sensor_refs": ["egress_monitor"]}
+          }
+        ]
+      }
+    },
+    {
+      "id": "CCD-006",
+      "description": "Teleological mismatch class: UNACKNOWLEDGED_HARM. Observed RESOURCE.DAMAGE present, justification omits harm_acknowledged.",
+      "expected_ccd_result": "INCONSISTENT",
+      "expected_teleological_class": "UNACKNOWLEDGED_HARM",
+      "claim": {
+        "tuple_id": "claim-6",
+        "action": {"verb": "PROTECT.HEAL.TREAT", "outcome": "SUCCEEDED"},
+        "effects": [
+          {"type": "RESOURCE.TRANSFER", "target": "patient_4521", "source": "treatment_system"}
+        ],
+        "justification": {
+          "purpose": {"stated_goal": "Administer prescribed medication", "beneficiary": "patient_4521"},
+          "authority_chain": [
+            {"authority_id": "dr_lee", "authorization_ref": "rx_9921", "timestamp": "2026-05-12T10:00:00.000Z"}
+          ]
+        }
+      },
+      "check": {
+        "tuple_id": "check-6",
+        "action": {"verb": "PROTECT.HEAL.TREAT", "outcome": "PARTIAL"},
+        "effects": [
+          {"type": "RESOURCE.TRANSFER", "target": "patient_4521", "source": "treatment_system"},
+          {
+            "type": "RESOURCE.DAMAGE",
+            "target": "patient_4521",
+            "amount": "1.0",
+            "unit": "adverse_reaction",
+            "measurement": {"mode": "OBSERVED", "confidence": "0.85", "sensor_refs": ["vitals_monitor"]}
+          }
+        ]
+      }
+    },
+    {
+      "id": "CCD-007",
+      "description": "Teleological mismatch class: AUTHORITY_GOAL_MISMATCH. Authority scope is exceeded by the action.",
+      "expected_ccd_result": "INCONSISTENT",
+      "expected_teleological_class": "AUTHORITY_GOAL_MISMATCH",
+      "claim": {
+        "tuple_id": "claim-7",
+        "action": {"verb": "EXCHANGE.TRANSFER.PAY", "outcome": "SUCCEEDED"},
+        "effects": [
+          {
+            "type": "RESOURCE.TRANSFER",
+            "target": "customer_88241",
+            "source": "merchant_account",
+            "amount": "500.00",
+            "unit": "USD",
+            "measurement": {"mode": "OBSERVED", "confidence": "1.0", "sensor_refs": ["payment_log"]}
+          }
+        ],
+        "justification": {
+          "purpose": {"stated_goal": "Process refund per support policy 5.2"},
+          "authority_chain": [
+            {
+              "authority_id": "support_policy_5_2",
+              "authorization_ref": "refund_up_to_50_usd",
+              "timestamp": "2026-05-01T00:00:00.000Z"
+            }
+          ]
+        }
+      },
+      "check": {
+        "tuple_id": "check-7",
+        "action": {"verb": "EXCHANGE.TRANSFER.PAY", "outcome": "SUCCEEDED"},
+        "effects": [
+          {
+            "type": "RESOURCE.TRANSFER",
+            "target": "customer_88241",
+            "source": "merchant_account",
+            "amount": "500.00",
+            "unit": "USD",
+            "measurement": {"mode": "OBSERVED", "confidence": "1.0", "sensor_refs": ["payment_log_observer"]}
+          }
+        ],
+        "_attested_authorities": [
+          {
+            "authority_id": "support_policy_5_2",
+            "authorization_scope": {"verb": "EXCHANGE.TRANSFER.PAY", "amount_max": "50.00", "unit": "USD"}
+          }
+        ]
+      }
+    },
+    {
+      "id": "CCD-008",
+      "description": "Observer independence is too weak (SAME_PROCESS) for TAO-Attested CCD citation. CCD output still produced, but conformance citation must be rejected.",
+      "expected_ccd_result": "CONSISTENT",
+      "expected_observer_independence_level": "SAME_PROCESS",
+      "expected_attested_citation_valid": false,
+      "claim": {
+        "tuple_id": "claim-8",
+        "action": {"verb": "EXCHANGE.TRANSFER.PAY", "outcome": "SUCCEEDED"},
+        "effects": [
+          {"type": "RESOURCE.TRANSFER", "target": "customer_1", "amount": "10.00", "unit": "USD"}
+        ]
+      },
+      "check": {
+        "tuple_id": "check-8",
+        "action": {"verb": "EXCHANGE.TRANSFER.PAY", "outcome": "SUCCEEDED"},
+        "effects": [
+          {"type": "RESOURCE.TRANSFER", "target": "customer_1", "amount": "10.00", "unit": "USD"}
+        ],
+        "provenance": {"observer_independence_level": "SAME_PROCESS"}
+      }
+    }
+  ],
+
+  "profile_overrides": [
+    {
+      "id": "PROFILE-001",
+      "description": "Weakening override that removes a FORBIDDEN effect without weakening flag. Validator MUST emit a deviation report and MUST flag the override as malformed.",
+      "expected_validation_result": "REJECTED",
+      "rule_violated": "§7.3 override discipline: removing a FORBIDDEN effect requires weakening: true and weakening_rationale.",
+      "profile_fragment": {
+        "mapping_overrides": {
+          "HARM.DECEIVE.LIE": {
+            "required_any_of": ["INFO.FABRICATE"],
+            "forbidden": [],
+            "permitted": ["INFO.WITHHOLD", "INFO.DISCLOSE"]
+          }
+        },
+        "mapping_diff": {
+          "HARM.DECEIVE.LIE": {
+            "added_required": [],
+            "removed_required": [],
+            "added_forbidden": [],
+            "removed_forbidden": ["INFO.DISCLOSE"],
+            "added_permitted": ["INFO.DISCLOSE"],
+            "removed_permitted": [],
+            "weakening": false
+          }
+        }
+      }
+    },
+    {
+      "id": "PROFILE-002",
+      "description": "Same weakening override but properly flagged. Validator MUST accept and emit a deviation report.",
+      "expected_validation_result": "ACCEPTED_WITH_DEVIATION_REPORT",
+      "profile_fragment": {
+        "mapping_overrides": {
+          "HARM.DECEIVE.LIE": {
+            "required_any_of": ["INFO.FABRICATE"],
+            "forbidden": [],
+            "permitted": ["INFO.WITHHOLD", "INFO.DISCLOSE"]
+          }
+        },
+        "mapping_diff": {
+          "HARM.DECEIVE.LIE": {
+            "added_required": [],
+            "removed_required": [],
+            "added_forbidden": [],
+            "removed_forbidden": ["INFO.DISCLOSE"],
+            "added_permitted": ["INFO.DISCLOSE"],
+            "removed_permitted": [],
+            "weakening": true,
+            "weakening_rationale": "Profile permits a partial truth alongside a fabrication for narrative coherence in a debate-training deployment; not for production use."
+          }
+        }
+      }
+    },
+    {
+      "id": "PROFILE-003",
+      "description": "Override that removes a REQUIRED effect from PROTECT.HEAL.TREAT. Weakening flag required.",
+      "expected_validation_result": "REJECTED",
+      "rule_violated": "§7.3: removing a REQUIRED effect is weakening; flag and rationale required.",
+      "profile_fragment": {
+        "mapping_overrides": {
+          "PROTECT.HEAL.TREAT": {
+            "required_any_of": ["CAPABILITY.ENABLE"],
+            "forbidden": ["INFO.FABRICATE"],
+            "permitted": ["RESOURCE.DAMAGE"]
+          }
+        },
+        "mapping_diff": {
+          "PROTECT.HEAL.TREAT": {
+            "added_required": [],
+            "removed_required": ["RESOURCE.TRANSFER"],
+            "added_forbidden": [],
+            "removed_forbidden": [],
+            "added_permitted": [],
+            "removed_permitted": [],
+            "weakening": false
+          }
+        }
+      }
+    }
+  ]
+}

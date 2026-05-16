@@ -1,0 +1,373 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tao-spec.org/schemas/0.11.0/tao_tuple.schema.json",
+  "title": "TAO Tuple",
+  "description": "Structural schema for a TAO v0.11 action tuple. Semantic-mechanical mapping (REQUIRED/FORBIDDEN/PERMITTED), justification requirements, and Mission Profile override discipline are enforced by the reference validator (see spec §4.6, §5.6, §7.3, §8.4), not by this schema.",
+  "type": "object",
+
+  "required": [
+    "tuple_id",
+    "schema_version",
+    "timestamp",
+    "actor",
+    "action",
+    "effects",
+    "context",
+    "provenance"
+  ],
+
+  "properties": {
+    "tuple_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID v4."
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3,}Z$",
+      "description": "ISO 8601 UTC with mandatory Z suffix and millisecond precision."
+    },
+
+    "actor": {
+      "type": "object",
+      "required": ["entity_id", "entity_type"],
+      "properties": {
+        "entity_id": { "type": "string", "minLength": 1 },
+        "entity_type": {
+          "type": "string",
+          "enum": ["AUTONOMOUS_SYSTEM", "HUMAN", "HYBRID", "INSTITUTIONAL"]
+        },
+        "principal_chain": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+
+    "action": {
+      "type": "object",
+      "required": ["verb", "outcome", "target_specificity", "target_ref"],
+      "properties": {
+        "verb": {
+          "type": "string",
+          "pattern": "^(MVS-EXT:[A-Z][A-Z0-9_]*:)?[A-Z]+\\.[A-Z]+\\.[A-Z]+$",
+          "description": "FAMILY.GENUS.SPECIES, optionally prefixed with MVS-EXT:NAMESPACE:."
+        },
+        "outcome": {
+          "type": "string",
+          "enum": ["SUCCEEDED", "FAILED", "PARTIAL"]
+        },
+        "target_specificity": {
+          "type": "string",
+          "enum": ["INDIVIDUAL", "GROUP", "CLASS", "UNBOUND"]
+        },
+        "target_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Non-empty entity identifier. The reference validator additionally rejects case-insensitive placeholder values (unspecified, unknown, undefined, null, none, n/a, tbd, todo, placeholder); see spec §3.2."
+        }
+      }
+    },
+
+    "effects": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/effect" },
+      "description": "MAY be empty only when action.outcome = 'FAILED'."
+    },
+
+    "context": { "$ref": "#/$defs/context" },
+
+    "justification": { "$ref": "#/$defs/justification" },
+
+    "provenance": {
+      "type": "object",
+      "required": ["adapter_id", "adapter_version", "adapter_hash"],
+      "properties": {
+        "adapter_id": { "type": "string", "minLength": 1 },
+        "adapter_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "adapter_hash": { "type": "string", "pattern": "^sha256:[0-9a-fA-F]{64}$" },
+        "context_signature": { "type": "string" },
+        "sensor_attestation_refs": { "type": "array", "items": { "type": "string" } },
+        "profile_hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-fA-F]{64}$",
+          "description": "SHA-256 of the Mission Profile in force at emission time. Required for TAO-Attested."
+        },
+        "observer_independence_level": {
+          "type": "string",
+          "enum": [
+            "SAME_PROCESS",
+            "SIDECAR",
+            "PRIVILEGE_ISOLATED",
+            "HARDWARE_ISOLATED",
+            "INSTITUTIONALLY_INDEPENDENT"
+          ],
+          "description": "Independence level (§6.5) at which any paired check tuple is generated. PRIVILEGE_ISOLATED or higher required for TAO-Attested CCD citations."
+        }
+      }
+    },
+
+    "tuple_signature": {
+      "type": "string",
+      "description": "Required for TAO-Attested."
+    },
+
+    "revision_of": { "type": "string", "format": "uuid" },
+    "revision_reason": {
+      "type": "string",
+      "enum": ["ADJUDICATION", "CORRECTION", "DISPUTE_RESOLUTION"]
+    },
+    "revision_authority": { "type": "string" },
+    "revision_timestamp": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3,}Z$"
+    }
+  },
+
+  "allOf": [
+    {
+      "description": "Empty effects array requires outcome = FAILED.",
+      "if": {
+        "properties": { "effects": { "maxItems": 0 } }
+      },
+      "then": {
+        "properties": {
+          "action": {
+            "properties": {
+              "outcome": { "const": "FAILED" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "Revisions must carry reason and authority.",
+      "if": { "required": ["revision_of"] },
+      "then": { "required": ["revision_reason", "revision_authority", "revision_timestamp"] }
+    }
+  ],
+
+  "additionalProperties": false,
+
+  "$defs": {
+    "effect": {
+      "type": "object",
+      "required": ["type", "target", "measurement"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "RESOURCE.TRANSFER",
+            "RESOURCE.DAMAGE",
+            "CAPABILITY.RESTRICT",
+            "CAPABILITY.ENABLE",
+            "INFO.DISCLOSE",
+            "INFO.WITHHOLD",
+            "INFO.FABRICATE",
+            "COMMITMENT.MAKE",
+            "COMMITMENT.BREAK"
+          ]
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Non-empty entity identifier. The reference validator additionally rejects case-insensitive placeholder values; see spec §3.2."
+        },
+        "source": { "type": "string", "minLength": 1 },
+        "amount": {
+          "type": "string",
+          "pattern": "^-?\\d+(\\.\\d+)?$",
+          "description": "String decimal. Numeric JSON literals are not permitted."
+        },
+        "unit": { "type": "string", "minLength": 1 },
+        "measurement": { "$ref": "#/$defs/measurement" }
+      },
+      "additionalProperties": false
+    },
+
+    "measurement": {
+      "type": "object",
+      "required": ["mode", "confidence"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["OBSERVED", "INFERRED"]
+        },
+        "confidence": {
+          "type": "string",
+          "pattern": "^(0(\\.\\d+)?|1(\\.0+)?)$",
+          "description": "String decimal in [0.0, 1.0]."
+        },
+        "sensor_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "adjudication_status": {
+          "type": "string",
+          "enum": ["PENDING", "CONFIRMED", "DISPUTED"]
+        }
+      },
+      "allOf": [
+        {
+          "description": "OBSERVED effects require at least one sensor reference.",
+          "if": { "properties": { "mode": { "const": "OBSERVED" } } },
+          "then": {
+            "required": ["sensor_refs"],
+            "properties": { "sensor_refs": { "minItems": 1 } }
+          }
+        },
+        {
+          "description": "INFERRED effects require an adjudication status.",
+          "if": { "properties": { "mode": { "const": "INFERRED" } } },
+          "then": { "required": ["adjudication_status"] }
+        }
+      ],
+      "additionalProperties": false
+    },
+
+    "context": {
+      "type": "object",
+      "required": [
+        "environment",
+        "consent",
+        "vulnerability",
+        "projected_impact_scope",
+        "reversibility",
+        "institutional_role",
+        "temporal"
+      ],
+      "properties": {
+        "environment": {
+          "type": "object",
+          "required": ["reality", "domain", "substrate"],
+          "properties": {
+            "reality": { "type": "string", "enum": ["TRAINING", "EVALUATION", "DEPLOYMENT"] },
+            "domain": { "type": "string", "minLength": 1 },
+            "substrate": { "type": "string", "enum": ["PHYSICAL", "DIGITAL", "MIXED"] }
+          }
+        },
+        "consent": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["EXPLICIT", "IMPLICIT", "ABSENT", "COERCED", "UNKNOWN"]
+            },
+            "evidence_ref": { "type": "string" }
+          }
+        },
+        "power_differential": {
+          "type": "object",
+          "properties": {
+            "actor_position": {
+              "type": "string",
+              "enum": ["AUTHORITY", "PEER", "SUBORDINATE", "UNKNOWN"]
+            },
+            "magnitude": {
+              "type": "string",
+              "enum": ["NONE", "MINOR", "SIGNIFICANT", "EXTREME", "UNKNOWN"]
+            }
+          }
+        },
+        "vulnerability": {
+          "type": "object",
+          "required": ["level"],
+          "properties": {
+            "level": {
+              "type": "string",
+              "enum": ["NONE", "LOW", "MODERATE", "HIGH", "CRITICAL", "UNKNOWN"]
+            },
+            "factors": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "projected_impact_scope": {
+          "type": "string",
+          "enum": ["LOCAL", "REGIONAL", "GLOBAL", "EXISTENTIAL"]
+        },
+        "reversibility": {
+          "type": "object",
+          "required": ["level"],
+          "properties": {
+            "level": {
+              "type": "string",
+              "enum": ["TRIVIAL", "REVERSIBLE", "COSTLY", "IRREVERSIBLE", "UNKNOWN"]
+            },
+            "cost_estimate": { "type": "string", "pattern": "^-?\\d+(\\.\\d+)?$" },
+            "time_estimate": {
+              "type": "string",
+              "description": "ISO 8601 duration."
+            }
+          }
+        },
+        "institutional_role": {
+          "type": "object",
+          "required": ["actor_role", "legitimacy"],
+          "properties": {
+            "actor_role": { "type": "string", "minLength": 1 },
+            "legitimacy": {
+              "type": "string",
+              "enum": ["VERIFIED", "CLAIMED", "AMBIGUOUS", "ILLEGITIMATE"]
+            }
+          }
+        },
+        "temporal": {
+          "type": "object",
+          "required": ["urgency"],
+          "properties": {
+            "urgency": {
+              "type": "string",
+              "enum": ["ROUTINE", "ELEVATED", "URGENT", "EMERGENCY", "UNKNOWN"]
+            }
+          }
+        }
+      }
+    },
+
+    "justification": {
+      "type": "object",
+      "required": ["purpose", "authority_chain"],
+      "properties": {
+        "purpose": {
+          "type": "object",
+          "required": ["stated_goal"],
+          "properties": {
+            "stated_goal": { "type": "string", "minLength": 1 },
+            "expected_outcome": { "type": "string" },
+            "beneficiary": { "type": "string" }
+          }
+        },
+        "authority_chain": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["authority_id", "authorization_ref", "timestamp"],
+            "properties": {
+              "authority_id": { "type": "string", "minLength": 1 },
+              "authorization_ref": { "type": "string", "minLength": 1 },
+              "timestamp": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3,}Z$"
+              }
+            }
+          }
+        },
+        "harm_acknowledged": { "type": "string" },
+        "rules_claimed": { "type": "array", "items": { "type": "string" } },
+        "proportionality": {
+          "type": "object",
+          "properties": {
+            "benefit_claimed": { "type": "string" },
+            "alternatives_considered": { "type": "array", "items": { "type": "string" } },
+            "why_this_action": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
