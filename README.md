@@ -24,6 +24,7 @@ An agent reports it was drafting release notes. The trace records a read from a 
 | `spec/tao_tuple.schema.json` | JSON Schema for the action tuple. |
 | `spec/tao_mission_profile.schema.json` | JSON Schema for Mission Profiles. |
 | `spec/test_vectors.json` | 21 conformance test vectors (positive, negative, CCD, profile override). |
+| `spec/mission_profiles/` | **Mission Profile templates** for specific domains. Currently: `code_agent.json` + companion explanation. Draft starting points pending industry validation. |
 | `tao/` | Reference validator (Python). |
 
 ## Quick start

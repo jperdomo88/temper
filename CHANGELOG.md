@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project versioning is consistent across the spec and the reference
 implementation: the validator version tracks the spec version it implements.
 
+## [0.11.2] — 2026-05-16
+
+Adds the first Mission Profile template — a deployable code-agent profile —
+and the directory structure for future profiles.
+
+- **`spec/mission_profiles/code_agent.json`** — schema-valid Mission Profile
+  template for code agents (Claude Code, Cursor, Cline, Aider, GitHub
+  Copilot Workspace, Continue, Devin, etc.). 18 verb overrides, 18 exception
+  rules, 4-tier escalation chain, FAIL_CLOSED fail-safe, 1-year audit
+  retention. The `authority` block is intentionally omitted; deployers sign
+  before deploying.
+- **`spec/mission_profiles/code_agent.md`** — human-readable companion
+  walking verb-by-verb through every choice. Names three concrete failure
+  modes the profile targets: exfiltration via tool composition, silent
+  CI/credential modification, deceptive task framing.
+- **`spec/mission_profiles/README.md`** — directory index with the
+  "draft starting points pending industry validation" framing. Explicit
+  about what these templates are and are not.
+
+The profile reflects threats common in tool-using code agents today. It is
+published as a working draft inviting platform engineers, security leads,
+and AI-product teams to push back, refine, and contribute additional
+profiles for their domains. The companion `.md` ends with five open
+questions whose answers most usefully shape v0.2.
+
+No spec changes. Tuple format, vocabulary, mapping rules, CCD pipeline,
+and validator behavior are unchanged from 0.11.0.
+
 ## [0.11.1] — 2026-05-16
 
 Adds the first end-to-end integration adapter so a developer can wire TAO into

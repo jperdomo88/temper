@@ -1,0 +1,210 @@
+{
+  "profile_name": "TAO Reference Profile — Code Agent (Draft)",
+  "profile_version": "0.1.0",
+  "profile_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "effective_date": "2026-05-16T00:00:00.000Z",
+
+  "verb_overrides": {
+    "OBSERVE.SENSE.QUERY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target contains_any [\"secrets\", \"credentials\", \"id_rsa\", \"id_ed25519\", \".env\", \"aws_access_key\", \"private_key\", \"token\"]",
+          "action": "ESCALATE",
+          "escalation_role": "SECURITY_ENGINEER",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].source starts_with \"/etc/\" OR effects[].source starts_with \"/var/secrets/\" OR effects[].source starts_with \"~/.ssh/\" OR effects[].source starts_with \"~/.aws/\"",
+          "action": "ESCALATE",
+          "escalation_role": "SECURITY_ENGINEER",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].source not_within working_directory",
+          "action": "ESCALATE",
+          "escalation_role": "DEVELOPER",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "TRANSFORM.ALTER.MODIFY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target starts_with \".github/workflows/\" OR effects[].target ends_with \"Dockerfile\" OR effects[].target starts_with \".circleci/\" OR effects[].target ends_with \".gitlab-ci.yml\"",
+          "action": "ESCALATE",
+          "escalation_role": "TECH_LEAD",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].target matches \".env(\\..*)?$\" OR effects[].target ends_with \"id_rsa\" OR effects[].target contains \"credentials\"",
+          "action": "BLOCK"
+        },
+        {
+          "condition": "effects[].target starts_with \"/etc/\" OR effects[].target starts_with \"/usr/local/\" OR effects[].target not_within working_directory",
+          "action": "ESCALATE",
+          "escalation_role": "DEVELOPER",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "CREATE.GENERATE.PRODUCE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target ends_with \".env\" OR effects[].target contains \"credentials\" OR effects[].target ends_with \"id_rsa\"",
+          "action": "ESCALATE",
+          "escalation_role": "SECURITY_ENGINEER",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].target starts_with \".github/workflows/\" OR effects[].target starts_with \".circleci/\"",
+          "action": "ESCALATE",
+          "escalation_role": "TECH_LEAD",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "TRANSFORM.MOVE.RELOCATE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target not_within working_directory",
+          "action": "ESCALATE",
+          "escalation_role": "DEVELOPER",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COMMUNICATE.INFORM.TELL": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target matches \"^https?://\" AND effects[].target not_matches_allowlist external_endpoints",
+          "action": "ESCALATE",
+          "escalation_role": "SECURITY_ENGINEER",
+          "justification_required": true
+        },
+        {
+          "condition": "effects[].target contains \"external_endpoint_unverified\" OR effects[].target contains \"unverified\"",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "COMMUNICATE.PERSUADE.CONVINCE": {
+      "default": "ALLOW"
+    },
+
+    "COMMUNICATE.OBFUSCATE.CONFUSE": {
+      "default": "BLOCK"
+    },
+
+    "HARM.DECEIVE.LIE": {
+      "default": "BLOCK"
+    },
+
+    "HARM.DAMAGE.STRIKE": {
+      "default": "BLOCK",
+      "exceptions": [
+        {
+          "condition": "effects[].type = \"RESOURCE.DAMAGE\" AND effects[].target within working_directory AND justification.harm_acknowledged present AND justification.authority_chain[].authority_id = \"USER\"",
+          "action": "ALLOW",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "HARM.COERCE.THREATEN": {
+      "default": "BLOCK"
+    },
+
+    "EXCHANGE.CORRUPTION.BRIBE": {
+      "default": "BLOCK"
+    },
+
+    "EXCHANGE.TRANSFER.PAY": {
+      "default": "BLOCK",
+      "exceptions": [
+        {
+          "condition": "actor.principal_chain contains \"billing_authority_granted\"",
+          "action": "ESCALATE",
+          "escalation_role": "TECH_LEAD",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "RECURSE.VERIFY.AUDIT": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target = self AND action.purpose contains \"modify\" OR action.purpose contains \"override\"",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "GOVERN.AUTHORITY.OBEY": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "justification.authority_chain[].authority_id not in attested_authorities",
+          "action": "ESCALATE",
+          "escalation_role": "DEVELOPER",
+          "justification_required": true
+        },
+        {
+          "condition": "action.outcome would_produce verb in [\"HARM.DAMAGE.STRIKE\", \"HARM.DECEIVE.LIE\", \"EXCHANGE.CORRUPTION.BRIBE\"]",
+          "action": "BLOCK"
+        }
+      ]
+    },
+
+    "GOVERN.AUTHORITY.DISOBEY": {
+      "default": "LOG",
+      "exceptions": [
+        {
+          "condition": "justification.purpose.stated_goal contains \"refuse unsafe instruction\"",
+          "action": "ALLOW",
+          "justification_required": true
+        }
+      ]
+    },
+
+    "COOPERATE.ASSIST.HELP": {
+      "default": "ALLOW"
+    },
+
+    "COOPERATE.COORDINATE.PLAN": {
+      "default": "ALLOW"
+    },
+
+    "COOPERATE.SHARE.GIVE": {
+      "default": "ALLOW",
+      "exceptions": [
+        {
+          "condition": "effects[].target not_in trusted_parties_allowlist",
+          "action": "ESCALATE",
+          "escalation_role": "SECURITY_ENGINEER",
+          "justification_required": true
+        }
+      ]
+    }
+  },
+
+  "escalation_chain": [
+    { "role": "DEVELOPER", "timeout": "PT5M" },
+    { "role": "TECH_LEAD", "timeout": "PT30M" },
+    { "role": "SECURITY_ENGINEER", "timeout": "PT2H" },
+    { "role": "ENGINEERING_DIRECTOR", "timeout": "PT8H" }
+  ],
+
+  "fail_safe_mode": "FAIL_CLOSED",
+  "audit_retention": "P1Y"
+}
