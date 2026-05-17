@@ -18,7 +18,7 @@ The five teleological mismatch classes (`DIRECT_CONTRADICTION`, `MISSING_BENEFIC
 
 ### 2. A semantic vocabulary that compresses agent action
 
-29 verbs in 12 families, each with REQUIRED, FORBIDDEN, and PERMITTED mechanical-effect mappings. This is the closest thing in current practice to a controlled vocabulary for agent behavior. It's tractable enough to learn, expressive enough to cover the common deployment surfaces, and standardized across deployments. Comparative analysis ("how often does the customer-service agent escalate vs. the financial-advisor agent escalate?") is in-schema.
+29 verbs in 12 families, each with REQUIRED, FORBIDDEN, and PERMITTED mechanical-effect mappings. This is a proposed compact controlled vocabulary for deployed agent actions, designed to be paired with observed mechanical effects. It's tractable enough to learn, expressive enough to cover the common deployment surfaces, and standardized across deployments. Adjacent literature on action ontologies, behavior trees, and capability taxonomies covers some of the same ground; TAO's contribution is the pairing of vocabulary with required/forbidden/permitted effects under a Claim-Check Delta, not the vocabulary alone. Comparative analysis ("how often does the customer-service agent escalate vs. the financial-advisor agent escalate?") is in-schema.
 
 ### 3. Observer-independence as a structured property
 

@@ -23,6 +23,8 @@ The point is not to say "the AI did the right thing." The point is to give your 
 
 You don't replace your existing HIPAA controls, your audit log, your access controls, or your medical-staff bylaws. The TAO substrate emits structured records that flow into your existing audit pipeline. PHI handling sits inside your existing boundaries; the tuple schema is designed to reference patient identifiers, not embed clinical content.
 
+That said, TAO logs themselves may be regulated records depending on your deployment — they reference patient encounters, agent actions taken in clinical context, and authority chains naming clinical roles. Treat them under your existing access controls, retention requirements, and audit-log integrity protections. "No PHI in the message body" is not the same as "outside the regulated boundary."
+
 You don't need vendor lock-in. The spec is open. Multiple vendors (or your in-house engineering team) can emit conformant tuples. Auditors don't need a vendor's tooling — they can read the schema.
 
 ## What changes for your role

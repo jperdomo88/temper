@@ -447,6 +447,27 @@ TAO-Attested REQUIRES observer independence at level `PRIVILEGE_ISOLATED` or hig
 
 This section names a property of the operator's deployment that no schema can enforce. A deployment that emits TAO-Attested tuples while running its "independent observer" inside the agent's own container is non-conformant in fact; the spec gives auditors the vocabulary to say so.
 
+### 6.6 Observation coverage [MUST]
+
+Independence is a property of *where* the observer runs. Coverage is a property of *what the observer can see*. An observer can be `PRIVILEGE_ISOLATED` from the agent and still blind to most of the agent's effect channels: a sidecar that watches only the agent's wrapper-level tool returns is independent and uninformative. A check tuple from such an observer corroborates only the slice of behavior the observer was wired to watch.
+
+A check tuple MUST declare its observation coverage in the `provenance.coverage` object. The declaration names the channels the observer watches and, equally importantly, the channels it does not. A reviewer reading a CCD result cannot judge what the consistency or inconsistency means without knowing what was actually observed.
+
+The `coverage` object has the following fields:
+
+| Field | Type | Meaning |
+|---|---|---|
+| `channels_observed` | array of strings | Channels the observer watches. Recommended channel names: `tool_call_args`, `tool_call_return`, `network_egress`, `filesystem_mutation`, `process_spawn`, `ipc_send`, `ipc_receive`, `clipboard`, `browser_dom`, `database_write`, `database_read`, `api_call_params`, `wrapper_level_events`. Deployments MAY add domain-specific channel names. |
+| `channels_not_observed` | array of strings | Channels the observer explicitly does not watch. An empty array asserts the observer claims coverage of all known channels for the deployment's substrate; a non-empty array names the gaps. |
+| `observation_point` | string | One of `PRE_ACTION` (observed the agent's intent before the action ran), `IN_FLIGHT` (observed during execution; can interrupt), `POST_ACTION` (observed after effects landed; cannot interrupt), `WRAPPER_ONLY` (observed only the adapter's reported call, not the underlying effect). |
+| `blocked_attempts_visible` | boolean | Whether the observer sees actions the agent attempted but the platform blocked, or only completed effects. |
+
+Conformance statements MUST disclose the coverage declarations of the observers their CCD checks rely on. Coverage at independence level `PRIVILEGE_ISOLATED` or higher with `channels_not_observed` listing the high-cost effect channels (e.g., a financial agent's coverage that explicitly does not watch `network_egress`) is not a stronger evidentiary substrate than `SIDECAR` independence with full coverage. Reviewers MUST weigh both axes.
+
+A check tuple that does not declare coverage MUST be treated as `WRAPPER_ONLY` with `channels_not_observed` unbounded. CCD output produced from such a tuple is permitted but cannot be cited in a TAO-Attested conformance statement.
+
+The intent of this section is to remove a procurement gaming surface: a vendor that runs a perfectly isolated observer watching only the surfaces the vendor chose to expose is technically independent and substantively uninformative. Coverage declarations make that gap visible.
+
 ---
 
 ## 7. Mission Profiles

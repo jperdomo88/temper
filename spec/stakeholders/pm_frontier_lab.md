@@ -8,7 +8,9 @@ No — and it makes a class of post-launch incidents that *would* slow you down 
 
 ## What it costs you to integrate
 
-The minimum integration is a decorator on the tool calls your agent already makes:
+The minimum integration is a decorator on the tool calls your agent already makes. To be clear about what this gives you: it produces structured claim records of what the agent says it did. That's TAO-Log (see the adoption playbook's tier table). It is not yet audit-grade, because the adapter runs inside the agent. Audit-grade requires an independent observer (TAO-Check), which is a larger but well-defined piece of work — see `spec/ADOPTION_PLAYBOOK.md`.
+
+The decorator itself:
 
 ```python
 from tao.adapters import tao_emit
@@ -18,9 +20,9 @@ def send_message(to, body):
     ...
 ```
 
-The decorator emits one JSON object per tool call to a sink you configure (stdout, a file, an HTTP endpoint, your existing log pipeline). No new dependencies on the inference path. No latency on the hot path beyond a single JSON serialization. Your agent's behavior is unchanged.
+The decorator emits one JSON object per tool call to a sink you configure (stdout, a file, an HTTP endpoint, your existing log pipeline). No new dependencies on the inference path. The hot-path cost is a single JSON serialization per emit. Your agent's behavior is unchanged.
 
-The richer integration — adding an independent observer (sidecar process), enabling claim-vs-check comparison (CCD), and wiring Mission Profile decisions back into the agent's effect surface — is opt-in and incremental. Most teams start with the decorator-only path, accumulate audit trail for a release cycle, and graduate to CCD when an incident makes the case.
+The richer integrations — adding an independent observer (TAO-Check), wiring Mission Profile decisions back into the agent's effect surface (TAO-Governed) — are incremental and well-defined. The right sequencing is: ship TAO-Log, run it in shadow mode for two sprints to characterize your effect surface, then add observer coverage on the highest-cost effect family (network egress for a code agent, payments for a browser agent, message sends for a customer-support agent). Don't wait for an incident — incidents are how you discover that the observer surface you skipped was the one that mattered.
 
 ## What it gives you that you don't have today
 

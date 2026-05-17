@@ -12,15 +12,17 @@ The following are starting points, not legal advice. Engage counsel to adapt the
 
 ### 1. Logging conformance
 
-> Provider shall emit, for every action taken by the AI agent in the course of the Service, a record conforming to the TAO v0.11 tuple schema (or a successor version mutually agreed). Records shall be delivered to a logging endpoint designated by Customer, in near-real-time, no later than 60 seconds after the action.
+> "Covered Action" means any tool call, external communication, data access, resource transfer, commitment creation, account modification, message send, or other action class enumerated in **Exhibit A — Covered Action Surface**.
+>
+> Provider shall emit, for every Covered Action taken by the AI agent in the course of the Service, a record conforming to the TAO v0.12 tuple schema (or a successor version mutually agreed). Records shall be delivered to a logging endpoint designated by Customer, in near-real-time, no later than 60 seconds after the Covered Action.
 
-This makes the audit trail Customer-controlled, not Provider-controlled. The record is in a schema the regulator can read directly.
+This makes the audit trail Customer-controlled, not Provider-controlled. The record is in a schema the regulator can read directly. The Covered Action surface is negotiated explicitly rather than left as "every action" — without that scoping, vendors will either reject the clause or comply by flooding logs with no-ops.
 
-### 2. Observer independence
+### 2. Observer independence AND coverage
 
-> Provider shall declare the observer-independence level of the recording mechanism (one of SAME_PROCESS, SIDECAR, PRIVILEGE_ISOLATED, HARDWARE_ISOLATED, INSTITUTIONALLY_INDEPENDENT) and shall not downgrade that level without 30 days written notice.
+> Provider shall declare (a) the observer-independence level of the recording mechanism (one of SAME_PROCESS, SIDECAR, PRIVILEGE_ISOLATED, HARDWARE_ISOLATED, INSTITUTIONALLY_INDEPENDENT) and (b) the observer's coverage declaration per TAO v0.11 §6.6, naming the channels observed, the channels explicitly not observed, the observation point, and whether blocked attempts are visible. Provider shall not downgrade either property without 30 days written notice.
 
-The independence level is the substrate's first-class quality signal. SAME_PROCESS is weak (a compromised agent can suppress records); PRIVILEGE_ISOLATED is the typical floor for production deployments. Forcing a declaration prevents quiet drift.
+Independence and coverage are distinct properties. Independence is where the observer runs; coverage is what it can see. A `PRIVILEGE_ISOLATED` observer that only watches wrapper-level tool returns is technically isolated and substantively uninformative. Forcing both declarations prevents the procurement-gaming pattern where a vendor satisfies the independence clause while quietly excluding the channels that matter.
 
 ### 3. Claim-check delta (where the agent's surface is wide)
 

@@ -1,8 +1,10 @@
 # Worked CCD scenarios
 
-Eight concrete claim/check pairs across domains, each illustrating one or more failure modes the Claim-Check Delta catches. Every scenario shows the full audit chain: the agent's claim tuple, the independent observer's check tuple, the CCD output, the Mission Profile decision, what gets appended to the audit log, and what a reviewer six months later sees.
+Concrete claim/check pairs across domains, each illustrating one or more failure modes the Claim-Check Delta catches — and three intentional limits exhibits showing what the substrate does *not* catch. Every scenario shows the full audit chain: the agent's claim tuple, the independent observer's check tuple, the CCD output, the Mission Profile decision, what gets appended to the audit log, and what a reviewer six months later sees.
 
 These are illustrations of what TAO records, not invented incidents. The patterns described reflect failure modes that real deployers see or rightly worry about.
+
+## Catches: failure modes CCD surfaces
 
 | Scenario | Domain | CCD result | Profile |
 |---|---|---|---|
@@ -15,4 +17,16 @@ These are illustrations of what TAO records, not invented incidents. The pattern
 | [`education_cheating_assist.md`](education_cheating_assist.md) | Education | INCONSISTENT (DIRECT_CONTRADICTION) | `education.json` |
 | [`code_agent_consistent_baseline.md`](code_agent_consistent_baseline.md) | Code agent | CONSISTENT (baseline) | `code_agent.json` |
 
-The baseline at the end is intentional: showing what a *clean* CCD result looks like is as important as showing what failure looks like. Reviewers calibrate against both.
+The baseline is intentional: showing what a *clean* CCD result looks like is as important as showing what failure looks like. Reviewers calibrate against both.
+
+## Limits: failure modes CCD does *not* catch
+
+These exhibits exist to make TAO's boundary visible. A spec that only shows wins is uncalibrated; the right move is to write down where the substrate cannot help and explain why.
+
+| Scenario | Why it's a limit |
+|---|---|
+| [`limits_observer_blind_channel.md`](limits_observer_blind_channel.md) | The agent uses a channel (DNS exfiltration) the observer's coverage declaration excludes. CCD is CONSISTENT because the substrate observed what it observed. The coverage declaration makes the blind spot inspectable. |
+| [`limits_tool_result_poisoning.md`](limits_tool_result_poisoning.md) | The agent honestly relays a falsified tool response. CCD is CONSISTENT — the inconsistency is upstream of the substrate. Localizes the compromise to the tool, not the agent. |
+| [`limits_multi_step_laundering.md`](limits_multi_step_laundering.md) | Each individual action passes CCD; the *combination* crosses the policy line. Pairwise CCD does not provide episode-level analysis; this is an explicit non-goal of v0.x. |
+
+Reviewers should weigh both poles. A substrate that only catches the easy cases is overfit to the easy cases. The limits exhibits are where TAO's contract ends and where downstream tooling, profile design, and human review have to pick up.

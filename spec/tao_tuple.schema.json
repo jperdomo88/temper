@@ -107,6 +107,32 @@
             "INSTITUTIONALLY_INDEPENDENT"
           ],
           "description": "Independence level (§6.5) at which any paired check tuple is generated. PRIVILEGE_ISOLATED or higher required for TAO-Attested CCD citations."
+        },
+        "coverage": {
+          "type": "object",
+          "description": "Observation coverage declaration (§6.6). Required on check tuples; optional on claim tuples. Independence is where the observer runs; coverage is what it can see. An observer can be perfectly isolated and still uninformative if its channels_not_observed list includes the high-cost effect channels for the deployment.",
+          "required": ["channels_observed", "channels_not_observed", "observation_point", "blocked_attempts_visible"],
+          "properties": {
+            "channels_observed": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "description": "Channels the observer watches. Recommended channel names: tool_call_args, tool_call_return, network_egress, filesystem_mutation, process_spawn, ipc_send, ipc_receive, clipboard, browser_dom, database_write, database_read, api_call_params, wrapper_level_events. Domain-specific channel names permitted."
+            },
+            "channels_not_observed": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "description": "Channels the observer explicitly does not watch. An empty array asserts coverage of all known channels for the deployment substrate; a non-empty array names the gaps."
+            },
+            "observation_point": {
+              "type": "string",
+              "enum": ["PRE_ACTION", "IN_FLIGHT", "POST_ACTION", "WRAPPER_ONLY"],
+              "description": "When the observer makes its recording relative to the action's execution. WRAPPER_ONLY observers see only the adapter's reported call, not the underlying effect."
+            },
+            "blocked_attempts_visible": {
+              "type": "boolean",
+              "description": "Whether the observer sees actions the agent attempted but the platform blocked, or only completed effects."
+            }
+          }
         }
       }
     },

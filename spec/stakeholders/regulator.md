@@ -19,6 +19,8 @@ With TAO, you have a behavioral record in a known schema. You can:
 
 The schema is open and self-describing. Your office can develop expertise once and apply it across deployments and vendors. A reviewer doesn't need to learn a new format for each operator.
 
+TAO does not solve evidentiary sufficiency by itself. A structured behavioral record is a candidate evidence format, not yet an enforcement substrate; the methodology questions your office cares about — sampling, anomaly thresholds, chain of custody, admissibility — remain yours to define. What the substrate reduces is the *reconstruction cost*: today, half the work of an AI-driven enforcement matter is rebuilding what the agent did from logs in whatever shape the operator's stack produced. With TAO, that work is a query.
+
 ## What TAO doesn't ask you to do
 
 It doesn't ask you to mandate a model architecture. It doesn't ask you to require a specific vendor. It doesn't ask you to evaluate model alignment. It records *behavior* in a standardized form; the substantive policy work (what the operator is responsible for, what counts as a violation, what remedies apply) sits in your existing rulemaking authority.

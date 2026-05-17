@@ -1,10 +1,10 @@
 # TAO — Detecting Semantic Laundering in Agentic AI
 
-**A behavioral audit interface for checking what an agent claims it did against what the action mechanically did.**
+**A standard interface for comparing an agent's declared action against independently observed effects — so operators, auditors, and regulators can detect when the label on behavior stops matching the behavior itself.**
 
 [![License: CC BY 4.0](https://img.shields.io/badge/spec-CC%20BY%204.0-lightgrey.svg)](LICENSE)
 [![License: Apache 2.0](https://img.shields.io/badge/code-Apache%202.0-blue.svg)](LICENSE)
-![Working draft](https://img.shields.io/badge/status-working%20draft%20v0.11-orange)
+![Working draft](https://img.shields.io/badge/status-working%20draft%20v0.12-orange)
 
 ---
 
@@ -24,7 +24,7 @@ An agent reports it was drafting release notes. The trace records a read from a 
 | `spec/REFERENCE_VALIDATOR_SPEC.md` | Specification of the validator implemented in this repo. |
 | `spec/tao_tuple.schema.json` | JSON Schema for the action tuple. |
 | `spec/tao_mission_profile.schema.json` | JSON Schema for Mission Profiles. |
-| `spec/test_vectors.json` | 21 conformance test vectors (positive, negative, CCD, profile override). |
+| `spec/test_vectors.json` | 22 conformance test vectors (positive, negative, CCD, profile override). |
 | `spec/mission_profiles/` | **Mission Profile starting points** for code agents, browser agents, customer service, financial services, healthcare, enterprise tools, and education. Draft starting points pending industry validation. |
 | `spec/scenarios/` | **Worked CCD scenarios.** Eight concrete claim/check pairs across domains, each illustrating one failure mode (or, for the baseline, a clean run). |
 | `spec/stakeholders/` | **One-pagers for specific readers** — frontier-lab PM, fintech CTO, healthcare compliance officer, regulator, enterprise procurement, safety researcher. Same substrate, audience-local language. |
@@ -37,7 +37,7 @@ pip install -e .
 tao check-suite spec/test_vectors.json
 ```
 
-Expected output: **21 / 21 vectors passed.** That's the canonical evidence that an implementation conforms to v0.11.
+Expected output: **22 / 22 vectors passed.** That's the canonical evidence that an implementation conforms.
 
 ### Emit TAO tuples from your agent in one line
 
