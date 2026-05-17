@@ -19,13 +19,16 @@ An agent reports it was drafting release notes. The trace records a read from a 
 | `spec/TAO_Semantic_Laundering_Overview.pdf` | **Start here.** Two pages. The hook, the comparison chart, the worked scenario. |
 | `spec/TAO_v0_11.md` | The specification. ~18 RFC-style pages, normative. |
 | `spec/TAO_ADOPTION_BRIEF.md` | Two-page brief for PMs and platform leaders with a five-phase pilot path. |
+| `spec/ADOPTION_PLAYBOOK.md` | Three-stage practical guide for teams integrating TAO into an existing deployment, plus a "drop into Claude" prompt template. |
 | `spec/TAO_COMPLIANCE_CROSSWALK.md` | Maps TAO features to EU AI Act articles, NIST AI RMF, ISO/IEC 42001, SOC 2, and PCI DSS. |
 | `spec/REFERENCE_VALIDATOR_SPEC.md` | Specification of the validator implemented in this repo. |
 | `spec/tao_tuple.schema.json` | JSON Schema for the action tuple. |
 | `spec/tao_mission_profile.schema.json` | JSON Schema for Mission Profiles. |
 | `spec/test_vectors.json` | 21 conformance test vectors (positive, negative, CCD, profile override). |
-| `spec/mission_profiles/` | **Mission Profile templates** for specific domains. Currently: `code_agent.json` + companion explanation. Draft starting points pending industry validation. |
-| `tao/` | Reference validator (Python). |
+| `spec/mission_profiles/` | **Mission Profile starting points** for code agents, browser agents, customer service, financial services, healthcare, enterprise tools, and education. Draft starting points pending industry validation. |
+| `spec/scenarios/` | **Worked CCD scenarios.** Eight concrete claim/check pairs across domains, each illustrating one failure mode (or, for the baseline, a clean run). |
+| `spec/stakeholders/` | **One-pagers for specific readers** — frontier-lab PM, fintech CTO, healthcare compliance officer, regulator, enterprise procurement, safety researcher. Same substrate, audience-local language. |
+| `tao/` | Reference validator and `tao_emit` decorator (Python). |
 
 ## Quick start
 

@@ -6,6 +6,51 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project versioning is consistent across the spec and the reference
 implementation: the validator version tracks the spec version it implements.
 
+## [0.11.4] — 2026-05-16
+
+Completes the conceptual package: eight worked CCD scenarios, six stakeholder
+one-pagers, and a three-stage adoption playbook. The aim is a repository that
+a team can drop into an AI assistant and ask "help us adopt this" — with every
+artifact the assistant needs already present.
+
+- **`spec/scenarios/`** — eight worked CCD scenarios, each a complete chain
+  of claim tuple, check tuple, CCD output, Mission Profile decision, what a
+  reviewer sees later, and why CCD caught the case:
+  - `code_agent_exfiltration.md` — DIRECT_CONTRADICTION
+  - `browser_agent_subscription.md` — AUTHORITY_GOAL_MISMATCH
+  - `customer_service_deflection.md` — MISSING_BENEFICIARY
+  - `financial_unauthorized_trade.md` — AUTHORITY_GOAL_MISMATCH
+  - `healthcare_off_scope_advice.md` — UNACKNOWLEDGED_HARM
+  - `enterprise_wrong_channel.md` — DIRECT_CONTRADICTION
+  - `education_cheating_assist.md` — DIRECT_CONTRADICTION
+  - `code_agent_consistent_baseline.md` — CONSISTENT (calibration baseline)
+
+  The baseline is intentional: reviewers calibrate against clean runs as well
+  as failures.
+
+- **`spec/stakeholders/`** — six one-pagers translating the same substrate
+  into local idioms:
+  - `pm_frontier_lab.md` — for a frontier-lab product manager
+  - `cto_fintech.md` — for a fintech CTO
+  - `compliance_healthcare.md` — for a healthcare compliance officer
+  - `regulator.md` — for a regulator or standards body
+  - `procurement_enterprise.md` — for enterprise procurement and risk
+  - `safety_researcher.md` — for a safety researcher
+
+  Each answers one question that audience would actually ask, in language
+  they already use, in roughly a single screen.
+
+- **`spec/ADOPTION_PLAYBOOK.md`** — three-stage adoption guide:
+  Stage 1 (drop in the decorator), Stage 2 (add an independent observer),
+  Stage 3 (write a Mission Profile). Ends with a "drop into Claude" prompt
+  template that operationalizes the assumed adoption pattern: hand the
+  repository to an AI assistant and ask it to help with integration.
+
+- README updated with the expanded directory layout.
+
+No spec, schema, or validator changes. Tuple format, vocabulary, mapping
+rules, CCD pipeline, and Mission Profile schema are unchanged from 0.11.0.
+
 ## [0.11.3] — 2026-05-16
 
 Expands the Mission Profile collection from one to seven domain templates.
