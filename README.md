@@ -21,7 +21,7 @@ An agent reports it was drafting release notes. The trace records a read from a 
 | `spec/TAO_ADOPTION_BRIEF.md` | Two-page brief for PMs and platform leaders with a five-phase pilot path. |
 | `spec/ADOPTION_PLAYBOOK.md` | Three-stage practical guide for teams integrating TAO into an existing deployment, plus a "drop into Claude" prompt template. |
 | `spec/TAO_COMPLIANCE_CROSSWALK.md` | Maps TAO features to EU AI Act articles, NIST AI RMF, ISO/IEC 42001, SOC 2, and PCI DSS. |
-| `spec/TAO_REGULATORY_THEORY.md` | Positions TAO in Coglianese-Lazer regulatory-theory terms (specification / performance / management-based). For regulatory scholars and agency policy staff. |
+| `spec/TAO_REGULATORY_THEORY.md` | Positions TAO in regulatory-theory terms — policy-instrument taxonomies, management-based regulation, the audit-society literature, and current AI-governance practice. For regulatory scholars and agency policy staff. |
 | `spec/REFERENCE_VALIDATOR_SPEC.md` | Specification of the validator implemented in this repo. |
 | `spec/tao_tuple.schema.json` | JSON Schema for the action tuple. |
 | `spec/tao_mission_profile.schema.json` | JSON Schema for Mission Profiles. |
