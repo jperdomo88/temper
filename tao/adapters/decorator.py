@@ -76,19 +76,26 @@ class EmitterConfig:
     )
 
 
-# Lightweight context defaults. Override via configure_emitter(default_context=...)
-# or per-call via @tao_emit(context=...).
+# Default context values lean toward honest uncertainty rather than reassuring
+# assertions the decorator cannot actually establish. The decorator runs inside
+# the agent's process; it does not have access to attested consent records,
+# vulnerability assessments, or legitimacy proofs. Defaulting to UNKNOWN /
+# CLAIMED makes the substrate honest by construction: a production deployment
+# that needs stronger context values must populate them explicitly from
+# attested sources, and a profile can escalate on UNKNOWN in high-stakes
+# domains. Override via configure_emitter(default_context=...) or per-call via
+# @tao_emit(context=...).
 DEFAULT_CONTEXT: dict[str, Any] = {
     "environment": {
         "reality": "DEPLOYMENT",
         "domain": "GENERAL",
         "substrate": "DIGITAL",
     },
-    "consent": {"status": "IMPLICIT"},
-    "vulnerability": {"level": "NONE"},
+    "consent": {"status": "UNKNOWN"},
+    "vulnerability": {"level": "UNKNOWN"},
     "projected_impact_scope": "LOCAL",
-    "reversibility": {"level": "REVERSIBLE"},
-    "institutional_role": {"actor_role": "AUTONOMOUS_SYSTEM", "legitimacy": "VERIFIED"},
+    "reversibility": {"level": "UNKNOWN"},
+    "institutional_role": {"actor_role": "AUTONOMOUS_SYSTEM", "legitimacy": "CLAIMED"},
     "temporal": {"urgency": "ROUTINE"},
 }
 

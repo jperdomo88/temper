@@ -1,10 +1,18 @@
 # TAO — Detecting Semantic Laundering in Agentic AI
 
-**A behavioral audit interface for checking what an agent claims it did against what the action mechanically did.**
+**A standard interface for comparing an agent's declared action against independently observed effects — so operators, auditors, and regulators can detect when the label on behavior stops matching the behavior itself.**
 
 [![License: CC BY 4.0](https://img.shields.io/badge/spec-CC%20BY%204.0-lightgrey.svg)](LICENSE)
 [![License: Apache 2.0](https://img.shields.io/badge/code-Apache%202.0-blue.svg)](LICENSE)
-![Working draft](https://img.shields.io/badge/status-working%20draft%20v0.11-orange)
+![Working draft](https://img.shields.io/badge/status-working%20draft%20v0.13-orange)
+
+---
+
+# 📄 [Read the working paper](TAO_Working_Paper.pdf)
+
+> **The primary entry-point to this project is the 23-page working paper.** It covers the problem, the substrate, four worked examples, what TAO does *and* does not catch, the theoretical positioning, and the substrate's named failure modes. It stands on its own — you don't need to browse this repository to read it.
+>
+> If you only have five minutes: the [2-page overview](spec/TAO_Semantic_Laundering_Overview.pdf) carries the hook, the comparison chart, and one worked scenario.
 
 ---
 
@@ -16,15 +24,17 @@ An agent reports it was drafting release notes. The trace records a read from a 
 
 | | |
 |---|---|
-| `spec/TAO_Semantic_Laundering_Overview.pdf` | **Start here.** Two pages. The hook, the comparison chart, the worked scenario. |
-| `spec/TAO_v0_11.md` | The specification. ~18 RFC-style pages, normative. |
+| `TAO_Working_Paper.pdf` | **Start here if you're new to the project.** A 23-page working paper introducing TAO in narrative form. Linked prominently at the top of this README. |
+| `spec/TAO_Semantic_Laundering_Overview.pdf` | The 2-page entry-point: the hook, comparison chart, one worked scenario. Faster than the working paper if you only have five minutes. |
+| `spec/TAO_v0_11.md` | The specification proper. ~18 RFC-style pages, normative. For engineers implementing TAO. |
 | `spec/TAO_ADOPTION_BRIEF.md` | Two-page brief for PMs and platform leaders with a five-phase pilot path. |
 | `spec/ADOPTION_PLAYBOOK.md` | Three-stage practical guide for teams integrating TAO into an existing deployment, plus a "drop into Claude" prompt template. |
 | `spec/TAO_COMPLIANCE_CROSSWALK.md` | Maps TAO features to EU AI Act articles, NIST AI RMF, ISO/IEC 42001, SOC 2, and PCI DSS. |
+| `spec/TAO_REGULATORY_THEORY.md` | Positions TAO in regulatory-theory terms — policy-instrument taxonomies, management-based regulation, the audit-society literature, and current AI-governance practice. For regulatory scholars and agency policy staff. |
 | `spec/REFERENCE_VALIDATOR_SPEC.md` | Specification of the validator implemented in this repo. |
 | `spec/tao_tuple.schema.json` | JSON Schema for the action tuple. |
 | `spec/tao_mission_profile.schema.json` | JSON Schema for Mission Profiles. |
-| `spec/test_vectors.json` | 21 conformance test vectors (positive, negative, CCD, profile override). |
+| `spec/test_vectors.json` | 22 conformance test vectors (positive, negative, CCD, profile override). |
 | `spec/mission_profiles/` | **Mission Profile starting points** for code agents, browser agents, customer service, financial services, healthcare, enterprise tools, and education. Draft starting points pending industry validation. |
 | `spec/scenarios/` | **Worked CCD scenarios.** Eight concrete claim/check pairs across domains, each illustrating one failure mode (or, for the baseline, a clean run). |
 | `spec/stakeholders/` | **One-pagers for specific readers** — frontier-lab PM, fintech CTO, healthcare compliance officer, regulator, enterprise procurement, safety researcher. Same substrate, audience-local language. |
@@ -37,7 +47,7 @@ pip install -e .
 tao check-suite spec/test_vectors.json
 ```
 
-Expected output: **21 / 21 vectors passed.** That's the canonical evidence that an implementation conforms to v0.11.
+Expected output: **22 / 22 vectors passed.** That's the canonical evidence that an implementation conforms.
 
 ### Emit TAO tuples from your agent in one line
 
@@ -124,3 +134,17 @@ Jorge Perdomo · jorgeperdom@gmail.com
 This repository is the public form of a working draft I have been developing on
 the side. I am not presenting it as a finished standard. Feedback,
 collaborators, and adversarial review are all welcome.
+
+---
+
+## Version status
+
+| Artifact | Current version | Notes |
+|---|---|---|
+| Working paper | v0.13 (2026-05-17) | The primary narrative entry-point. Carries the substrate's current framing including the Behavioral Dossier and observer-coverage declaration. |
+| Normative spec | v0.12 wire-level (file: `spec/TAO_v0_11.md`) | File retains the v0.11 filename for stable links; contents include §6.6 Observation Coverage and the broadened DIRECT_CONTRADICTION classifier introduced in v0.12. |
+| JSON schemas | v0.12 (`spec/tao_tuple.schema.json`, `spec/tao_mission_profile.schema.json`) | Include `provenance.coverage` declaration. |
+| Reference validator | v0.13 (`tao/` Python package, `pyproject.toml` v0.13.x) | Passes all 22 conformance test vectors. |
+| Test vectors | 22 vectors (`spec/test_vectors.json`) | Aligned to validator v0.13. |
+
+A v0.14 cycle will likely re-anchor the spec filename, formalize the Behavioral Dossier as a separate analytical layer, and expand the `INSTITUTIONALLY_INDEPENDENT` rung's subdimensions.

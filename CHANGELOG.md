@@ -6,6 +6,108 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project versioning is consistent across the spec and the reference
 implementation: the validator version tracks the spec version it implements.
 
+## [0.12.0] — 2026-05-17
+
+Addresses the substantive critiques in the first external review. Minor
+version bump because of the schema addition (`provenance.coverage` on check
+tuples) and the broadened CCD classifier.
+
+### Spec changes
+
+- **§6.6 Observation coverage (new):** Separates the existing
+  independence-level ladder (where the observer runs) from a new coverage
+  declaration (what channels the observer watches). A check tuple MUST now
+  declare `provenance.coverage` with `channels_observed`,
+  `channels_not_observed`, `observation_point`, and
+  `blocked_attempts_visible`. Attested citation requires BOTH adequate
+  independence AND a coverage declaration. The intent is to close the
+  procurement-gaming surface where a vendor declares high independence but
+  quietly narrow coverage.
+- **REFERENCE_VALIDATOR_SPEC.md:** Updated to reflect current implementation
+  reality. Sections now marked as Implemented or Planned. Removes the
+  pre-implementation "executable code is the next planned artifact" framing
+  that conflicted with the shipping code.
+
+### Validator and adapter changes
+
+- **DIRECT_CONTRADICTION classifier broadened.** Previously gated on
+  `PROTECT.*` / `COOPERATE.*` verbs; now also flags any observed effect
+  outside the verb's REQUIRED/PERMITTED envelope, with a specific path for
+  `INFO.DISCLOSE` to external/unverified/unauthorized targets. This matches
+  the behavior the flagship `code_agent_exfiltration.md` scenario assumes
+  and makes the scenarios reproducible against the reference validator.
+- **Decorator default context made honest.** Defaults changed from
+  reassuring (`consent: IMPLICIT`, `vulnerability: NONE`,
+  `legitimacy: VERIFIED`, `reversibility: REVERSIBLE`) to honest uncertainty
+  (`consent: UNKNOWN`, `vulnerability: UNKNOWN`, `legitimacy: CLAIMED`,
+  `reversibility: UNKNOWN`). The decorator runs inside the agent and cannot
+  in fact verify these properties; quiet certification by default was a
+  laundering vector.
+- **CCD output extended.** `coverage_declared` and `coverage_summary` fields
+  added to CCD output. `attested_citation_valid` now requires both
+  independence ≥ PRIVILEGE_ISOLATED AND a coverage declaration.
+
+### Test vectors
+
+- **CCD-009 (new):** Code-agent exfiltration on `CREATE.GENERATE.PRODUCE`
+  with observed external `INFO.DISCLOSE`. Locks in the broadened
+  DIRECT_CONTRADICTION classifier behavior. Vector count: 21 → 22.
+
+### Adoption playbook restructured
+
+- **Three operational tiers introduced.** TAO-Log (decorator only),
+  TAO-Check (independent observer + CCD), TAO-Governed (CCD + Mission
+  Profile wired to enforcement). Stops conflating decorator-only adoption
+  with audit-grade assurance.
+- **"Who does what" section added.** Engineer, security, compliance,
+  domain owner, procurement, incident response — each role's distinct
+  ownership of the substrate.
+- **Stage 2 step 3 (new):** Declare the observer's coverage. Explicit
+  step in the playbook reflecting the §6.6 schema requirement.
+- **Stage 2 shadow mode added:** Two-sprint shadow run before wiring CCD
+  output to escalation/blocking. Replaces "graduate to CCD when an
+  incident makes the case" framing.
+
+### Stakeholder pages softened
+
+- **PM:** Acknowledges decorator-only is TAO-Log, not audit-grade.
+  Replaces "wait for an incident" framing with shadow-mode sequencing.
+- **Fintech CTO:** "Does not satisfy regulator by itself" — gives the
+  logging substrate existing supervisory controls need.
+- **Healthcare compliance:** TAO logs may themselves be regulated
+  records; inherit existing access controls.
+- **Regulator:** Substrate reduces reconstruction cost; does not solve
+  evidentiary sufficiency by itself.
+- **Procurement:** Contract clauses now define "Covered Action"
+  explicitly via Exhibit reference. Observer clause requires both
+  independence and coverage declarations.
+- **Safety researcher:** Vocabulary claim downgraded to "proposed
+  compact controlled vocabulary"; acknowledges adjacent literature.
+
+### New scenarios — limits exhibits
+
+The scenarios directory now includes three exhibits showing what TAO
+does *not* catch, alongside the eight catches and one CONSISTENT
+baseline. A spec that only shows wins is uncalibrated.
+
+- `limits_observer_blind_channel.md` — Agent uses DNS exfiltration;
+  observer's coverage declaration excludes DNS queries. CCD CONSISTENT
+  with the gap explicitly recorded.
+- `limits_tool_result_poisoning.md` — Honest agent relays a falsified
+  tool response. CCD cannot, by design, distinguish honest relay of
+  correct vs. compromised dependency state.
+- `limits_multi_step_laundering.md` — Three individually CONSISTENT
+  actions compose into a re-identification chain. Pairwise CCD does
+  not provide episode-level analysis; explicit non-goal of v0.x.
+
+### README positioning sharpened
+
+The lead now reads: "A standard interface for comparing an agent's
+declared action against independently observed effects — so operators,
+auditors, and regulators can detect when the label on behavior stops
+matching the behavior itself." Replaces the previous "behavioral audit
+interface" phrasing.
+
 ## [0.11.4] — 2026-05-16
 
 Completes the conceptual package: eight worked CCD scenarios, six stakeholder

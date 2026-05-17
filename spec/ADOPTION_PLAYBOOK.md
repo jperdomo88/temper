@@ -4,9 +4,19 @@ This is a practical guide for a team adopting TAO in an existing deployment. It 
 
 The playbook assumes nothing about your stack beyond the existence of an AI agent that takes effectful actions (tool calls, API requests, database writes, message sends, file operations) and a place where you currently log those actions.
 
-Adoption has three stages. Most teams stop at Stage 1 for a release cycle, then graduate when an incident or a customer demand makes the case for Stage 2 or 3.
+## Three operational tiers
 
-## Stage 1: Drop in the decorator
+TAO adoption is not a single thing. Three distinct tiers give three distinct assurance levels, and they should not be confused with each other. The most common adoption failure is treating the decorator tier as if it were the audit-grade tier.
+
+| Tier | What you ship | What it gives you | What it does NOT give you |
+|---|---|---|---|
+| **TAO-Log** | Decorator-only structured claims emitted to a sink you control. | A behavioral record in a known schema; queryable across agents; usable for routine debugging, incident reconstruction, and regulatory inquiries that just need "what happened." | Audit-grade evidence. The decorator runs inside the agent, so a buggy or hostile adapter produces a clean-looking record of what the adapter *says* happened. |
+| **TAO-Check** | TAO-Log plus an independent observer producing check tuples plus CCD evaluation. | A claim-vs-check delta on every action: divergences between what the agent says and what was actually observed get flagged. Catches adapter errors and a meaningful class of agent misbehavior. | Runtime enforcement. CCD-INCONSISTENT cases get logged, not blocked. Effects still land. Coverage is bounded by what the observer can see (see TAO v0.11 §6.6). |
+| **TAO-Governed** | TAO-Check plus the CCD result and Mission Profile evaluation wired into the agent's effect surface as a blocking or escalation gate. | Pre-effect or in-flight halt on the failure modes the profile flags. The substrate is now *governing* the agent, not just observing it. | A safety system. TAO does not certify model alignment. Even at this tier, the substrate is necessary, not sufficient; safety work is its own discipline. |
+
+A two-sentence summary if you're skimming: TAO-Log is cheap and audit-grade-curious; TAO-Check is the dimension that distinguishes TAO from ordinary logging; TAO-Governed is what catches the failure before it lands. Most teams start at TAO-Log, run there for a release cycle, then move to TAO-Check on the highest-cost effect surface first.
+
+## Stage 1 — TAO-Log: Drop in the decorator
 
 **Goal:** Start emitting TAO-conformant tuples for every effectful action your agent takes. Do not change the agent's behavior. Do not add a check tuple yet. Do not change your existing logs.
 
@@ -46,7 +56,7 @@ Adoption has three stages. Most teams stop at Stage 1 for a release cycle, then 
 
 **What you have at the end of Stage 1:** a behavioral record of your agent's actions in a known schema. You can answer questions like "which agents called `EXCHANGE.TRANSFER.PAY` in the last 24 hours?" without learning a vendor-specific log format. This alone is materially useful for incident response and regulatory inquiries.
 
-## Stage 2: Add an independent observer
+## Stage 2 — TAO-Check: Add an independent observer
 
 **Goal:** Emit Check tuples from an observer that has independent visibility into what the agent did. Compute Claim-Check Deltas.
 
@@ -61,15 +71,19 @@ Adoption has three stages. Most teams stop at Stage 1 for a release cycle, then 
    - A second process reading from the database WAL for write effects
    - A separate logging agent watching the messaging API for send effects
 
-   The observer emits a Check tuple in the same schema, with `observer_independence_level` set to the appropriate ladder rung ([`TAO_v0_11.md`](TAO_v0_11.md) §9).
+   The observer emits a Check tuple in the same schema, with `observer_independence_level` set to the appropriate ladder rung (TAO v0.11 §6.5).
 
-3. **Configure the CCD evaluator.** The reference Python package's `tao.ccd` module compares paired Claim and Check tuples and emits a CCD result. Configure it to consume the two streams and emit a third stream (or annotate the Claim).
+3. **Declare the observer's coverage.** Independence is where the observer runs; coverage is what it can see. A `PRIVILEGE_ISOLATED` observer that only watches wrapper-level tool returns is independent and uninformative. The check tuple's `provenance.coverage` block (TAO v0.11 §6.6) declares the channels the observer watches and — equally importantly — the channels it does not. Reviewers reading your CCD output need this to interpret the result. Without a coverage declaration, an attested-citation CCD is not valid.
 
-4. **Set thresholds for inconsistency response.** Default: log CCD-INCONSISTENT cases for human review. As the rate stabilizes and false-positive sources are tuned out, graduate to escalation or blocking via Mission Profile.
+4. **Configure the CCD evaluator.** The reference Python package's `tao.ccd` module compares paired Claim and Check tuples and emits a CCD result. Configure it to consume the two streams and emit a third stream (or annotate the Claim).
+
+5. **Run in shadow mode for two sprints.** Don't wire CCD output to enforcement yet. Watch the rate of CCD-INCONSISTENT cases on a representative slice of traffic. False positives almost always come from coverage gaps the observer didn't know it had; tune those first. After two sprints, the inconsistency rate should be a stable signal rather than noise, and the residual cases are the real ones.
+
+6. **Set thresholds for inconsistency response.** Default after shadow mode: log CCD-INCONSISTENT cases for human review. Graduate to escalation or blocking via Mission Profile (Stage 3) once the rate is stable and the residual mismatches are real.
 
 **What you have at the end of Stage 2:** the dimension that distinguishes TAO from ordinary logging. You can catch effects the agent didn't mention (the `COMMITMENT.MAKE` in the browser-agent scenario) and purposes the agent claimed but didn't realize (the deflected refund in the customer-service scenario).
 
-## Stage 3: Write a Mission Profile
+## Stage 3 — TAO-Governed: Write a Mission Profile and wire it to enforcement
 
 **Goal:** Codify your organization's policy — what's allowed, what escalates, what blocks — as a Mission Profile that the substrate enforces.
 
@@ -88,6 +102,21 @@ Adoption has three stages. Most teams stop at Stage 1 for a release cycle, then 
 5. **Decide your fail-open vs. fail-closed default.** The profile schema is explicit about this. For low-cost effects (e.g., a draft email), failing open (passing through and logging) is reasonable. For high-cost effects (e.g., a payment), failing closed (blocking until human review) is the prudent default. Be explicit; don't leave it implicit.
 
 **What you have at the end of Stage 3:** the substrate is not just observing your agent, it's *governing* it within the bounds your organization has explicitly authorized. The audit trail now includes not just behavior, but the policy that produced each behavior. An incident review six months later can see not just what happened, but what the policy was at the time.
+
+## Who does what
+
+A common failure mode is treating TAO as "the engineer adds a decorator and governance happens." The substrate spans multiple functions and no single role owns it end-to-end. The work splits roughly as follows.
+
+| Role | Owns |
+|---|---|
+| **Agent / platform engineer** | Emitting claim tuples. Selecting verbs for the agent's effect surface. Wiring the decorator into existing tool calls. Routing emissions to the configured sink. |
+| **Security / platform team** | Building or buying the independent observer. Operating the observer at the declared independence level. Owning the coverage declaration honestly. Routing check tuples into the same audit pipeline. |
+| **Compliance / risk** | Approving the Mission Profile. Reviewing deviation reports on profile overrides. Setting retention and access policy on the audit log. |
+| **Domain owner** (medical director, registered advisor, etc.) | Defining the agent's authorized scope. Owning the `permitted_actions` / `prohibited_actions` lists in the relevant profile. Resolving cases where an authority chain is plausible but not specifically authorized. |
+| **Audit / procurement** | In vendor relationships, requiring TAO-conformant emissions to a customer-controlled sink with a defined coverage declaration. Setting retention requirements. |
+| **Incident response** | Using CCD outputs and deviation reports during investigations. Defining playbooks for which CCD inconsistency classes trigger which escalation paths. |
+
+The substrate gives each role a shared schema to work in. None of these roles can be elided. If your compliance team isn't reading Mission Profiles, you have logging, not governance. If your security team isn't owning the observer, your CCD output is whatever the adapter chose to emit.
 
 ## A note on sequencing
 

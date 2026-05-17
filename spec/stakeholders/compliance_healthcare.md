@@ -6,6 +6,8 @@
 
 Yes. TAO produces an audit trail in language a compliance officer recognizes: who acted, on what authority, for whose benefit, with what observed effect. It does not produce model-explanation reports. The trail it produces is the kind a Joint Commission surveyor, an OIG auditor, or a malpractice review board can read directly.
 
+A useful frame: TAO is not a new institutional category. Every hospital already has clinical protocols, scope-of-practice rules, escalation chains, and consent procedures. These exist as paper documents, training materials, and case law. They specify what each role is authorized to do, what requires escalation, and what is prohibited regardless of circumstance. The substrate's contribution is to make those existing rules machine-readable, so the same rules a human resident is trained on become the rules the AI tool actually follows — and produce the same audit-grade record when applied.
+
 ## What it covers, in your language
 
 The substrate captures the AI agent's behavior — what it told a patient, what it recorded in the chart, what it routed, what it deferred. Every observable AI action becomes a tuple with:
@@ -22,6 +24,8 @@ The point is not to say "the AI did the right thing." The point is to give your 
 ## What it does *not* require
 
 You don't replace your existing HIPAA controls, your audit log, your access controls, or your medical-staff bylaws. The TAO substrate emits structured records that flow into your existing audit pipeline. PHI handling sits inside your existing boundaries; the tuple schema is designed to reference patient identifiers, not embed clinical content.
+
+That said, TAO logs themselves may be regulated records depending on your deployment — they reference patient encounters, agent actions taken in clinical context, and authority chains naming clinical roles. Treat them under your existing access controls, retention requirements, and audit-log integrity protections. "No PHI in the message body" is not the same as "outside the regulated boundary."
 
 You don't need vendor lock-in. The spec is open. Multiple vendors (or your in-house engineering team) can emit conformant tuples. Auditors don't need a vendor's tooling — they can read the schema.
 

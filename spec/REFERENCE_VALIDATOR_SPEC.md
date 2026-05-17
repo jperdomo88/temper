@@ -1,12 +1,12 @@
 # TAO Reference Validator — Specification
 
 **Companion to:** TAO v0.11 (`TAO_v0_11.md`)
-**Status:** Specification of the planned reference implementation; executable code is the next planned artifact, not part of this bundle.
-**Date:** 2026-05-16
+**Status:** Specification of the reference implementation. Executable code is in `tao/` in this repository and passes the published test-vector suite at HEAD.
+**Date:** 2026-05-16 (last updated 2026-05-17 with implementation status)
 
-This document specifies what the reference validator MUST implement when built. It is intended as a build target for an engineer implementing the validator and as a conformance criterion that future third-party validators can compare themselves against once the reference implementation exists.
+This document specifies what the reference validator implements and where the implementation falls short of the spec. Sections marked **Implemented** are executable today in `tao/` and exercised by the test-vector suite; sections marked **Planned** describe behavior the spec defines but the reference code does not yet enforce.
 
-When the executable reference implementation ships, a claim of TAO conformance will include the implementer's results on the published test vector suite, and an implementation that disagrees with the reference validator on any vector will be non-conformant in fact. Until then, the test vector suite is authoritative: an implementation that produces the expected result on every published vector satisfies the spec's enforceable rules.
+A claim of TAO conformance includes the implementer's results on the published test-vector suite. An implementation that disagrees with the reference validator on any vector is non-conformant in fact. The reference validator currently passes all published vectors.
 
 ---
 
@@ -245,17 +245,35 @@ For clarity, and to keep the validator's surface area honest:
 
 ---
 
-## 9. Minimum Launch Package
+## 9. Implementation status
 
-A v0.11 conformance-ready release ships:
+The launch package is the surface a conformance-ready release ships. Implementation status as of v0.12.0:
 
-1. `tao_tuple.schema.json` — published.
-2. `tao_mission_profile.schema.json` — published.
-3. The reference validator (`tao` Python package) implementing every rule in this document.
-4. The CLI binary built from the package.
-5. `test_vectors.json` — published; every entry must pass through the validator with the expected result.
-6. One example signed tuple (canonical-form bytes plus signature, for interop testing with other implementations).
-7. One example signed Mission Profile with a `mapping_overrides` block and a properly-flagged weakening rationale.
-8. A short README that gets a new user from `pip install tao` to a passing `tao check-suite` run in under five minutes.
+| Item | Status |
+|---|---|
+| `tao_tuple.schema.json` | **Implemented** — published. |
+| `tao_mission_profile.schema.json` | **Implemented** — published. |
+| Reference validator (`tao` Python package) | **Implemented** — passes 22/22 published test vectors. |
+| CLI (`tao validate`, `tao ccd`, `tao check-suite`) | **Implemented** — built from the package. |
+| `test_vectors.json` | **Implemented** — 22 vectors covering positive, negative, CCD, and profile-override cases. |
+| `@tao_emit` decorator adapter | **Implemented** — see `tao/adapters/`. |
+| Example signed tuple (canonical bytes + signature) | **Planned for v0.13** — depends on RFC 8785 canonicalization (see §7 offline-mode note). |
+| Example signed Mission Profile | **Planned for v0.13** — same dependency. |
+| Quickstart README (pip install → check-suite under 5 min) | **Implemented**. |
 
-Anything less is gestures-at-implementation. With this package, an engineer at a serious organization can run the spec against their own tuples on the day they receive it.
+Reference validator features by spec section:
+
+| Spec section | Reference validator status |
+|---|---|
+| §3 tuple schema | Implemented. |
+| §4 effects kernel and mapping rules | Implemented. Includes broadened DIRECT_CONTRADICTION classifier introduced in v0.12.0. |
+| §5 justification structure (purpose, authority chain shape) | Implemented at structural level. |
+| §5.3 signature verification | **Planned** — currently offline mode only. |
+| §6.2 CCD checks (mechanical, teleological, factual) | Implemented at structural level. Factual check resolves attested authorities from check-tuple sidecars; full registry-backed resolution is **planned**. |
+| §6.5 observer independence reporting on CCD output | Implemented. |
+| §6.6 observation coverage declaration on check tuples | **Implemented** in v0.12.0. Attested citation requires both adequate independence and a coverage declaration. |
+| §7.3 Mission Profile override discipline | Implemented. |
+| §7.2 Mission Profile signature verification | **Planned** — currently offline mode only. |
+| Authority-chain resolution against an attested registry | **Planned** — sidecar-form attested authorities supported via test-vector convention. |
+
+Anything in the **Planned** column above is a known offline-mode limitation and is disclosed in any conformance statement that cites a validation run.

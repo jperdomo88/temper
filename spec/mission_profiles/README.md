@@ -4,6 +4,12 @@
 
 Each profile is two files: a `.json` deployable template and a `.md` companion that explains the choices made.
 
+## A note on what Mission Profiles are
+
+Mission Profiles are not a new institutional category. Every regulated domain already has the equivalent under different names: Rules of Engagement in military contexts, clinical protocols and scope-of-practice rules in hospitals, standard operating procedures in factories, fiduciary duty rules at financial firms, treaties and conventions with specified escalation ladders in international relations. These rules already exist as paper documents, training materials, and case law. They specify who is authorized to do what, what requires escalation, and what is prohibited regardless of circumstance.
+
+What the substrate contributes is making those existing rules machine-readable. The same rules a human resident or junior analyst is trained on become the rules the AI tool actually follows, producing the same audit-grade record when applied. The templates here are not propositions about what an organization's values *should* be — those choices remain the responsibility of the medical directors, compliance officers, risk committees, and policy boards who already own them. The templates are propositions about *what shape the rule looks like* when written in a form a substrate can enforce.
+
 ## What's here
 
 | Profile | Status | Audience for first review |

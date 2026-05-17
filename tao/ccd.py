@@ -52,13 +52,17 @@ class CCDResult:
     ccd_result: str  # CONSISTENT | INCONSISTENT | INDETERMINATE
     checks: list[CCDCheck] = field(default_factory=list)
     observer_independence_level: str | None = None
-    attested_citation_valid: bool | None = None  # True iff PRIVILEGE_ISOLATED or higher
+    attested_citation_valid: bool | None = None  # True iff PRIVILEGE_ISOLATED or higher AND coverage declared
+    coverage_declared: bool = False
+    coverage_summary: dict[str, Any] | None = None
 
     def to_json(self) -> dict[str, Any]:
         return {
             "ccd_result": self.ccd_result,
             "observer_independence_level": self.observer_independence_level,
             "attested_citation_valid": self.attested_citation_valid,
+            "coverage_declared": self.coverage_declared,
+            "coverage_summary": self.coverage_summary,
             "checks": [
                 {
                     "type": c.type,
@@ -106,23 +110,71 @@ def _classify_teleological(
         {e.get("type") for e in check_effects if isinstance(e, dict)}
     )
 
-    # 1. DIRECT_CONTRADICTION: claim is PROTECT.* / COOPERATE.* and check records
-    #    an effect type that is FORBIDDEN by the claimed verb. The most common
-    #    real case is "PROTECT.DEFEND.OTHER" with stated_goal "back up critical
-    #    data" but observed INFO.DISCLOSE to an external endpoint.
+    # 1a. DIRECT_CONTRADICTION via FORBIDDEN effect.
+    #     If any effect in the union is FORBIDDEN by the claimed verb, the
+    #     mechanical layer already flagged the mismatch; we additionally flag
+    #     it as a teleological direct contradiction regardless of verb family,
+    #     because a verb's FORBIDDEN list represents effects the verb cannot
+    #     coherently produce in service of any stated purpose.
     verb = claim.get("action", {}).get("verb", "")
     forbidden_set = set(rule.forbidden)
-    if verb.startswith(("PROTECT.", "COOPERATE.")) and (forbidden_set & union_types):
+    if forbidden_set & union_types:
         return TeleologicalClass.DIRECT_CONTRADICTION, (
             f"claim {verb!r} has stated purpose {stated_goal!r}; "
             f"observed effects include {sorted(forbidden_set & union_types)} "
             f"which the verb forbids"
         )
 
-    # Also flag DIRECT_CONTRADICTION when the claim's verb is PROTECT.* / COOPERATE.*
-    # but the check tuple records an entirely different verb that disagrees,
-    # e.g. claim PROTECT.DEFEND.OTHER, check OBSERVE.MONITOR.WATCH with disclosure
-    # to an unverified external target.
+    # 1b. DIRECT_CONTRADICTION via effect outside the verb's REQUIRED/PERMITTED set.
+    #     Any observed effect whose type isn't accounted for by the verb's
+    #     mapping is a teleological contradiction, even if mechanically the
+    #     verb didn't forbid it explicitly. The flagship case: the verb is
+    #     CREATE.GENERATE.PRODUCE with required RESOURCE.TRANSFER, but the
+    #     observer records INFO.DISCLOSE to an external endpoint not in the
+    #     PERMITTED set. The stated purpose (content generation) cannot
+    #     coherently produce that disclosure.
+    permitted_envelope = (
+        set(rule.required_any_of) | set(rule.permitted)
+    )
+    if permitted_envelope:
+        unaccounted = union_types - permitted_envelope
+        # INFO.DISCLOSE to external/unverified targets is the most common case.
+        external_disclosure = None
+        for e in check_effects:
+            if not isinstance(e, dict):
+                continue
+            if e.get("type") == "INFO.DISCLOSE" and e.get("type") in unaccounted:
+                target = str(e.get("target", "")).lower()
+                if any(marker in target for marker in (
+                    "unverified", "external", "unauthorized", "untrusted"
+                )):
+                    external_disclosure = e
+                    break
+        if external_disclosure is not None:
+            return TeleologicalClass.DIRECT_CONTRADICTION, (
+                f"claim verb {verb!r} with stated purpose {stated_goal!r}; "
+                f"observed INFO.DISCLOSE to "
+                f"{external_disclosure.get('target')!r} which is not in the "
+                f"verb's REQUIRED or PERMITTED effect set"
+            )
+        # General case: any effect type completely outside the envelope is a
+        # teleological contradiction. Skip RESOURCE.TRANSFER and INFO.DISCLOSE
+        # where the target is unspecified, because those frequently appear as
+        # by-products of legitimate actions and the mechanical layer handles
+        # them when they're forbidden.
+        if unaccounted and unaccounted - {"RESOURCE.TRANSFER", "INFO.DISCLOSE"}:
+            return TeleologicalClass.DIRECT_CONTRADICTION, (
+                f"claim verb {verb!r} with stated purpose {stated_goal!r}; "
+                f"observed effects "
+                f"{sorted(unaccounted - {'RESOURCE.TRANSFER', 'INFO.DISCLOSE'})} "
+                f"are not in the verb's REQUIRED or PERMITTED set"
+            )
+
+    # 1c. Legacy heuristic retained for PROTECT.*/COOPERATE.* + external disclosure
+    #     where the verb's mapping itself doesn't list INFO.DISCLOSE as
+    #     PERMITTED. The general envelope check above usually subsumes this,
+    #     but we keep it as a backstop for verbs whose mappings explicitly
+    #     permit INFO.DISCLOSE in benign cases.
     if verb.startswith(("PROTECT.", "COOPERATE.")):
         for e in check_effects:
             if not isinstance(e, dict):
@@ -313,15 +365,37 @@ def claim_check_delta(
     else:
         top = "CONSISTENT"
 
-    attested_valid = (
-        observer_independence_level in ATTESTED_OBSERVER_LEVELS
-        if observer_independence_level
-        else None
+    # Coverage declaration — §6.6. Required on check tuples for attested citation.
+    coverage = None
+    if isinstance(check_tuple, dict):
+        coverage = check_tuple.get("provenance", {}).get("coverage")
+    coverage_declared = isinstance(coverage, dict) and bool(
+        coverage.get("channels_observed") is not None
     )
+    coverage_summary = None
+    if coverage_declared:
+        coverage_summary = {
+            "channels_observed": coverage.get("channels_observed"),
+            "channels_not_observed": coverage.get("channels_not_observed"),
+            "observation_point": coverage.get("observation_point"),
+            "blocked_attempts_visible": coverage.get("blocked_attempts_visible"),
+        }
+
+    # Attested citation requires BOTH adequate independence AND a coverage
+    # declaration. Independence without coverage is procurement gaming.
+    if observer_independence_level is None:
+        attested_valid = None
+    else:
+        attested_valid = (
+            observer_independence_level in ATTESTED_OBSERVER_LEVELS
+            and coverage_declared
+        )
 
     return CCDResult(
         ccd_result=top,
         checks=checks,
         observer_independence_level=observer_independence_level,
         attested_citation_valid=attested_valid,
+        coverage_declared=coverage_declared,
+        coverage_summary=coverage_summary,
     )

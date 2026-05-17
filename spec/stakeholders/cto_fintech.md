@@ -4,7 +4,7 @@
 
 ## The short answer
 
-It gives you a substrate the regulator can actually inspect. It doesn't replace your existing controls (suitability review, customer identification, surveillance) — it makes their AI-agent counterparts legible. The FINRA/SEC/CFPB question "show me the record of what your AI told your clients" has a structured answer.
+It does not satisfy the regulator by itself. It gives you the logging substrate your existing supervisory controls need to extend to agentic systems. Suitability review, customer identification, surveillance — these are your regulator-facing controls, and TAO does not replace any of them. What TAO does is make the AI-agent counterparts of those controls *legible*, in a structured form an examiner can grep. The FINRA/SEC/CFPB question "show me the record of what your AI told your clients" has a structured answer; the question "is your supervisory program adequate" is still your firm's responsibility to answer.
 
 ## What the regulator asks for that TAO answers
 
@@ -25,6 +25,8 @@ The CCD layer is the one that matters most for fintech: a claim of "investment r
 You don't replace your authentication, your KYC, your transaction monitoring, your model-risk-management framework, or your existing audit pipeline. TAO emits structured records you route into the audit pipeline you already operate. The schema is open (JSON Schema draft 2020-12), the reference validator is Python, and the data fits inside any modern log/SIEM substrate.
 
 You don't lock yourself to a vendor. The spec is in the public domain. The reference implementation is one path; you can write your own emitter in your existing language stack and conform to the same schema.
+
+Be honest with your team about the engineering ask, though. The decorator itself is one-line wiring. The independent observer (TAO-Check), the attested authority registry, and the CCD evaluator are non-trivial engineering and policy work — none of it is novel research, but it requires the discipline of writing down what your firm is actually willing to authorize. The playbook (`ADOPTION_PLAYBOOK.md`) breaks this into three tiers so a build estimate is tractable.
 
 ## What it costs
 
