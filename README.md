@@ -16,8 +16,9 @@ An agent reports it was drafting release notes. The trace records a read from a 
 
 | | |
 |---|---|
-| `spec/TAO_Semantic_Laundering_Overview.pdf` | **Start here.** Two pages. The hook, the comparison chart, the worked scenario. |
-| `spec/TAO_v0_11.md` | The specification. ~18 RFC-style pages, normative. |
+| `spec/TAO_Working_Paper.pdf` | **Start here if you're new to the project.** An 11-page working paper introducing TAO in narrative form — the problem, the substrate, three worked examples, the theoretical positioning, the limits, the open questions. Written for non-coders and coders alike. |
+| `spec/TAO_Semantic_Laundering_Overview.pdf` | The 2-page entry-point: the hook, comparison chart, one worked scenario. Faster than the working paper if you only have five minutes. |
+| `spec/TAO_v0_11.md` | The specification proper. ~18 RFC-style pages, normative. For engineers implementing TAO. |
 | `spec/TAO_ADOPTION_BRIEF.md` | Two-page brief for PMs and platform leaders with a five-phase pilot path. |
 | `spec/ADOPTION_PLAYBOOK.md` | Three-stage practical guide for teams integrating TAO into an existing deployment, plus a "drop into Claude" prompt template. |
 | `spec/TAO_COMPLIANCE_CROSSWALK.md` | Maps TAO features to EU AI Act articles, NIST AI RMF, ISO/IEC 42001, SOC 2, and PCI DSS. |
