@@ -6,6 +6,67 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project versioning is consistent across the spec and the reference
 implementation: the validator version tracks the spec version it implements.
 
+## [0.14.0] — 2026-07-11
+
+Landscape and integrity release. No wire-format changes; the tuple schema,
+kernel, and CCD output remain at v0.12 wire level (one example-only fix below).
+
+### Working paper (v0.14)
+
+- **§1:** Term disambiguation against Romanchuk & Bondar (2026),
+  arXiv:2601.08333, which independently coined "semantic laundering" for
+  epistemic-warrant leakage across trusted tool boundaries. TAO's usage
+  (representation laundering) is retained with the distinction explicit.
+- **§2:** CCD check tiering made explicit — semantic-mechanical and factual
+  checks are deterministic; the teleological check standardizes output
+  classes over an implementation-defined (in practice LLM-monitor) detector.
+- **§5 (new):** "Why a claim layer at all: the policy-as-code objection" —
+  the strongest standing objection, answered directly.
+- **§5 (new):** "The 2025–2026 landscape" — precise positioning against
+  AgentSight (arXiv:2508.02736), OVERT 1.1 (overt.is), the IETF
+  agent-audit-trail / audit-architecture / verifiable-agent-conversations
+  drafts, the AI-control literature (SHADE-Arena, Ctrl-Z), MI9,
+  intent-to-execution integrity, AudAgent, and the payments intent-verification
+  protocols (AP2, Visa TAP, Mastercard/Google Verifiable Intent). The novelty
+  claim is restated in the narrower form this landscape leaves defensible.
+- **§10:** The uneconomic-check-tuples falsifier updated with feasibility
+  evidence (AgentSight <3% overhead; OVERT coverage declarations); the live
+  falsifier is schema adoption, not observation economics.
+- References completed (Coglianese & Crum 2025 resolved; 2025–26 works added).
+- Consistency fixes: version header; "three limits exhibits" → four;
+  external-review phrasing in §10; TAO clarified as a proper name.
+
+### Crosswalk (v0.14.0)
+
+- EU AI Act section re-dated for the Digital Omnibus (Annex III high-risk
+  obligations from 2 December 2027; JTC 21 harmonized standards unpublished
+  as of July 2026).
+- New §6: agent-specific instruments tracking (FINRA 2026, IMDA agentic
+  framework, NIST CAISI/COSAiS, Illinois SB 315, CA AB 316, Five Eyes
+  guidance, OWASP Agentic Top 10, AIUC-1).
+
+### New companion documents
+
+- `spec/MAPPING_MCP_OTEL.md` — worked mapping from MCP tool calls and
+  OpenTelemetry GenAI spans to TAO tuples.
+- `spec/EVAL_PLAN_SHADE_ARENA.md` — pre-registered evaluation plan for CCD
+  vs. LLM-monitor baselines on public sabotage-evaluation data.
+
+### Fixes
+
+- README: "21 vectors" → 22; stale "planned for v0.12" note re-anchored;
+  positioning section rewritten against the 2026 landscape.
+- Overview: stale "no executable validator" note removed; comparison table
+  updated (AgentSight, OVERT, payments row; AudAgent re-dated to Nov 2025).
+- Spec §6.3 example: `overall_confidence` serialized as a JSON number, not a
+  string (example-only; no schema change).
+
+## [0.13.x] — 2026-05-17
+
+Working paper introduced as the primary entry point; paper-first repo
+reorganization; Behavioral Dossier framing; schema refinements. (Entry
+reconstructed from the release notes; this changelog previously skipped 0.13.)
+
 ## [0.12.0] — 2026-05-17
 
 Addresses the substantive critiques in the first external review. Minor
