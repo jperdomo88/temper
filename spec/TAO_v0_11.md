@@ -419,9 +419,11 @@ The output is a JSON object:
     {"type": "TELEOLOGICAL", "result": "DIRECT_CONTRADICTION"},
     {"type": "FACTUAL", "result": "VERIFIED"}
   ],
-  "overall_confidence": "0.85"
+  "overall_confidence": 0.85
 }
 ```
+
+`overall_confidence` is a JSON number in the closed interval [0, 1].
 
 The top-level `ccd_result` is `CONSISTENT` when every check returns `CONSISTENT` or `VERIFIED`; `INCONSISTENT` when any check returns a non-consistent class (any teleological class other than `CONSISTENT` or `INSUFFICIENT_INFORMATION`); and `INDETERMINATE` when any check returns insufficient information and no check returns inconsistency.
 

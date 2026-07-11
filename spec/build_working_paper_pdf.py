@@ -30,7 +30,7 @@ title = "Detecting Semantic Laundering in Agentic AI"
 subtitle = "A Working Paper on TAO"
 author = "Jorge Perdomo"
 email = "jorgeperdom@gmail.com"
-version = "0.12 · 2026-05-17 · Working draft"
+version = "0.14 · 2026-07-11 · Working draft"
 
 # Body is everything after the first "---"
 body_md = "\n".join(lines[title_block_end + 1:])

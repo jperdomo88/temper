@@ -4,13 +4,13 @@
 **Jorge Perdomo**
 *jorgeperdom@gmail.com*
 
-**Version:** 0.12 · **Date:** 2026-05-17 · **Status:** Working draft
+**Version:** 0.14 · **Date:** 2026-07-11 · **Status:** Working draft
 
 ---
 
 ## Abstract
 
-Agentic AI systems take actions in the world — calling tools, accessing data, communicating with people, moving resources. Today, when one of these systems misbehaves, reconstructing what happened is expensive, ad-hoc, and unreliable. The agent's own telemetry shows what its software claims it did. System logs show what its calls mechanically produced. No standard layer asks whether the agent's label for its action matches what the action actually accomplished. We call the gap between the two *semantic laundering* — a benign label sitting on top of effects that don't support it.
+Agentic AI systems take actions in the world — calling tools, accessing data, communicating with people, moving resources. Today, when one of these systems misbehaves, reconstructing what happened is expensive, ad-hoc, and unreliable. The agent's own telemetry shows what its software claims it did. System logs show what its calls mechanically produced. The layers around this problem are standardizing fast — telemetry conventions, agent identity, tamper-evident audit trails, runtime attestation — but no public standard defines the *comparison* between the agent's label for its action and what the action actually accomplished. We call the gap between the two *semantic laundering* — a benign label sitting on top of effects that don't support it.
 
 This paper introduces TAO, a behavioral audit substrate that closes part of the gap. TAO does not solve AI governance. It standardizes one missing evidentiary object: the comparison between what an agent says it did and what an independent observer records, under declared coverage and policy assumptions. The substrate is positioned as one layer in a multi-layer defense — necessary, not sufficient. It gives management-based regulation of agentic AI a portable behavioral evidence format without mandating any particular model architecture, without requiring access to model weights, and without slowing down deployment cycles. This paper presents the substrate's design, four worked examples, four limits exhibits, the theoretical positioning, the substrate's named falsifiers, and the open questions that remain.
 
@@ -26,9 +26,11 @@ The frustrating thing about these incidents is that the evidence existed at the 
 
 We call this gap **semantic laundering**: an action wearing a benign label that the action's mechanical effects don't actually support. The label is what the agent's adapter emits — "this is a content-generation task" — and the effects are what observably happened — a read of a private repository followed by external network egress. The pattern shows up across domains. A customer-service agent labels a refund denial "policy enforcement" when the cited policy doesn't actually apply. A robo-advisor labels a leveraged-ETF recommendation "suitable for retirement planning" when the client's profile excludes leveraged products. A patient-facing triage AI labels itself as "providing general health information" while issuing dosage advice.
 
+A note on the term. "Semantic laundering" was independently coined in the agent-architecture literature, shortly before this paper's first public draft, for a related but distinct failure: Romanchuk & Bondar (2026) use it for propositions acquiring unearned *epistemic warrant* as they cross architecturally trusted interfaces — laundering of justification, an architectural Gettier problem. The laundering this paper names is of *representation*: a benign action label sitting on effects that do not support it. The two are complementary diagnoses of the same architectural credulity — theirs poisons what the agent comes to believe; ours mislabels what the agent does. We retain the term with that distinction made explicit, and cite their usage wherever confusion is possible.
+
 In each case, the agent's representation of its own action obscures what the action mechanically did. And in each case, for the mechanically visible class of laundering, the cost of detecting it as the action happens is much lower than the cost of reconstructing it forensically months later from whatever logs the operator's stack happened to produce.
 
-The proposal in this paper is that closing this gap requires a substrate — not a specific technology, not a specific regulatory rule, but a standardized form for behavioral records that any regulated party can produce and any reviewer can read. We call this substrate TAO, for *behavioral audit interface for agentic AI*.
+The proposal in this paper is that closing this gap requires a substrate — not a specific technology, not a specific regulatory rule, but a standardized form for behavioral records that any regulated party can produce and any reviewer can read. We call this substrate TAO — a behavioral audit interface for agentic AI. (The name descends from an earlier draft's "TEMPER Action Ontology"; it is retained as a proper name rather than an acronym.)
 
 ## 2. What TAO is
 
@@ -39,6 +41,8 @@ The substrate has three pieces.
 **A two-layer model of action.** Every action takes a structured form combining (a) a *semantic claim* about what the action was — a verb in a controlled vocabulary, plus a stated purpose and an authority — and (b) one or more *mechanical effects* drawn from a small fixed vocabulary describing what the action did to resources, capabilities, information, or commitments. The verb vocabulary is small (29 verbs in 12 families) so a reviewer can learn it. The effect vocabulary is smaller still (nine effect types in four categories) so cross-domain comparison is tractable. Every verb in the vocabulary has a published mapping naming which effect types it *requires*, which it *permits*, and which it *forbids*.
 
 **The Claim-Check Delta.** A second tuple is emitted by an *independent observer* — a separate process, ideally with its own privilege boundary, that records what the action mechanically did. The Claim-Check Delta is a defined comparison between the agent's claim tuple and the observer's check tuple. It produces three results, each one of *consistent*, *inconsistent*, or *indeterminate*: a semantic-mechanical check (do the observed effects fall in the verb's mapping?), a teleological check (does the stated purpose match the observed effects?), and a factual check (does the cited authority actually authorize what happened?). When the three checks agree on *inconsistent*, the substrate has detected a structural mismatch that no single tuple alone could surface.
+
+The three checks are not equally mechanical, and the substrate should be read with that tiering in view. The semantic-mechanical check and the factual check are deterministic given the published mapping and the registries the authority chain resolves against: the same inputs produce the same verdict on any conformant implementation. The teleological check is not — deciding whether "draft release notes" coheres with observed network egress is a judgment, the detection method is implementation-defined, and in current practice the strongest available implementations are LLM monitors of the kind studied in the AI-control literature (Greenblatt et al. 2024; the trusted-monitoring protocols evaluated in SHADE-Arena, Kutasov et al. 2025). What the spec standardizes for the teleological check is therefore not the detector but the *output* — five named mismatch classes emitted in a fixed schema — which is what makes results comparable across implementations, aggregable in the Behavioral Dossier, and improvable as detectors improve. A reviewer should treat checks one and three as evidence and check two as a structured, versioned opinion.
 
 **Mission Profiles.** A Mission Profile is a deployment-specific policy document, attached to an agent, that names which actions require escalation, which are blocked, and how the agent's mappings may legitimately deviate from the published baseline. Profiles are signed, versioned, and inspectable. Override discipline — when a profile weakens a default, it must say so and explain why — makes the legitimate cases of policy deviation distinguishable from the laundering cases.
 
@@ -185,6 +189,20 @@ A limit worth naming honestly. The two-layer model is an *operational* separatio
 
 The substrate handles these cases through the teleological check and the authority-chain factual check, not through the semantic-mechanical mapping. Reviewers who care about inference-heavy harms should expect TAO's value to come from rich, attested context records — not from the effect taxonomy alone. The decorator is necessary; the context attestation is what makes the substrate decisive. The cleaner the mechanical effect, the more pairwise CCD does on its own; the murkier the mechanical effect, the more the substrate depends on context and authority records being themselves trustworthy.
 
+### Why a claim layer at all: the policy-as-code objection
+
+The sharpest objection to the substrate is not that it cannot be built. It is that the semantic layer is unnecessary. In the opening scenario, a deny-by-default egress policy catches the exfiltration without any verb vocabulary: *private-repo read followed by POST to a non-allowlisted endpoint* is blockable today by OPA, Cedar, or any competent gateway, pre-execution, with no claim tuple in sight. If the observer side does all the detecting, why carry the agent's story at all?
+
+Three reasons, in increasing order of weight.
+
+*First, the claim and the policy answer different questions.* A policy engine answers "was this action permitted?" The Claim-Check Delta answers "was this action what the agent said it was?" An action can be permitted and misrepresented — a refund within limits, labeled as policy enforcement under a policy that does not apply — and it can be truthfully represented and forbidden. Regulators, courts, and insurers care about the second question independently of the first: supervision regimes (FINRA's, for instance) are built on records of what the regulated party *represented*, not merely on what it was allowed to do.
+
+*Second, the claim converts misrepresentation into first-class evidence.* Requiring the agent's adapter to commit to a structured account before or as the action executes is the substrate's analogue of testimony. Forensics does not need testimony to establish what happened — but testimony that contradicts forensics is itself the finding, and it is a different, often more consequential finding than the underlying act. An egress block produces an incident. An egress block *plus a committed claim of "content generation"* produces an incident with a documented misrepresentation attached, attributable to an identified adapter version, comparable across every other tuple that adapter ever emitted. That is the record a Behavioral Dossier accumulates and a reviewer six months later actually needs. The point generalizes: in a world where the agent's stated account is one more configurable output, the audit layer's job is to make the account *cost something*.
+
+*Third, allowlists do not travel; vocabularies do.* An egress allowlist is deployment-specific by construction. The claim/effect vocabulary is what lets a reviewer, an insurer, or a regulator read records from two vendors' stacks as instances of the same pattern — the property the whole substrate exists to provide. Policy-as-code and TAO are not rivals; a Mission Profile is policy-as-code *over semantically comparable events*. Strip the semantic layer and what remains is good security engineering that produces, once again, logs in whatever shape the operator's stack happened to produce.
+
+The objection retains real force in one place, and it should be conceded plainly: for a deployment that only wants to *block* the mechanically visible cases, TAO is more machinery than needed. The substrate earns its weight where the questions are representational, cross-vendor, aggregate, or after-the-fact — which is where operators, auditors, and regulators actually live.
+
 ### How TAO relates to adjacent frameworks
 
 A technical reader will reasonably ask how TAO sits relative to existing infrastructure. Briefly:
@@ -204,6 +222,22 @@ A technical reader will reasonably ask how TAO sits relative to existing infrast
 *Assurance and safety cases*, particularly the Goal Structuring Notation (GSN) used in aviation and medical-device certification, provide the structured-argument-with-evidence pattern that TAO tuples and the Behavioral Dossier are well-positioned to feed. The substrate does not produce the argument; it produces the evidentiary leaves the argument tree depends on. A deployment building an assurance case for an agentic AI system can use TAO records as the empirical underpinning for claims about behavioral compliance under specified contexts.
 
 *Runtime verification and monitorable properties* — the formal-methods tradition concerned with specifying behavioral properties that can be checked against execution traces at runtime — provides the theoretical backdrop for what the Claim-Check Delta does. A TAO mapping rule (a verb's REQUIRED/PERMITTED/FORBIDDEN effects) is a monitorable property in this sense. The substrate does not require formal proofs; it requires the structural form that makes such properties checkable against attested execution.
+
+### The 2025–2026 landscape: who now occupies which layer
+
+The eighteen months preceding this draft filled in nearly every layer adjacent to the substrate. Naming that work precisely is part of stating what TAO is; the claim this paper makes survives only in the specific form given at the end of this section.
+
+*Observation.* AgentSight (Zheng et al. 2025) is the closest running system to the Claim-Check Delta: an eBPF "boundary tracing" framework that intercepts an agent's LLM traffic to extract semantic intent, watches kernel-level system effects, and causally correlates the two streams from a vantage the agent cannot rewrite — at under 3% overhead. It is motivated by the same semantic gap this paper names. The difference is architectural: AgentSight's correlation is performed by a secondary LLM over raw traces and emits analysis, not a portable record. It demonstrates, with running code, that privilege-isolated intent-vs-effect observation is economically viable; what it does not provide is a schema in which the comparison's verdicts travel between parties. TAO consumes exactly what AgentSight-class observers produce.
+
+*Attestation.* OVERT 1.1 (Glacis Technologies, June 2026) is an open standard for independently verifiable runtime evidence that governance controls actually executed, with an attestation-assurance ladder (AAL-1–4), structural-independence requirements ("self-attestation is not compliant"), coverage signals, agentic tool-call controls, and crosswalks to the same frameworks this paper's companion crosswalk maps. OVERT and TAO occupy adjacent layers and share design instincts arrived at independently: OVERT proves *the controls ran*; TAO compares *the agent's account of an action* against its observed effects. A deployment could conformantly run both — OVERT attesting that the TAO observer and CCD executed as declared.
+
+*Evidence transport.* Three IETF individual drafts now cover the record layer: draft-sharif-agent-audit-trail (tamper-evident JSON agent logs with hash chaining and compliance mappings), draft-kuehlewind-audit-architecture (cross-domain audit-record architecture explicitly framed as linking user intent, delegation, authorization, and execution, via RATS attestation and SCITT transparency logs), and draft-birkholz-verifiable-agent-conversations (signed conversation records motivated by detecting "divergences between intended and actual agent behavior"). None defines comparison semantics, a vocabulary, or verdicts; all define where such records could live and how they resist tampering. TAO is best read as a candidate semantic payload for precisely these envelopes, and the IETF's coordination of agentic-AI standards (the CATALIST effort, 2026) is the natural venue for that alignment.
+
+*Authorization and authority.* The trust-authorization mismatch SoK (arXiv:2512.06914) systematizes two hundred–plus papers around the desynchronization of belief, intention, and permission in agent systems — the phenomenon the factual check operationalizes. In payments, declared-intent-versus-outcome verification has shipped: AP2's signed Intent/Cart/Payment Mandates (2025), Visa's Trusted Agent Protocol intent tags (2025), and the Mastercard/Google "Verifiable Intent" draft (2026), which binds user instructions to transaction outcomes in a tamper-resistant credential chain. These are domain-scoped existence proofs of TAO's authority-chain and teleological checks — evidence the pattern is buildable and commercially wanted, and a boundary TAO should interoperate with rather than duplicate.
+
+*Judgment.* The AI-control literature (Greenblatt et al. 2024; Ctrl-Z, 2025) fields trusted monitors over untrusted agents' actions and plans, scored by suspicion; SHADE-Arena (Kutasov et al. 2025) benchmarks exactly the covert-side-task setting the opening scenario describes, with LLM monitors as the baseline detector. Position work has begun naming the general property — "intent-to-execution integrity" (arXiv:2605.16976) — and runtime-governance frameworks with conformance and drift components have appeared (MI9, arXiv:2508.03858). AudAgent (arXiv:2511.07441) audits declared privacy policies against observed runtime data flows — structurally a claim-check comparison, scoped to privacy. On the claims channel itself, the evidence cuts in TAO's favor: chain-of-thought monitorability is documented as fragile and easily degraded (Korbak et al. 2025), optimization pressure produces obfuscated misbehavior that intent-channels miss (Baker et al. 2025), and agents have been shown to actively conceal harmful actions in their own accounts (arXiv:2604.02500). Grounding oversight in mechanically observed effects, under declared coverage, is the bet those results recommend.
+
+The claim this paper makes, stated in the only form the above landscape leaves defensible: adjacent systems now observe, attest, transport, authorize, and judge — and no public artifact defines a portable, deterministic comparison between an agent's declared action (controlled verb, stated purpose, cited authority) and independently observed mechanical effects, with named verdicts, under signed deployment policy. TAO specifies that comparison. The pillars are individually occupied; the interface between them is not.
 
 ## 6. Where TAO sits in regulatory theory
 
@@ -269,11 +303,11 @@ The substrate raises several questions that sit squarely in regulatory-theory an
 
 A working draft that cannot be wrong is not science. The following findings would substantially weaken or refute the substrate's claims, and the work invites the empirical engagement that would establish or disprove them.
 
-**Uneconomic check tuples.** If, in real deployments, generating check tuples at the coverage levels needed for audit-grade Claim-Check Delta turns out to be uneconomic — too expensive, too high-latency, too disruptive to the agent's effect surface — then the substrate's value collapses to ordinary structured logging. The decorator survives; the comparison-with-independent-observer pillar does not.
+**Uneconomic check tuples.** If, in real deployments, generating check tuples at the coverage levels needed for audit-grade Claim-Check Delta turns out to be uneconomic — too expensive, too high-latency, too disruptive to the agent's effect surface — then the substrate's value collapses to ordinary structured logging. The decorator survives; the comparison-with-independent-observer pillar does not. The evidence to date runs against this falsifier: AgentSight demonstrates privilege-isolated intent-and-effect observation at under 3% overhead with running code (Zheng et al. 2025), and OVERT ships coverage-ratio declarations in a production-facing standard (Glacis 2026). The falsifier that remains live is narrower and should be named as such: not whether independent observation is affordable, but whether deployments will adopt a *shared schema* for what it observes.
 
 **Observer capture undetected.** The independence ladder and coverage declarations make capture *inspectable*; they do not enforce it. If, in practice, vendors routinely declare high independence and narrow coverage without consequence — and reviewers consistently fail to act on the gap — the substrate becomes compliance theater in exactly the way the limits scenarios warn against.
 
-**Vocabulary too coarse.** If real deployments find that most consequential harms either collapse into generic `INFO.DISCLOSE` tuples or require so many domain-specific extensions that the portable core stops doing real work, then the cross-domain comparability that motivates the substrate is illusory. This is the falsifier closest to GPT's deepest critique; it bears empirical answer rather than theoretical defense.
+**Vocabulary too coarse.** If real deployments find that most consequential harms either collapse into generic `INFO.DISCLOSE` tuples or require so many domain-specific extensions that the portable core stops doing real work, then the cross-domain comparability that motivates the substrate is illusory. This is the falsifier closest to the deepest critique raised in external review of earlier drafts; it bears empirical answer rather than theoretical defense.
 
 **Adversarial uninformative tuples.** This is the falsifier most likely to actually be tested, and the one to watch for once regulatory pressure creates an incentive to *appear* compliant. If adapter authors produce tuples that pass schema validation, pass pairwise CCD, and contribute nothing actionable to a reviewer — compliant-looking but uninformative — and this becomes the dominant equilibrium under regulatory pressure, the substrate has been Goodharted into uselessness. The same failure mode is well-documented in XBRL (taxonomy gaming, extension abuse, inconsistent classification across filers) and in financial disclosure more broadly; treating the analogous failure mode as a theoretical concern rather than a near-certain operational pressure would be a mistake. The countermeasures (deviation reports on Mission Profile overrides, dossier-level analysis of adapter-level signature, third-party adapter auditing) need to evolve faster than the gaming patterns once adoption produces incentive.
 
@@ -283,7 +317,7 @@ Naming these failure modes is part of what makes the substrate worth using. The 
 
 ## 11. How to engage
 
-The substrate is in working-draft state. The repository at `github.com/jperdomo88/tao` contains the full specification (~18 RFC-style pages), the JSON schemas, the reference validator in Python, 22 conformance test vectors, eight worked scenarios with three limits exhibits, seven Mission Profile starting points across domains, and stakeholder one-pagers for six audiences.
+The substrate is in working-draft state. The repository at `github.com/jperdomo88/tao` contains the full specification (~18 RFC-style pages), the JSON schemas, the reference validator in Python, 22 conformance test vectors, eight worked scenarios with four limits exhibits, seven Mission Profile starting points across domains, stakeholder one-pagers for six audiences, a mapping note from MCP tool calls and OpenTelemetry GenAI spans to TAO tuples, and a pre-registered evaluation plan for testing the Claim-Check Delta against LLM-monitor baselines on public sabotage-evaluation data.
 
 The most useful contributions, in roughly increasing depth:
 
@@ -300,7 +334,7 @@ Ayres, I. & Braithwaite, J. (1992). *Responsive Regulation: Transcending the Der
 
 Coglianese, C. & Lazer, D. (2003). "Management-Based Regulation: Prescribing Private Management to Achieve Public Goals." *Law & Society Review* 37(4): 691–730.
 
-Coglianese, C. (recent work). On management-based approaches to AI risk regulation.
+Coglianese, C. & Crum, C. R. (2025). "Leashes, Not Guardrails: A Management-Based Approach to Artificial Intelligence Risk Regulation." *Risk Analysis* 45.
 
 Hood, C. (1983). *The Tools of Government.* Macmillan.
 
@@ -325,6 +359,28 @@ Open Policy Agent (OPA) Project. *Policy-as-code framework and Rego language.* C
 Adelard / SCSC Assurance Case Working Group. *Goal Structuring Notation (GSN) Community Standard.* (For structured assurance arguments in safety-critical contexts.)
 
 Leucker, M. & Schallhart, C. (2009). "A Brief Account of Runtime Verification." *Journal of Logic and Algebraic Programming* 78(5): 293–303.
+
+Baker, B., et al. (2025). "Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation." arXiv:2503.11926.
+
+Glacis Technologies (2026). *OVERT 1.1 — Observable Verification Evidence for Runtime Trust.* Open standard, published 2026-06-11. overt.is.
+
+Google & partners (2025). *Agent Payments Protocol (AP2).* ap2-protocol.org. Mastercard & Google (2026). *Verifiable Intent*, v0.1 draft. Visa (2025). *Trusted Agent Protocol.*
+
+Greenblatt, R., Shlegeris, B., Sachan, K., & Roger, F. (2024). "AI Control: Improving Safety Despite Intentional Subversion." ICML 2024. arXiv:2312.06942.
+
+Korbak, T., et al. (2025). "Chain of Thought Monitorability: A New and Fragile Opportunity for AI Safety." arXiv:2507.11473.
+
+Kühlewind, M. & Birkholz, H. (2026). "An Architecture for Auditing AI Agent Delegation and Interactions." IETF Internet-Draft draft-kuehlewind-audit-architecture-00 (work in progress). See also Sharif, R. (2026), draft-sharif-agent-audit-trail-00, and Birkholz, H. (2026), draft-birkholz-verifiable-agent-conversations-00.
+
+Kutasov et al. (2025). "SHADE-Arena: Evaluating Sabotage and Monitoring in LLM Agent Environments." Anthropic. arXiv:2506.15740.
+
+Romanchuk, O. & Bondar, R. (2026). "Semantic Laundering in AI Agent Architectures: Why Tool Boundaries Do Not Confer Epistemic Warrant." arXiv:2601.08333.
+
+Wang, C., et al. (2025). "MI9 — Agent Intelligence Protocol: Runtime Governance for Agentic AI Systems." arXiv:2508.03858.
+
+Zheng, Y., Hu, Y., Yu, T., & Quinn, A. (2025). "AgentSight: System-Level Observability for AI Agents Using eBPF." PACMI 2025. arXiv:2508.02736.
+
+Additional works cited in §5: "Securing LLM Agents Need Intent-to-Execution Integrity," arXiv:2605.16976 (2026); "SoK: Trust-Authorization Mismatch in LLM Agent Interactions," arXiv:2512.06914 (2025); "AudAgent: Auditing Privacy Policy Compliance in AI Agents at Runtime," arXiv:2511.07441 (2025); "Ctrl-Z: Controlling AI Agents via Resampling," arXiv:2504.10374 (2025); "'I must delete the evidence': AI Agents Explicitly Cover up Fraud and Violent Crime," arXiv:2604.02500 (2026).
 
 ---
 

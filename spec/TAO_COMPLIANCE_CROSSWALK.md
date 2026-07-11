@@ -1,8 +1,8 @@
 # TAO Regulatory Crosswalk
 
-**Companion to:** TAO v0.11 (`TAO_v0_11.md`)
-**Version:** 0.11.0
-**Date:** 2026-05-16
+**Companion to:** TAO v0.12 wire-level spec (`TAO_v0_11.md`)
+**Version:** 0.14.0
+**Date:** 2026-07-11
 
 This document maps TAO v0.11 features to specific provisions of major AI governance and audit frameworks. The intended reader is a compliance, legal, or audit-engineering professional who needs to know whether and how a TAO-Attested deployment contributes to their compliance posture.
 
@@ -28,7 +28,7 @@ The TAO conformance level (TAO or TAO-Attested) needed to satisfy a row is named
 
 ## 1. EU AI Act (Regulation (EU) 2024/1689)
 
-Status: in force since August 2024. High-risk AI system obligations apply from August 2026. Article numbers below refer to the final adopted text.
+Status as of July 2026: in force since August 2024; GPAI obligations apply since 2 August 2025. Under the Digital Omnibus on AI (final Council adoption 29 June 2026), the Annex III high-risk obligations — including the Articles 12–19 and 26 rows below — apply from **2 December 2027** (Annex I embedded systems: August 2028). The CEN-CENELEC JTC 21 harmonized standards that will operationalize these provisions, including the Article 12 logging standard, were unpublished as of this crosswalk's date (targeted from late 2026). The mappings below are therefore to the regulation's text, not to any harmonized standard — which is exactly why the record-format question remains open for input. Article numbers refer to the adopted text as amended.
 
 | Article | Provision | TAO contribution | Coverage | Level |
 |---|---|---|---|---|
@@ -151,7 +151,24 @@ A claim of the form "we implement TAO-Attested and therefore satisfy EU AI Act A
 - **SOC 2:** AICPA Trust Services Criteria, 2017 framework as updated. The 2022 update on points of focus does not change the criteria themselves.
 - **PCI DSS:** Version 4.0, released March 2022. Mandatory for assessments after 31 March 2025.
 
-When a framework revises in ways that affect this crosswalk, the crosswalk version increments. Crosswalk 0.11.0 corresponds to TAO spec v0.11.
+When a framework revises in ways that affect this crosswalk, the crosswalk version increments. Crosswalk 0.14.0 corresponds to TAO working paper v0.14.
+
+---
+
+## 6. Agent-specific instruments (2026 tracking)
+
+The frameworks above are general AI-governance instruments. The following agent-specific instruments emerged in 2025–26 and are tracked here because they name the demand TAO's records answer; none yet mandates a record *format*.
+
+| Instrument | Status | Relevance to TAO |
+|---|---|---|
+| FINRA 2026 Regulatory Oversight Report, agentic-AI section | Published Dec 2025 | Names autonomy, scope-of-authority, and auditability/traceability of agent decisions as supervision risks under existing recordkeeping rules (3110, SEA 17a-4). The robo-advisor scenario's regulator, in its own words. |
+| Singapore IMDA Model AI Governance Framework for Agentic AI | Launched Jan 2026, updated May 2026 | First government agentic-AI governance framework: risk bounding, human accountability, technical controls. Voluntary; a natural early consumer of structured behavioral records. |
+| NIST CAISI AI Agent Standards Initiative + COSAiS SP 800-53 agent overlays | RFI Jan 2026; initiative Feb 2026; overlays in development, unpublished | The US federal venue where agent audit/logging controls will be defined. Open for input as of this writing. |
+| Illinois SB 315 (AI Safety Measures Act) | Signed 6 July 2026; audits from 2028 | First US mandatory independent third-party AI audits (frontier developers). Audit regimes need evidence standards. |
+| California AB 316 | Effective Jan 2026 | Bars the defense that the AI "acted autonomously" — making contemporaneous records of what an agent claimed vs. did the natural liability battleground. |
+| CISA/NSA + Five Eyes, "Careful Adoption of Agentic AI Services" | Published Apr 2026 | Joint security guidance pushing monitoring, least-privilege, and audit-trail controls for deployed agents. |
+| OWASP Top 10 for Agentic Applications (2026) | Published | Community security baseline requiring runtime logging of every decision/tool call, per-agent identity, kill switch. TAO tuples satisfy the logging intent with comparison semantics on top. |
+| AIUC-1 (AI agent insurance/certification standard) | Active; first accredited auditor named | Insurance-backed agent certification with quarterly behavior testing — a commercial buyer for audit-grade behavioral evidence. |
 
 ---
 
@@ -167,4 +184,4 @@ When a framework revises in ways that affect this crosswalk, the crosswalk versi
 
 ## License
 
-This crosswalk is published under CC BY 4.0. Cite as: "TAO Regulatory Crosswalk v0.11.0, 2026-05-16."
+This crosswalk is published under CC BY 4.0. Cite as: "TAO Regulatory Crosswalk v0.14.0, 2026-07-11."
