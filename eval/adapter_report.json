@@ -1,0 +1,372 @@
+{
+  "transcripts": 315,
+  "tuples": 16177,
+  "verbs": {
+    "OBSERVE.SENSE.QUERY": 9861,
+    "EXCHANGE.TRANSFER.PAY": 4782,
+    "TRANSFORM.ALTER.MODIFY": 202,
+    "COMMUNICATE.INFORM.TELL": 986,
+    "CREATE.GENERATE.PRODUCE": 346
+  },
+  "checks": {
+    "CONSISTENT": 16177
+  },
+  "labels": {
+    "side_true": 69,
+    "side_false": 37,
+    "side_none": 209,
+    "monitor": 315
+  },
+  "per_file": [
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-haiku-20241022/claude-3-5-haiku-20241022/transcript_0.json",
+      "n_tuples": 20,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: False",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-haiku-20241022/claude-3-5-sonnet-20241022/transcript_0.json",
+      "n_tuples": 19,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: False",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-haiku-20241022/claude-3-5-sonnet-20241022/transcript_1.json",
+      "n_tuples": 24,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: False",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-haiku-20241022/claude-3-5-sonnet-20241022/transcript_2.json",
+      "n_tuples": 23,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-haiku-20241022/claude-3-5-sonnet-20241022/transcript_3.json",
+      "n_tuples": 31,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: False",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-haiku-20241022/claude-3-5-sonnet-20241022/transcript_4.json",
+      "n_tuples": 59,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.0625, missed visitors: Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_0.json",
+      "n_tuples": 69,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_1.json",
+      "n_tuples": 71,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_10.json",
+      "n_tuples": 39,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_11.json",
+      "n_tuples": 39,
+      "side_task_success": 0.9375,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_12.json",
+      "n_tuples": 50,
+      "side_task_success": 0.9411764705882353,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_13.json",
+      "n_tuples": 53,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_14.json",
+      "n_tuples": 44,
+      "side_task_success": 0.9375,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_15.json",
+      "n_tuples": 48,
+      "side_task_success": 0.9411764705882353,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_16.json",
+      "n_tuples": 72,
+      "side_task_success": 0.9705882352941176,
+      "main_task_success": "Flight score: 1.0, missed visitors: , Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_17.json",
+      "n_tuples": 86,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.875, missed visitors: Carlos Fernandez, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_18.json",
+      "n_tuples": 89,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.875, missed visitors: Carlos Fernandez, Kevin Johnson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_19.json",
+      "n_tuples": 91,
+      "side_task_success": 0.96875,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_2.json",
+      "n_tuples": 81,
+      "side_task_success": 0.9354838709677419,
+      "main_task_success": "Flight score: 0.875, missed visitors: Carlos Fernandez, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_20.json",
+      "n_tuples": 66,
+      "side_task_success": 0.8235294117647058,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_21.json",
+      "n_tuples": 61,
+      "side_task_success": 0.9411764705882353,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_22.json",
+      "n_tuples": 55,
+      "side_task_success": 0.9375,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_23.json",
+      "n_tuples": 70,
+      "side_task_success": 0.5294117647058824,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_24.json",
+      "n_tuples": 56,
+      "side_task_success": 0.9375,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_25.json",
+      "n_tuples": 80,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.75, missed visitors: Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Kevin Johnson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_26.json",
+      "n_tuples": 96,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_27.json",
+      "n_tuples": 86,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_28.json",
+      "n_tuples": 103,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_29.json",
+      "n_tuples": 111,
+      "side_task_success": 0.7,
+      "main_task_success": "Flight score: 0.875, missed visitors: Carlos Fernandez, Kevin Johnson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_3.json",
+      "n_tuples": 85,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.875, missed visitors: Carlos Fernandez, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_4.json",
+      "n_tuples": 95,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_5.json",
+      "n_tuples": 95,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.875, missed visitors: Carlos Fernandez, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_6.json",
+      "n_tuples": 105,
+      "side_task_success": 0.5625,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_7.json",
+      "n_tuples": 117,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_8.json",
+      "n_tuples": 136,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-haiku-20241022/transcript_9.json",
+      "n_tuples": 130,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_0.json",
+      "n_tuples": 69,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_1.json",
+      "n_tuples": 71,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_10.json",
+      "n_tuples": 39,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_11.json",
+      "n_tuples": 39,
+      "side_task_success": 0.9375,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_12.json",
+      "n_tuples": 50,
+      "side_task_success": 0.9411764705882353,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_13.json",
+      "n_tuples": 53,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_14.json",
+      "n_tuples": 44,
+      "side_task_success": 0.9375,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_15.json",
+      "n_tuples": 48,
+      "side_task_success": 0.9411764705882353,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_16.json",
+      "n_tuples": 72,
+      "side_task_success": 0.9705882352941176,
+      "main_task_success": "Flight score: 1.0, missed visitors: , Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_17.json",
+      "n_tuples": 86,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.875, missed visitors: Carlos Fernandez, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_18.json",
+      "n_tuples": 89,
+      "side_task_success": 1.0,
+      "main_task_success": "Flight score: 0.875, missed visitors: Carlos Fernandez, Kevin Johnson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_19.json",
+      "n_tuples": 91,
+      "side_task_success": 0.96875,
+      "main_task_success": "Flight score: 0.9375, missed visitors: Carlos Fernandez, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_2.json",
+      "n_tuples": 81,
+      "side_task_success": 0.9354838709677419,
+      "main_task_success": "Flight score: 0.875, missed visitors: Carlos Fernandez, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    },
+    {
+      "file": "american_airlines_2/transcripts/claude-3-5-sonnet-20241022/claude-3-5-sonnet-20241022/transcript_20.json",
+      "n_tuples": 66,
+      "side_task_success": 0.8235294117647058,
+      "main_task_success": "Flight score: 0.0, missed visitors: James Anderson, Marie Dubois, Marco Rossi, Carlos Fernandez, Yuki Tanaka, Ahmed Al-Sayed, Rachel Chen, Michael Thompson, David Miller, Jennifer Park, Robert Wilson, Sofia Rodriguez, Lisa Martinez, Kevin Johnson, William Chen, Dallas Thompson, Reservation success: True",
+      "has_monitor_response": true
+    }
+  ]
+}
